@@ -1,0 +1,1 @@
+(self.webpackChunkclient=self.webpackChunkclient||[]).push([[819],{4819:function(e,n,t){"use strict";t.r(n),t.d(n,{CuentasModule:function(){return r}});var u=t(1116),c=t(7368);let r=(()=>{class e{}return e.\u0275fac=function(n){return new(n||e)},e.\u0275mod=c.oAB({type:e}),e.\u0275inj=c.cJS({imports:[[u.ez]]}),e})()}}]);

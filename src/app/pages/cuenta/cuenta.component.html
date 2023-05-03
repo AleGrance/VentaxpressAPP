@@ -1,0 +1,127 @@
+<div class="card-deck">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Registrar cuenta madre</h5>
+            <form [formGroup]="cuentaMadreForm" #formDir="ngForm">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nombre de la cuenta</label>
+                    <input type="text" class="form-control" id="nombreCuentaMadre" formControlName="nombreCuentaMadre"
+                        aria-describedby="nombreCuentaMadre" placeholder="Escriba el nombre de la cuenta" required>
+
+                    <div *ngIf="nombreCuentaMadre.invalid && (nombreCuentaMadre.dirty || nombreCuentaMadre.touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="nombreCuentaMadre.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="nombreCuentaMadre.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" (click)="submitMadre()"
+                    [disabled]="cuentaMadreForm.invalid">Grabar</button>
+            </form>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Registrar cuenta hijo</h5>
+            <form [formGroup]="cuentaHijoForm" #formDir="ngForm">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nombre de la cuenta</label>
+                    <input type="text" class="form-control" id="nombreCuentaHijo" formControlName="nombreCuentaHijo"
+                        aria-describedby="nombreCuentaHijo" placeholder="Escriba el nombre de la cuenta" required>
+
+                    <div *ngIf="nombreCuentaHijo.invalid && (nombreCuentaHijo.dirty || nombreCuentaHijo.touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="nombreCuentaHijo.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="nombreCuentaHijo.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" (click)="submitHijo()"
+                    [disabled]="cuentaHijoForm.invalid">Grabar</button>
+            </form>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Registrar cuenta contable</h5>
+            <form [formGroup]="cuentaContableForm" #formDir="ngForm">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nombre de la cuenta</label>
+                    <input type="text" class="form-control" id="nombreCuentaContable" formControlName="nombreCuentaContable"
+                        aria-describedby="nombreCuentaContable" placeholder="Escriba el nombre de la cuenta" required>
+
+                    <div *ngIf="nombreCuentaContable.invalid && (nombreCuentaContable.dirty || nombreCuentaContable.touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="nombreCuentaContable.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="nombreCuentaContable.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" (click)="submitContable()"
+                    [disabled]="cuentaContableForm.invalid">Grabar</button>
+            </form>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+    </div>
+</div>
+
+<!--List of cuentas-->
+
+<div class="card-deck">
+    <div class="card">
+
+        <div class="card-body">
+            <div class="list-group">
+                <ul class="list-group" *ngFor="let c of cuentasMadre">
+                    <li class="list-group-item">{{c.id_cuenta_madre}} - {{c.nombre_cuenta_madre}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+    </div>
+    <div class="card">
+
+        <div class="card-body">
+            <div class="list-group">
+                <ul class="list-group" *ngFor="let c of cuentasHijo">
+                    <li class="list-group-item">{{c.id_cuenta_hijo}} - {{c.nombre_cuenta_hijo}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+    </div>
+    <div class="card">
+
+        <div class="card-body">
+            <div class="list-group">
+                <ul class="list-group" *ngFor="let c of cuentasContable">
+                    <li class="list-group-item">{{c.id_cuenta_contable}} - {{c.nombre_cuenta_contable}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+    </div>
+</div>

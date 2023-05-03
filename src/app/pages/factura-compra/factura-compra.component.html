@@ -1,0 +1,157 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="compras-tab" data-toggle="tab" href="#compras" role="tab" aria-controls="compras"
+            aria-selected="true">Compras</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="vencimientos-tab" data-toggle="tab" href="#vencimientos" role="tab"
+            aria-controls="vencimientos" aria-selected="false">Vencimientos</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="abiertos-tab" data-toggle="tab" href="#abiertos" role="tab" aria-controls="abiertos"
+            aria-selected="false">Abiertos</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="compras" role="tabpanel" aria-labelledby="compras-tab">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default invoice" id="invoice">
+                        <div class="panel-body">
+                            <form [formGroup]="facturaForm">
+                                <!--Cabecera-->
+                                <div class="row border" style="margin-bottom: 10px; margin-top: 10px;">
+                                    <!--Datos del proveedor-->
+                                    <div class="col-md-4">
+                                        <p class="lead">Datos del proveedor</p>
+                                        <label for="">Razon social:</label>
+                                        <ng-select (change)="onChangeProveedor($event)" formControlName="proveedor">
+                                            <ng-option *ngFor="let p of proveedores" [value]="p.id_proveedor">
+                                                {{p.nom_proveedor}}</ng-option>
+                                        </ng-select>
+                                        <div *ngIf="proveedor_getter.invalid && (proveedor_getter.dirty || proveedor_getter.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="proveedor_getter.errors?.required">
+                                                Campo requerido.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Datos del contribuyente-->
+                                    <div class="col-md-5">
+                                        <p class="lead marginbottom">Datos del contribuyente</p>
+                                        <p>ID: {{contribuyenteEncontrado.id_contribuyente}}</p>
+                                        <p>Razon Social: {{contribuyenteEncontrado.razon_social_contribuyente}}</p>
+                                        <p>RUC: {{contribuyenteEncontrado.ruc_contribuyente}}</p>
+                                    </div>
+                                    <!--Detalles de pago-->
+                                    <div class="col-md-3" style="margin-bottom: 10px;">
+                                        <p class="lead marginbottom">Detalles de pago</p>
+                                        <label for="">Fecha:</label>
+                                        <input id="fecha" type="date" class="form-control" formControlName="date">
+                                        <div *ngIf="date_getter.invalid && (date_getter.dirty || date_getter.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="date_getter.errors?.required">
+                                                Campo requerido.
+                                            </div>
+                                        </div>
+                                        <label for="">Factura nro:</label>
+                                        <input id="nro" type="text" class="form-control" maxlength="15"
+                                            (keyup)="addHyphen($event)" formControlName="nro">
+                                        <div *ngIf="nro_getter.invalid && (nro_getter.dirty || nro_getter.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="nro_getter.errors?.required">
+                                                Campo requerido.
+                                            </div>
+                                            <div *ngIf="nro_getter.errors?.minlength">
+                                                Debe tener al menos 13 dígitos.
+                                            </div>
+                                        </div>
+                                        <label for="">Condición:</label>
+                                        <ng-select (change)="onChangeCondicion($event)" formControlName="condicion">
+                                            <ng-option value="Contado">Contado</ng-option>
+                                            <ng-option value="Crédito">Crédito</ng-option>
+                                        </ng-select>
+                                        <div *ngIf="condicion_getter.invalid && (condicion_getter.dirty || condicion_getter.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="condicion_getter.errors?.required">
+                                                Campo requerido.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Detalles-->
+                                <div class="row border">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:25%">Descripción</th>
+                                                <th class="" style="width:15%">Gravado 10%</th>
+                                                <th class="" style="width:15%">IVA 10%</th>
+                                                <th class="" style="width:15%">Gravado 5%</th>
+                                                <th class="" style="width:15%">IVA 5%</th>
+                                                <th class="" style="width:15%">Exento</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!--<tr *ngFor="let item of invoice.items; let i = index">
+                                            <td><input type="text" value="{{item.description}}" class="form-control" />
+                                            </td>
+                                            <td><input type="number" value="{{item.qty}}" class="form-control"
+                                                    (change)="onChange($event)" /></td>
+                                            <td><input type="number" value="{{item.price}}" class="form-control" /></td>
+                                            <td><input type="number" value="{{item.qty * item.price}}"
+                                                    class="form-control" disabled /></td>
+                                            <td><button type="button" class="btn btn-danger"
+                                                    (click)="remove(i)">Eliminar</button></td>
+                                        </tr>-->
+
+                                            <tr>
+                                                <td><input type="text" id="descripcion" class="form-control"
+                                                        formControlName="descripcion" />
+                                                </td>
+                                                <td><input type="number" min="0" id="gravado_10" value="{{gravado10}}"
+                                                        class="form-control" (keyup)="onChange10()" /></td>
+                                                <td><input type="number" id="iva_10" value="{{iva10}}"
+                                                        class="form-control" readonly /></td>
+                                                <td><input type="number" min="0" id="gravado_5" value="{{gravado5}}"
+                                                        class="form-control" (keyup)="onChange5()" /></td>
+                                                <td><input type="number" id="iva_5" value="{{iva5}}"
+                                                        class="form-control" readonly /></td>
+                                                <td><input type="number" min="0" id="exento" value="{{exento}}"
+                                                        class="form-control" (keyup)="onChangeExento()" /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--Totales-->
+                                <div class="row">
+                                    <label class="col-sm-10 col-form-label text-right">Total IVA:</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" readonly class="form-control-plaintext" value="{{totalIva}}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-10 col-form-label text-right">Total Comprobante:</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" readonly class="form-control-plaintext"
+                                            value="{{totalComprobante}}">
+                                    </div>
+                                </div>
+                                <!--Botones-->
+                                <div class="row">
+                                    <div class="col-md-12" style="padding-left: 0;">
+                                        <button type="submit" class="btn btn-primary" (click)="grabar()"
+                                            [disabled]="facturaForm.invalid">Grabar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="vencimientos" role="tabpanel" aria-labelledby="vencimientos-tab">...</div>
+    <div class="tab-pane fade" id="abiertos" role="tabpanel" aria-labelledby="abiertos-tab">...</div>
+</div>

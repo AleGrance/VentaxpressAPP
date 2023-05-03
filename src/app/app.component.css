@@ -1,0 +1,16 @@
+/*Cuando el screen es menor que 992px se ocultan los que no son toggleables y se muestran sólo los que si en la hamburguesa*/
+@media only screen and (max-width: 992px){
+    .nav-noToggle {
+        display: none;
+    }
+}
+/*Cuando el screen es mayor que 992px se ocultan los que son toggleables y se muestran sólo los que si en la nav-bar horizontal*/
+@media not screen and (max-width: 992px){
+    .nav-toggle {
+        display: none;
+    }
+}
+
+body {
+    background-color: rgba(255, 255, 255, 0.218)
+}
