@@ -31,6 +31,7 @@
                                         <th>Precio</th>
                                         <th>Cant</th>
                                         <th>Sub-Total</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody id="filas" >
@@ -38,12 +39,8 @@
                                         <td><input type="text" class="form-control" placeholder="Producto" value={{p.producto}}></td>
                                         <td><input type="number" class="form-control" placeholder="Precio" value={{p.precio}}/></td>
                                         <td><input type="number" class="form-control" placeholder="Cantidad" value={{p.cantidad}}/></td>
-
-                                        <!-- <td>{{p.producto}}</td>
-                                        <td>{{p.precio}}</td>
-                                        <td>{{p.cantidad}}</td> -->
-                                        
                                         <td class="">{{p.precio * p.cantidad}}</td>
+                                        <td><button (click)="del($event)">x</button></td>
                                     </tr>
                                 </tbody>
                             </table>

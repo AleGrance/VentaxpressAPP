@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit {
   public fullData: number[] = [];
 
   public filasProductos = [
-    {producto: 'Coca-Cola', precio: 10000, cantidad: 3}
+    { producto: 'Coca-Cola', precio: 10000, cantidad: 3, id: 1 }
   ]
 
   ngOnInit(): void {
@@ -99,7 +99,7 @@ export class DashboardComponent implements OnInit {
 </tr>`
 
     let nuevoProducto = {
-      producto: '', precio: 0, cantidad: 1
+      producto: '', precio: 0, cantidad: 1, id: this.filasProductos.length + 1
     }
 
     this.filasProductos.push(nuevoProducto);
@@ -108,6 +108,10 @@ export class DashboardComponent implements OnInit {
 
     //filas.innerHTML = filas.outerHTML + nuevaFila;
 
+  }
+
+  del(e: any) {
+    console.log(e);
   }
 
   // getCliente() {
