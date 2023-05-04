@@ -8,7 +8,7 @@ export class ApiService {
   // Local
   //url: string = 'http://localhost:3000';
   // AWS server
-  url: string = 'http://contableag.site';
+  url: string = 'https://contableag.site';
 
   constructor(public http: HttpClient) { }
 
