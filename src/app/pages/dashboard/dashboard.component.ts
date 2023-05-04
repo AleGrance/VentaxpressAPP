@@ -69,80 +69,106 @@ export class DashboardComponent implements OnInit {
   public proveedores: any;
   public fullData: number[] = [];
 
+  public filasProductos = [
+    {producto: 'Coca-Cola', precio: 10000, cantidad: 3}
+  ]
+
   ngOnInit(): void {
+
     this.api.get("contribuyente")
       .pipe(map(data => {
         this.contribuyentes = data;
         this.fullData.push(this.contribuyentes.length);
-        this.getCliente();
+        //this.getCliente();
       }))
       .subscribe()
 
-      //this.createChart();
+    //this.createChart();
 
-      // Checks if user is logged in
-      //console.log(this.authService.getToken());
+    // Checks if user is logged in
+    //console.log(this.authService.getToken());
   }
 
-  getCliente() {
-    this.api.get("cliente")
-      .pipe(map(data => {
-        this.clientes = data;
-        this.fullData.push(this.clientes.length);
-        this.getProveedor();
-      }))
-      .subscribe()
-  }
+  add() {
+    let nuevaFila = `<tr>
+    <td><input type="text" class="form-control" placeholder="Producto"></td>
+                                        <td><input type="number" class="form-control" placeholder="Precio"></td>
+                                        <td><input type="number" class="form-control" placeholder="Cantidad"></td>
+                                        
+                                        <td>20.000</td>
+</tr>`
 
-  getProveedor() {
-    this.api.get("proveedor")
-      .pipe(map(data => {
-        this.proveedores = data;
-        this.fullData.push(this.proveedores.length);
-        this.createChart();
-      }))
-      .subscribe()
-  }
+    let nuevoProducto = {
+      producto: '', precio: 0, cantidad: 1
+    }
 
-  createChart() {
-    const canvas = ((<HTMLCanvasElement>document.getElementById("myChart")));
-    const context = ((<HTMLCanvasElement>document.getElementById("myChart")).getContext('2d'));
-    const myChart = new Chart(canvas, {
-      type: 'bar',
-      data: {
-        labels: ['Contribuyentes', 'Clientes', 'Proveedores'],
-        datasets: [{
-          label: '# de Registros',
-          data: this.fullData,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: false,
-        scales: {
-          y: {
+    this.filasProductos.push(nuevoProducto);
 
-          }
-        }
-      }
-    });
+    //let filas = (document.getElementById('filas') as HTMLDivElement);
+
+    //filas.innerHTML = filas.outerHTML + nuevaFila;
 
   }
+
+  // getCliente() {
+  //   this.api.get("cliente")
+  //     .pipe(map(data => {
+  //       this.clientes = data;
+  //       this.fullData.push(this.clientes.length);
+  //       this.getProveedor();
+  //     }))
+  //     .subscribe()
+  // }
+
+  // getProveedor() {
+  //   this.api.get("proveedor")
+  //     .pipe(map(data => {
+  //       this.proveedores = data;
+  //       this.fullData.push(this.proveedores.length);
+  //       this.createChart();
+  //     }))
+  //     .subscribe()
+  // }
+
+  // createChart() {
+  //   const canvas = ((<HTMLCanvasElement>document.getElementById("myChart")));
+  //   const context = ((<HTMLCanvasElement>document.getElementById("myChart")).getContext('2d'));
+  //   const myChart = new Chart(canvas, {
+  //     type: 'bar',
+  //     data: {
+  //       labels: ['Contribuyentes', 'Clientes', 'Proveedores'],
+  //       datasets: [{
+  //         label: '# de Registros',
+  //         data: this.fullData,
+  //         backgroundColor: [
+  //           'rgba(255, 99, 132, 0.2)',
+  //           'rgba(54, 162, 235, 0.2)',
+  //           'rgba(255, 206, 86, 0.2)',
+  //           'rgba(75, 192, 192, 0.2)',
+  //           'rgba(153, 102, 255, 0.2)',
+  //           'rgba(255, 159, 64, 0.2)'
+  //         ],
+  //         borderColor: [
+  //           'rgba(255, 99, 132, 1)',
+  //           'rgba(54, 162, 235, 1)',
+  //           'rgba(255, 206, 86, 1)',
+  //           'rgba(75, 192, 192, 1)',
+  //           'rgba(153, 102, 255, 1)',
+  //           'rgba(255, 159, 64, 1)'
+  //         ],
+  //         borderWidth: 1
+  //       }]
+  //     },
+  //     options: {
+  //       responsive: false,
+  //       scales: {
+  //         y: {
+
+  //         }
+  //       }
+  //     }
+  //   });
+
+  // }
 
 }

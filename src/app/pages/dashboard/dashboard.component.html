@@ -1,3 +1,68 @@
-<div id="chartContent" width="521px" height="316px">
+<!-- <div id="chartContent" width="521px" height="316px">
     <canvas width="521px" max-width="521px" id="myChart"></canvas>
+</div> -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Venta</h5>
+                    <p class="card-text">Seleccione el cliente y agregue los productos
+                    </p>
+
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Seleccione el cliente</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>Juan Carlos</option>
+                                <option>Romina Leon</option>
+                                <option>Marta Rojas</option>
+                                <option>Ruben Almiron</option>
+                                <option>Eduardo Marin</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Precio</th>
+                                        <th>Cant</th>
+                                        <th>Sub-Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="filas" >
+                                    <tr *ngFor="let p of filasProductos">
+                                        <td><input type="text" class="form-control" placeholder="Producto" value={{p.producto}}></td>
+                                        <td><input type="number" class="form-control" placeholder="Precio" value={{p.precio}}/></td>
+                                        <td><input type="number" class="form-control" placeholder="Cantidad" value={{p.cantidad}}/></td>
+
+                                        <!-- <td>{{p.producto}}</td>
+                                        <td>{{p.precio}}</td>
+                                        <td>{{p.cantidad}}</td> -->
+                                        
+                                        <td class="">{{p.precio * p.cantidad}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4"><button type="button" class="btn btn-success" (click)="add()">Add</button></div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4 text-right">Total: 40.000</div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+
+    </div>
 </div>
