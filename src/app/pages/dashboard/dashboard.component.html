@@ -77,10 +77,10 @@
                                 </tr>
                             </thead>
                             <tbody id="filas" >
-                                <tr *ngFor="let p of filasProductos">
+                                <tr *ngFor="let p of filasProductos; let i = index">
                                     <!-- <td><input type="text" class="form-control" placeholder="Producto" value={{p.producto}}></td> -->
                                     <td>
-                                        <ng-select (change)="onChangeArticulo($event)">
+                                        <ng-select (change)="onChangeArticulo($event, i)">
                                             <ng-option *ngFor="let obj of articulos" [value]="obj">
                                                 {{obj.nombre_articulo}}
                                             </ng-option>

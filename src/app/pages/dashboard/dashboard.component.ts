@@ -67,6 +67,7 @@ Chart.register(
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+i: number = 0;
 
 
   constructor(public api: ApiService, private authService: AuthService) {
@@ -84,10 +85,10 @@ export class DashboardComponent implements OnInit {
     { precio: 0, cantidad: 1 }
   ]
 
-
   // El formulario del registro de la factura
   public facturaForm: any;
 
+  // Declaracion de variable tipo funcion flecha para obtener el total con cada cambio
   public total = () => {
     var total = 0;
 
@@ -148,12 +149,12 @@ export class DashboardComponent implements OnInit {
     console.log(event);
   }
 
-  onChangeArticulo(event: any) {
-    console.log(event);
+  onChangeArticulo(event: any, index: number) {
+    //console.log(event);
+    //console.log(index);
     const obj = event;
     const precio = obj.precio_articulo;
-    //const index = this.filasProductos.indexOf(event.id_articulo);
-    this.filasProductos[0].precio = precio;
+    this.filasProductos[index].precio = precio;
   }
 
   add() {
