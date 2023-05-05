@@ -28,6 +28,10 @@ import {
 import { ApiService } from 'src/app/services/api.service';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
+
 
 Chart.register(
   ArcElement,
@@ -63,23 +67,38 @@ Chart.register(
 export class DashboardComponent implements OnInit {
 
   constructor(public api: ApiService, private authService: AuthService) { }
-
-  public contribuyentes: any;
+  // Icons
+  faTrash = faTrash;
+  //public contribuyentes: any;
   public clientes: any;
-  public proveedores: any;
-  public fullData: number[] = [];
+  public articulos: any;
+  //public proveedores: any;
+  //public fullData: number[] = [];
 
   public filasProductos = [
     { producto: 'Coca-Cola', precio: 10000, cantidad: 3, id: 1 }
   ]
 
+  // El formulario del registro de la factura
+  public facturaForm: any;
+
   ngOnInit(): void {
 
-    this.api.get("contribuyente")
+    this.api.get("cliente")
       .pipe(map(data => {
-        this.contribuyentes = data;
-        this.fullData.push(this.contribuyentes.length);
+        this.clientes = data;
+        //this.fullData.push(this.contribuyentes.length);
         //this.getCliente();
+        console.log(this.clientes);
+      }))
+      .subscribe()
+
+    this.api.get("articulo")
+      .pipe(map(data => {
+        this.articulos = data;
+        //this.fullData.push(this.contribuyentes.length);
+        //this.getCliente();
+        console.log(this.articulos);
       }))
       .subscribe()
 
@@ -87,6 +106,26 @@ export class DashboardComponent implements OnInit {
 
     // Checks if user is logged in
     //console.log(this.authService.getToken());
+
+    // Se crea el FormGroup
+    this.facturaForm = new FormGroup({
+      cliente: new FormControl("", [
+        Validators.required
+      ])
+
+      // No se agregan los demas porque funciona solo con los inputs donde se escriben no donde son readonly
+    });
+  }
+
+  get cliente_getter() { return this.facturaForm.get('cliente'); }
+  get date_getter() { return this.facturaForm.get('date'); }
+
+  onChangeCliente(event: any) {
+
+  }
+
+  onChangeArticulo(event: any) {
+
   }
 
   add() {

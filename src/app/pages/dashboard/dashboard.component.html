@@ -8,48 +8,65 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Venta</h5>
-                    <p class="card-text">Seleccione el cliente y agregue los productos
-                    </p>
+                    
+                    <div class="row text-center">
+                        <div class="col-md-12">
+                            <h5 class="card-title">Venta</h5>
+                        </div>
+                    </div>
 
-                    <form>
+                    <form [formGroup]="facturaForm">
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Seleccione el cliente</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>Juan Carlos</option>
-                                <option>Romina Leon</option>
-                                <option>Marta Rojas</option>
-                                <option>Ruben Almiron</option>
-                                <option>Eduardo Marin</option>
-                            </select>
+                            <div class="row">
+                                <div class="col-md-2"><label for="">Cliente:</label></div>
+                                <div class="col-md-8 text-left">
+                                    <ng-select (change)="onChangeCliente($event)" formControlName="cliente">
+                                        <ng-option *ngFor="let obj of clientes" value="{{obj.id_cliente}}">
+                                            {{obj.razon_social_cliente}}</ng-option>
+                                    </ng-select>
+                                    <div *ngIf="cliente_getter.invalid && (cliente_getter.dirty || cliente_getter.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="cliente_getter.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Producto</th>
-                                        <th>Precio</th>
-                                        <th>Cant</th>
+                                        <th style="width:35%">Articulo</th>
+                                        <th style="width:20%">Precio</th>
+                                        <th style="width:15%">Cant</th>
                                         <th>Sub-Total</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody id="filas" >
                                     <tr *ngFor="let p of filasProductos">
-                                        <td><input type="text" class="form-control" placeholder="Producto" value={{p.producto}}></td>
+                                        <!-- <td><input type="text" class="form-control" placeholder="Producto" value={{p.producto}}></td> -->
+                                        <td>
+                                            <ng-select (change)="onChangeArticulo($event)" formControlName="cliente">
+                                                <ng-option *ngFor="let obj of articulos" value="{{obj.id_articulo}}">
+                                                    {{obj.nombre_articulo}}</ng-option>
+                                            </ng-select>
+                                        </td>
                                         <td><input type="number" class="form-control" placeholder="Precio" value={{p.precio}}/></td>
                                         <td><input type="number" class="form-control" placeholder="Cantidad" value={{p.cantidad}}/></td>
-                                        <td class="">{{p.precio * p.cantidad}}</td>
-                                        <td><button (click)="del($event)">x</button></td>
+                                        <td class="text-center">{{p.precio * p.cantidad}}</td>
+                                        <td><button class="btn btn-danger" (click)="del($event)"><fa-icon [icon]="faTrash"></fa-icon></button></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-4"><button type="button" class="btn btn-success" (click)="add()">Add</button></div>
-                                <div class="col-md-4"></div>
-                                <div class="col-md-4 text-right">Total: 40.000</div>
+                                <div class="col-md-2"><button type="button" class="btn btn-success" (click)="add()">Add</button></div>
+                                <div class="col-md-6"></div>
+                                <div class="col-md-4">Total: 40.000</div>
                             </div>
                         </div>
                         

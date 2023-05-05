@@ -55,15 +55,16 @@ export class ArticuloComponent implements OnInit {
       ]),
       costo: new FormControl(this.articuloNuevo.costo_artiulo, [
         Validators.required,
-        Validators.minLength(4)
+        Validators.minLength(2)
       ]),
       precio: new FormControl(this.articuloNuevo.precio_artiulo, [
         Validators.required,
-        Validators.minLength(5)
+        Validators.minLength(2)
       ]),
       cantidad: new FormControl(this.articuloNuevo.cant_disponible_articulo, [
         Validators.required,
-        Validators.minLength(1)
+        Validators.minLength(1),
+        Validators.min(1)
       ])
     });
 
@@ -79,15 +80,16 @@ export class ArticuloComponent implements OnInit {
       ]),
       costo_form: new FormControl(this.articuloEditar.costo_articulo, [
         Validators.required,
-        Validators.minLength(4)
+        Validators.minLength(2)
       ]),
       precio_form: new FormControl(this.articuloEditar.precio_articulo, [
         Validators.required,
-        Validators.minLength(5)
+        Validators.minLength(2)
       ]),
       cantidad_form: new FormControl(this.articuloEditar.cant_disponible_articulo, [
         Validators.required,
-        Validators.minLength(5)
+        Validators.minLength(1),
+        Validators.min(1)
       ])
     });
 
@@ -230,11 +232,11 @@ export class ArticuloComponent implements OnInit {
       ]),
       costo_form: new FormControl(this.articuloEditar.costo_articulo, [
         Validators.required,
-        Validators.minLength(4)
+        Validators.minLength(2)
       ]),
       precio_form: new FormControl(this.articuloEditar.precio_articulo, [
         Validators.required,
-        Validators.minLength(5)
+        Validators.minLength(2)
       ]),
       cantidad_form: new FormControl(this.articuloEditar.cant_disponible_articulo, [
         Validators.required,
