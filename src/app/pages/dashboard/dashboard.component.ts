@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CurrencyPipe, registerLocaleData } from '@angular/common';
+import localeEsPy from '@angular/common/locales/es-PY';
+
 import {
   Chart,
   ArcElement,
@@ -30,7 +33,6 @@ import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-
 
 
 Chart.register(
@@ -66,7 +68,10 @@ Chart.register(
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(public api: ApiService, private authService: AuthService) { }
+
+  constructor(public api: ApiService, private authService: AuthService) {
+    registerLocaleData(localeEsPy);
+  }
   // Icons
   faTrash = faTrash;
   //public contribuyentes: any;
@@ -76,11 +81,22 @@ export class DashboardComponent implements OnInit {
   //public fullData: number[] = [];
 
   public filasProductos = [
-    { producto: 'Coca-Cola', precio: 10000, cantidad: 3, id: 1 }
+    { precio: 0, cantidad: 1 }
   ]
+
 
   // El formulario del registro de la factura
   public facturaForm: any;
+
+  public total = () => {
+    var total = 0;
+
+    for(let p of this.filasProductos) {
+      total += p.precio * p.cantidad;
+    }
+
+    return total;
+  }
 
   ngOnInit(): void {
 
@@ -89,7 +105,7 @@ export class DashboardComponent implements OnInit {
         this.clientes = data;
         //this.fullData.push(this.contribuyentes.length);
         //this.getCliente();
-        console.log(this.clientes);
+        //console.log(this.clientes);
       }))
       .subscribe()
 
@@ -98,7 +114,7 @@ export class DashboardComponent implements OnInit {
         this.articulos = data;
         //this.fullData.push(this.contribuyentes.length);
         //this.getCliente();
-        console.log(this.articulos);
+        //console.log(this.articulos);
       }))
       .subscribe()
 
@@ -111,42 +127,42 @@ export class DashboardComponent implements OnInit {
     this.facturaForm = new FormGroup({
       cliente: new FormControl("", [
         Validators.required
-      ])
+      ]),
+      // articulo: new FormControl(this.filasProductos[0].producto, [
+      //   Validators.required
+      // ]),
+      // precio: new FormControl(this.filasProductos[0].precio, [
+      //   Validators.required
+      // ]),
+      // cantidad: new FormControl(this.filasProductos[0].cantidad, [
+      //   Validators.required
+      // ])
 
       // No se agregan los demas porque funciona solo con los inputs donde se escriben no donde son readonly
     });
   }
 
   get cliente_getter() { return this.facturaForm.get('cliente'); }
-  get date_getter() { return this.facturaForm.get('date'); }
 
   onChangeCliente(event: any) {
-
+    console.log(event);
   }
 
   onChangeArticulo(event: any) {
-
+    console.log(event);
+    const obj = event;
+    const precio = obj.precio_articulo;
+    //const index = this.filasProductos.indexOf(event.id_articulo);
+    this.filasProductos[0].precio = precio;
   }
 
   add() {
-    let nuevaFila = `<tr>
-    <td><input type="text" class="form-control" placeholder="Producto"></td>
-                                        <td><input type="number" class="form-control" placeholder="Precio"></td>
-                                        <td><input type="number" class="form-control" placeholder="Cantidad"></td>
-                                        
-                                        <td>20.000</td>
-</tr>`
-
     let nuevoProducto = {
-      producto: '', precio: 0, cantidad: 1, id: this.filasProductos.length + 1
+      precio: 0, cantidad: 1
     }
 
     this.filasProductos.push(nuevoProducto);
-
-    //let filas = (document.getElementById('filas') as HTMLDivElement);
-
-    //filas.innerHTML = filas.outerHTML + nuevaFila;
-
+    console.log(this.filasProductos);
   }
 
   del(e: any) {
