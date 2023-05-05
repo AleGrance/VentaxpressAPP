@@ -166,8 +166,9 @@ i: number = 0;
     console.log(this.filasProductos);
   }
 
-  del(e: any) {
-    console.log(e);
+  del(index: number) {
+    console.log(index);
+    this.filasProductos.splice(index, 1);
   }
 
   // getCliente() {

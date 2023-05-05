@@ -90,7 +90,7 @@
                                     <td><input id="cantidad" type="number" class="form-control" placeholder="Cantidad" [(ngModel)]="p.cantidad"/></td>
                                     <!-- <td class="text-center">{{p.precio * p.cantidad | currency:'':'Gs.':'1.0-0':'es-PY'}}</td> -->
                                     <td class="text-center">{{ (p.precio * p.cantidad) | currency:'':'Gs.':'1.0-0':'es-PY' }}</td>
-                                    <td><button class="btn btn-danger" (click)="del($event)"><fa-icon [icon]="faTrash"></fa-icon></button></td>
+                                    <td><button class="btn btn-danger" (click)="del(i)"><fa-icon [icon]="faTrash"></fa-icon></button></td>
                                 </tr>
                             </tbody>
                         </table>
