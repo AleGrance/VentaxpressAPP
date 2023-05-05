@@ -149,6 +149,7 @@ i: number = 0;
     console.log(event);
   }
 
+  // Recibe el obbjeto seleccionado y modifica el atributo precio del array de los articulos segun el index de ese elem
   onChangeArticulo(event: any, index: number) {
     //console.log(event);
     //console.log(index);
@@ -163,11 +164,11 @@ i: number = 0;
     }
 
     this.filasProductos.push(nuevoProducto);
-    console.log(this.filasProductos);
+    //console.log(this.filasProductos);
   }
 
   del(index: number) {
-    console.log(index);
+    //console.log(index);
     this.filasProductos.splice(index, 1);
   }
 
