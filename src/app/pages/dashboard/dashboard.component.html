@@ -3,18 +3,19 @@
 </div> -->
 
 <div class="container">
+
     <div class="row">
         <div class="col-md-2"></div>
+        <!--Venta-->
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    
                     <div class="row text-center">
                         <div class="col-md-12">
                             <h5 class="card-title">Venta</h5>
                         </div>
                     </div>
-
+                    <!--Form del cliente-->
                     <form [formGroup]="facturaForm">
                         <div class="form-group">
                             <div class="row">
@@ -25,11 +26,11 @@
                                             {{obj.razon_social_cliente}}</ng-option>
                                     </ng-select>
                                     <div *ngIf="cliente_getter.invalid && (cliente_getter.dirty || cliente_getter.touched)"
-                                    class="alert alert-danger">
-                                    <div *ngIf="cliente_getter.errors?.required">
-                                        Campo requerido.
+                                        class="alert alert-danger">
+                                        <div *ngIf="cliente_getter.errors?.required">
+                                            Campo requerido.
+                                        </div>
                                     </div>
-                                </div>
                                 </div>
                                 <div class="col-md-2"></div>
                             </div>
@@ -61,9 +62,8 @@
                                 </tbody>
                             </table>
                         </div> -->
-            
-                    </form>
 
+                    </form>
                     <!--Tabla-->
                     <div class="form-group">
                         <table class="table table-striped">
@@ -76,7 +76,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody id="filas" >
+                            <tbody id="filas">
                                 <tr *ngFor="let p of filasProductos; let i = index">
                                     <!-- <td><input type="text" class="form-control" placeholder="Producto" value={{p.producto}}></td> -->
                                     <td>
@@ -86,37 +86,46 @@
                                             </ng-option>
                                         </ng-select>
                                     </td>
-                                    <td><input id="precio" type="number" class="form-control" placeholder="Precio" [(ngModel)]="p.precio" readonly/></td>
-                                    <td><input id="cantidad" type="number" class="form-control" placeholder="Cantidad" [(ngModel)]="p.cantidad" (change)="onChangeCantidad($event, i)"/></td>
+                                    <td><input id="precio" type="number" class="form-control" placeholder="Precio"
+                                            [(ngModel)]="p.precio" readonly /></td>
+                                    <td><input id="cantidad" type="number" class="form-control" placeholder="Cantidad"
+                                            [(ngModel)]="p.cantidad" (change)="onChangeCantidad($event, i)" /></td>
                                     <!-- <td class="text-center">{{p.precio * p.cantidad | currency:'':'Gs.':'1.0-0':'es-PY'}}</td> -->
-                                    <td class="text-center">{{ (p.precio * p.cantidad) | currency:'':'Gs.':'1.0-0':'es-PY' }}</td>
-                                    <td><button class="btn btn-danger" (click)="del(i)"><fa-icon [icon]="faTrash"></fa-icon></button></td>
+                                    <td class="text-center">{{ (p.precio * p.cantidad) |
+                                        currency:'':'Gs.':'1.0-0':'es-PY' }}</td>
+                                    <td><button class="btn btn-danger" (click)="del(i)"><fa-icon
+                                                [icon]="faTrash"></fa-icon></button></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-
                     <!--Botones-->
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-2"><button type="button" class="btn btn-success" (click)="add()">Add</button></div>
+                            <div class="col-md-2"><button type="button" class="btn btn-success"
+                                    (click)="add()">Add</button></div>
                             <div class="col-md-6"></div>
                             <div class="col-md-4">Total Gs.: {{total() | currency:'':'':'1.0-0':'es-PY'}}</div>
                         </div>
                     </div>
-                    
                     <button type="submit" class="btn btn-primary" (click)="save()">Guardar</button>
-
+                    <button type="button" class="btn btn-info" data-toggle="modal"
+                        data-target="#comprobanteModal">Imprimir
+                        Comprobante</button>
                 </div>
             </div>
         </div>
         <div class="col-md-2"></div>
     </div>
+
     <div class="row">
         <div class="col-md-2"></div>
+        <!--Comprobante-->
         <div class="col-md-8">
-            <div class="recibo">
-              <strong><h2>Comprobante nro: <span>{{nroComprobante}}</span></h2></strong>  
+            <div class="recibo" hidden>
+                <strong>
+                    <h2>Comprobante nro: <span>{{nroComprobante}}</span></h2>
+                </strong>
                 <p>Fecha: <span>{{hoyFormated}}</span></p>
                 <table class="table table-sm">
                     <tr>
@@ -127,9 +136,11 @@
                     </tr>
                     <tr *ngFor="let a of filasProductos">
                         <td>{{a.articulo}}</td>
-                        <td style="margin-left: 10px;"><span id="precio1">{{a.precio | currency:'':'':'1.0-0':'es-PY'}}</span></td>
+                        <td style="margin-left: 10px;"><span id="precio1">{{a.precio |
+                                currency:'':'':'1.0-0':'es-PY'}}</span></td>
                         <td><span id="cantidad1">{{a.cantidad}}</span></td>
-                        <td><span id="subtotal1">{{(a.precio * a.cantidad) | currency:'':'':'1.0-0':'es-PY'}}</span></td>
+                        <td><span id="subtotal1">{{(a.precio * a.cantidad) | currency:'':'':'1.0-0':'es-PY'}}</span>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="3" class="total">Total:</td>
@@ -139,5 +150,55 @@
             </div>
         </div>
         <div class="col-md-2"></div>
+    </div>
+
+    <!--Modal-->
+    <div class="modal fade" id="comprobanteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="recibo">
+                        <strong>
+                            <h2>Comprobante nro: <span>{{nroComprobante}}</span></h2>
+                        </strong>
+                        <p>Fecha: <span>{{hoyFormated}}</span></p>
+                        <table class="table table-sm">
+                            <tr>
+                                <th>Item</th>
+                                <th>Precio</th>
+                                <th>Cant</th>
+                                <th>SubTotal</th>
+                            </tr>
+                            <tr *ngFor="let a of filasProductos">
+                                <td>{{a.articulo}}</td>
+                                <td style="margin-left: 10px;"><span id="precio1">{{a.precio |
+                                        currency:'':'':'1.0-0':'es-PY'}}</span></td>
+                                <td><span id="cantidad1">{{a.cantidad}}</span></td>
+                                <td><span id="subtotal1">{{(a.precio * a.cantidad) | currency:'':'':'1.0-0':'es-PY'}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="total">Total:</td>
+                                <td><span id="total">{{total() | currency:'':'':'1.0-0':'es-PY'}}</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">PDF</button>
+                    <button type="button" class="btn btn-primary">Imagen</button>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
