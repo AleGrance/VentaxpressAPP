@@ -9,6 +9,9 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import * as htmlToImage from 'html-to-image';
 import { saveAs } from 'file-saver';
+import { jsPDF } from "jspdf";
+import html2canvas from 'html2canvas';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -56,8 +59,10 @@ export class DashboardComponent implements OnInit {
     return total;
   }
 
-  // Imagen del comprobante
+  // Imagen del comprobante JPEG|PDF
   public image = '';
+  public doc = new jsPDF();
+
 
   ngOnInit(): void {
     this.api.get("cliente")
@@ -201,7 +206,6 @@ export class DashboardComponent implements OnInit {
   }
 
   printToJpeg() {
-
     let node = <HTMLInputElement>document.getElementById('comprobante');
 
     htmlToImage
@@ -218,7 +222,13 @@ export class DashboardComponent implements OnInit {
   }
 
   printToPDF() {
+    let node = <HTMLInputElement>document.getElementById('comprobante');
 
+    this.doc.html(node, {
+      callback: (doc) => {
+        doc.save('comprobante.pdf');
+      }
+    });
   }
 
 
