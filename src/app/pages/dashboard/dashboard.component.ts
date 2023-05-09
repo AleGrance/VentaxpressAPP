@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -15,12 +17,14 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 export class DashboardComponent implements OnInit {
   i: number = 0;
 
-  constructor(public api: ApiService, private authService: AuthService) {
+  constructor(public api: ApiService, private authService: AuthService, private toastr: ToastrService) {
     registerLocaleData(localeEsPy);
   }
+  public pipe = new DatePipe('en-US');
+
   // Fecha
   public hoy = new Date();
-  public pipe = new DatePipe('en-US');
+  public hoyFormated = this.pipe.transform(this.hoy, 'dd-MM-yyyy')
   // Icons
   faTrash = faTrash;
   //public contribuyentes: any;
@@ -28,6 +32,7 @@ export class DashboardComponent implements OnInit {
   public clienteSeleccionadoID: any;
   public articulos: any;
   public totalCabeceras: any;
+  public nroComprobante: any;
   //public proveedores: any;
   //public fullData: number[] = [];
 
@@ -50,7 +55,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.api.get("cliente")
       .pipe(map(data => {
         this.clientes = data;
@@ -63,6 +67,7 @@ export class DashboardComponent implements OnInit {
     this.api.get("cabecera_venta_total")
       .pipe(map(data => {
         this.totalCabeceras = data;
+        this.nroComprobante = '0000' + (parseFloat(this.totalCabeceras.total) + 1)
         //console.log('El nuevo nro de comprobante es: 000' + this.totalCabeceras.total + 1);
       }))
       .subscribe()
@@ -118,7 +123,7 @@ export class DashboardComponent implements OnInit {
 
   onChangeCantidad(event: any, index: any) {
     let cantidad = parseFloat(event.target.value);
-    let precio =  this.filasProductos[index].precio;
+    let precio = this.filasProductos[index].precio;
     //console.log(event.target.value);
     //console.log(index);
     this.filasProductos[index].subtotal = precio * cantidad;
@@ -140,9 +145,9 @@ export class DashboardComponent implements OnInit {
 
   save() {
     let objCabecera = {
-      nro_factura_venta: '0000' + this.totalCabeceras.total + 1,
+      nro_factura_venta: this.nroComprobante,
       condicion_venta_venta: 'Contado',
-      total: this.total(),
+      total_venta: this.total(),
       fecha_factura_venta: this.pipe.transform(this.hoy, 'yyyy-MM-dd'),
       monto_gravado_10: 0,
       iva_10: 0,
@@ -152,17 +157,42 @@ export class DashboardComponent implements OnInit {
       id_cliente: this.clienteSeleccionadoID
     }
 
-    let objDetalle = {
-      descripcion_detalle_venta: '',
-      cant_detalle_venta: 0,
-      subtotal_detalle_venta: 0,
-      precio_detalle_venta: 0,
-      nro_factura_venta: '0000' + this.totalCabeceras.total + 1
+    console.log('Cabecera', objCabecera);
+
+    // this.api.post('cabecera_venta', objCabecera)
+    //   .subscribe(result => {
+    //     this.toastr.success('Venta registrada');
+    //     console.log('Cabecera result post: ', result);
+    //     //this.toastr.warning(result);
+    //   }, error => {
+    //     console.log('Si hay error en el post: ', error);
+    //     this.toastr.error('Error', error);
+    //   });
+
+
+
+    for (let a of this.filasProductos) {
+      let objDetalle = {
+        descripcion_detalle_venta: a.articulo,
+        cant_item_detalle_venta: a.cantidad,
+        subtotal_detalle_venta: a.subtotal,
+        precio_detalle_venta: a.precio,
+        nro_factura_venta: this.nroComprobante
+      }
+
+      // this.api.post('detalle_venta', objDetalle)
+      //   .subscribe(result => {
+      //     //this.toastr.success('Venta registrada');
+      //     console.log('Detalle result post', result);
+      //   }, error => {
+      //     console.log('Si hay error en el post: ', error);
+      //   });
+
+      // Post
+      console.log('Detalle', objDetalle);
+
     }
 
-    console.log(this.filasProductos);
-    console.log(objCabecera);
-    console.log(objDetalle);
   }
 
 

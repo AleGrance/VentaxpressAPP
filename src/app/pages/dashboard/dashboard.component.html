@@ -111,6 +111,33 @@
             </div>
         </div>
         <div class="col-md-2"></div>
-
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="recibo">
+              <strong><h2>Comprobante nro: <span>{{nroComprobante}}</span></h2></strong>  
+                <p>Fecha: <span>{{hoyFormated}}</span></p>
+                <table class="table table-sm">
+                    <tr>
+                        <th>Item</th>
+                        <th>Precio</th>
+                        <th>Cant</th>
+                        <th>SubTotal</th>
+                    </tr>
+                    <tr *ngFor="let a of filasProductos">
+                        <td>{{a.articulo}}</td>
+                        <td style="margin-left: 10px;"><span id="precio1">{{a.precio | currency:'':'':'1.0-0':'es-PY'}}</span></td>
+                        <td><span id="cantidad1">{{a.cantidad}}</span></td>
+                        <td><span id="subtotal1">{{(a.precio * a.cantidad) | currency:'':'':'1.0-0':'es-PY'}}</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="total">Total:</td>
+                        <td><span id="total">{{total() | currency:'':'':'1.0-0':'es-PY'}}</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
     </div>
 </div>
