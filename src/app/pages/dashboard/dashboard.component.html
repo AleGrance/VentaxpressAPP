@@ -164,7 +164,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="recibo">
+                    <div class="recibo" id="comprobante" style="background-color: white;">
                         <strong>
                             <h2>Comprobante nro: <span>{{nroComprobante}}</span></h2>
                         </strong>
@@ -194,8 +194,8 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">PDF</button>
-                    <button type="button" class="btn btn-primary">Imagen</button>
+                    <button type="button" class="btn btn-primary" (click)="printToJpeg()">PDF</button>
+                    <button type="button" class="btn btn-primary" (click)="printToJpeg()">Imagen</button>
                 </div>
 
             </div>

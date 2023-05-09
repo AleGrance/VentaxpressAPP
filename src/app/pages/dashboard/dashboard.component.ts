@@ -7,7 +7,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
-
+import * as htmlToImage from 'html-to-image';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,7 @@ export class DashboardComponent implements OnInit {
   constructor(public api: ApiService, private authService: AuthService, private toastr: ToastrService) {
     registerLocaleData(localeEsPy);
   }
+
   public pipe = new DatePipe('en-US');
 
   // Fecha
@@ -53,6 +55,9 @@ export class DashboardComponent implements OnInit {
 
     return total;
   }
+
+  // Imagen del comprobante
+  public image = '';
 
   ngOnInit(): void {
     this.api.get("cliente")
@@ -192,6 +197,27 @@ export class DashboardComponent implements OnInit {
       console.log('Detalle', objDetalle);
 
     }
+
+  }
+
+  printToJpeg() {
+
+    let node = <HTMLInputElement>document.getElementById('comprobante');
+
+    htmlToImage
+      .toJpeg(node)
+      .then((dataUrl) => {
+        var link = document.createElement('a');
+        link.download = 'comprobante' + this.nroComprobante + '.jpeg';
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch(function (error) {
+        console.error('Error al crear la imagen!', error);
+      });
+  }
+
+  printToPDF() {
 
   }
 
