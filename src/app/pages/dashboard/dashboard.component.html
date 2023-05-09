@@ -87,7 +87,7 @@
                                         </ng-select>
                                     </td>
                                     <td><input id="precio" type="number" class="form-control" placeholder="Precio" [(ngModel)]="p.precio" readonly/></td>
-                                    <td><input id="cantidad" type="number" class="form-control" placeholder="Cantidad" [(ngModel)]="p.cantidad"/></td>
+                                    <td><input id="cantidad" type="number" class="form-control" placeholder="Cantidad" [(ngModel)]="p.cantidad" (change)="onChangeCantidad($event, i)"/></td>
                                     <!-- <td class="text-center">{{p.precio * p.cantidad | currency:'':'Gs.':'1.0-0':'es-PY'}}</td> -->
                                     <td class="text-center">{{ (p.precio * p.cantidad) | currency:'':'Gs.':'1.0-0':'es-PY' }}</td>
                                     <td><button class="btn btn-danger" (click)="del(i)"><fa-icon [icon]="faTrash"></fa-icon></button></td>
@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn btn-primary" (click)="save()">Guardar</button>
 
                 </div>
             </div>

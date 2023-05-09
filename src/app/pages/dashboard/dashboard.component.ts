@@ -1,65 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CurrencyPipe, registerLocaleData } from '@angular/common';
+import { CurrencyPipe, registerLocaleData, DatePipe } from '@angular/common';
 import localeEsPy from '@angular/common/locales/es-PY';
-
-import {
-  Chart,
-  ArcElement,
-  LineElement,
-  BarElement,
-  PointElement,
-  BarController,
-  BubbleController,
-  DoughnutController,
-  LineController,
-  PieController,
-  PolarAreaController,
-  RadarController,
-  ScatterController,
-  CategoryScale,
-  LinearScale,
-  LogarithmicScale,
-  RadialLinearScale,
-  TimeScale,
-  TimeSeriesScale,
-  Decimation,
-  Filler,
-  Legend,
-  Title,
-  Tooltip
-} from 'chart.js';
 import { ApiService } from 'src/app/services/api.service';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-
-
-Chart.register(
-  ArcElement,
-  LineElement,
-  BarElement,
-  PointElement,
-  BarController,
-  BubbleController,
-  DoughnutController,
-  LineController,
-  PieController,
-  PolarAreaController,
-  RadarController,
-  ScatterController,
-  CategoryScale,
-  LinearScale,
-  LogarithmicScale,
-  RadialLinearScale,
-  TimeScale,
-  TimeSeriesScale,
-  Decimation,
-  Filler,
-  Legend,
-  Title,
-  Tooltip
-);
 
 @Component({
   selector: 'app-dashboard',
@@ -67,22 +13,26 @@ Chart.register(
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-i: number = 0;
-
+  i: number = 0;
 
   constructor(public api: ApiService, private authService: AuthService) {
     registerLocaleData(localeEsPy);
   }
+  // Fecha
+  public hoy = new Date();
+  public pipe = new DatePipe('en-US');
   // Icons
   faTrash = faTrash;
   //public contribuyentes: any;
   public clientes: any;
+  public clienteSeleccionadoID: any;
   public articulos: any;
+  public totalCabeceras: any;
   //public proveedores: any;
   //public fullData: number[] = [];
 
   public filasProductos = [
-    { precio: 0, cantidad: 1 }
+    { articulo: '', precio: 0, cantidad: 1, subtotal: 0 }
   ]
 
   // El formulario del registro de la factura
@@ -92,7 +42,7 @@ i: number = 0;
   public total = () => {
     var total = 0;
 
-    for(let p of this.filasProductos) {
+    for (let p of this.filasProductos) {
       total += p.precio * p.cantidad;
     }
 
@@ -110,16 +60,19 @@ i: number = 0;
       }))
       .subscribe()
 
-    this.api.get("articulo")
+    this.api.get("cabecera_venta_total")
       .pipe(map(data => {
-        this.articulos = data;
-        //this.fullData.push(this.contribuyentes.length);
-        //this.getCliente();
-        //console.log(this.articulos);
+        this.totalCabeceras = data;
+        //console.log('El nuevo nro de comprobante es: 000' + this.totalCabeceras.total + 1);
       }))
       .subscribe()
 
-    //this.createChart();
+    this.api.get("articulo")
+      .pipe(map(data => {
+        this.articulos = data;
+        //console.log(this.articulos);
+      }))
+      .subscribe()
 
     // Checks if user is logged in
     //console.log(this.authService.getToken());
@@ -146,7 +99,8 @@ i: number = 0;
   get cliente_getter() { return this.facturaForm.get('cliente'); }
 
   onChangeCliente(event: any) {
-    console.log(event);
+    this.clienteSeleccionadoID = event;
+    //console.log(this.clienteSeleccionadoID);
   }
 
   // Recibe el obbjeto seleccionado y modifica el atributo precio del array de los articulos segun el index de ese elem
@@ -154,13 +108,25 @@ i: number = 0;
     //console.log(event);
     //console.log(index);
     const obj = event;
+
+    const articulo = obj.nombre_articulo;
     const precio = obj.precio_articulo;
+
+    this.filasProductos[index].articulo = articulo;
     this.filasProductos[index].precio = precio;
+  }
+
+  onChangeCantidad(event: any, index: any) {
+    let cantidad = parseFloat(event.target.value);
+    let precio =  this.filasProductos[index].precio;
+    //console.log(event.target.value);
+    //console.log(index);
+    this.filasProductos[index].subtotal = precio * cantidad;
   }
 
   add() {
     let nuevoProducto = {
-      precio: 0, cantidad: 1
+      articulo: '', precio: 0, cantidad: 1, subtotal: 0
     }
 
     this.filasProductos.push(nuevoProducto);
@@ -172,65 +138,32 @@ i: number = 0;
     this.filasProductos.splice(index, 1);
   }
 
-  // getCliente() {
-  //   this.api.get("cliente")
-  //     .pipe(map(data => {
-  //       this.clientes = data;
-  //       this.fullData.push(this.clientes.length);
-  //       this.getProveedor();
-  //     }))
-  //     .subscribe()
-  // }
+  save() {
+    let objCabecera = {
+      nro_factura_venta: '0000' + this.totalCabeceras.total + 1,
+      condicion_venta_venta: 'Contado',
+      total: this.total(),
+      fecha_factura_venta: this.pipe.transform(this.hoy, 'yyyy-MM-dd'),
+      monto_gravado_10: 0,
+      iva_10: 0,
+      monto_gravado_5: 0,
+      iva_5: 0,
+      exento: 0,
+      id_cliente: this.clienteSeleccionadoID
+    }
 
-  // getProveedor() {
-  //   this.api.get("proveedor")
-  //     .pipe(map(data => {
-  //       this.proveedores = data;
-  //       this.fullData.push(this.proveedores.length);
-  //       this.createChart();
-  //     }))
-  //     .subscribe()
-  // }
+    let objDetalle = {
+      descripcion_detalle_venta: '',
+      cant_detalle_venta: 0,
+      subtotal_detalle_venta: 0,
+      precio_detalle_venta: 0,
+      nro_factura_venta: '0000' + this.totalCabeceras.total + 1
+    }
 
-  // createChart() {
-  //   const canvas = ((<HTMLCanvasElement>document.getElementById("myChart")));
-  //   const context = ((<HTMLCanvasElement>document.getElementById("myChart")).getContext('2d'));
-  //   const myChart = new Chart(canvas, {
-  //     type: 'bar',
-  //     data: {
-  //       labels: ['Contribuyentes', 'Clientes', 'Proveedores'],
-  //       datasets: [{
-  //         label: '# de Registros',
-  //         data: this.fullData,
-  //         backgroundColor: [
-  //           'rgba(255, 99, 132, 0.2)',
-  //           'rgba(54, 162, 235, 0.2)',
-  //           'rgba(255, 206, 86, 0.2)',
-  //           'rgba(75, 192, 192, 0.2)',
-  //           'rgba(153, 102, 255, 0.2)',
-  //           'rgba(255, 159, 64, 0.2)'
-  //         ],
-  //         borderColor: [
-  //           'rgba(255, 99, 132, 1)',
-  //           'rgba(54, 162, 235, 1)',
-  //           'rgba(255, 206, 86, 1)',
-  //           'rgba(75, 192, 192, 1)',
-  //           'rgba(153, 102, 255, 1)',
-  //           'rgba(255, 159, 64, 1)'
-  //         ],
-  //         borderWidth: 1
-  //       }]
-  //     },
-  //     options: {
-  //       responsive: false,
-  //       scales: {
-  //         y: {
+    console.log(this.filasProductos);
+    console.log(objCabecera);
+    console.log(objDetalle);
+  }
 
-  //         }
-  //       }
-  //     }
-  //   });
-
-  // }
 
 }
