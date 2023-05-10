@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
   //public fullData: number[] = [];
 
   public filasProductos = [
-    { articulo: '', precio: 0, cantidad: 1, subtotal: 0 }
+    { articulo: '', precio: 0, cantidad: 0, subtotal: 0 }
   ]
 
   // El formulario del registro de la factura
@@ -144,7 +144,7 @@ export class DashboardComponent implements OnInit {
 
   add() {
     let nuevoProducto = {
-      articulo: '', precio: 0, cantidad: 1, subtotal: 0
+      articulo: '', precio: 0, cantidad: 0, subtotal: 0
     }
 
     this.filasProductos.push(nuevoProducto);
