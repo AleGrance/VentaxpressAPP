@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+
+import { DatePipe, CurrencyPipe, registerLocaleData } from '@angular/common';
+import localeEsPy from '@angular/common/locales/es-PY';
+
 import { ApiService } from 'src/app/services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-reporte',
@@ -10,23 +16,38 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./reporte.component.css']
 })
 export class ReporteComponent implements OnInit {
-  // El contribuyente encontrado mediante el id que le pasa contribuyente_component, es para obtener los datos y mostrar en pantalla
-  public contribuyenteEncontrado: any;
-  // Se almacena el ID del contribuyente para enviar al grabar el registro
-  public contribuyenteId: any;
 
+  public cabeceras: any;
+  public detalles: any;
+  public nroComprobante: any;
+  public fecha: any;
+  public total: any;
 
-  constructor(public api: ApiService, private route: ActivatedRoute, private toastr: ToastrService) { }
+  public faEye = faEye;
+
+  constructor(public api: ApiService, private route: ActivatedRoute, private toastr: ToastrService) {
+    registerLocaleData(localeEsPy);
+  }
 
   ngOnInit(): void {
-    // Primero se obtiene el ID enviado a travez de la ruta
-    const routeParams = this.route.snapshot.paramMap;
-    this.contribuyenteId = Number(routeParams.get('id_contribuyente')); //Este parametro se configura en app-routes
-    // Luego se busca el registro en la base de dato a travez del API para obtener los datos del contribuyente y mostrar en pantalla
-    this.api.get('contribuyente/' + this.contribuyenteId)
+
+    this.api.get('cabecera_venta')
       .pipe(map(data => {
-        this.contribuyenteEncontrado = data;
-        //console.log("El contribuyente es: ", this.contribuyenteEncontrado);
+        this.cabeceras = data;
+        console.log("Cabeceras: ", this.cabeceras);
+      }))
+      .subscribe()
+  }
+
+  showDetalle(event: any) {
+    this.nroComprobante = event.nro_factura_venta;
+    this.fecha = event.fecha_factura_venta;
+    this.total = event.total_venta;
+
+    this.api.get('detalle_venta/' + this.nroComprobante)
+      .pipe(map(data => {
+        this.detalles = data;
+        console.log("Detalles: ", this.detalles);
       }))
       .subscribe()
   }

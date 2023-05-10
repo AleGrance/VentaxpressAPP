@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+
 import { CurrencyPipe, registerLocaleData, DatePipe } from '@angular/common';
 import localeEsPy from '@angular/common/locales/es-PY';
+
 import { ApiService } from 'src/app/services/api.service';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
+
 import * as htmlToImage from 'html-to-image';
 import { saveAs } from 'file-saver';
 import { jsPDF } from "jspdf";
@@ -169,15 +172,15 @@ export class DashboardComponent implements OnInit {
 
     console.log('Cabecera', objCabecera);
 
-    // this.api.post('cabecera_venta', objCabecera)
-    //   .subscribe(result => {
-    //     this.toastr.success('Venta registrada');
-    //     console.log('Cabecera result post: ', result);
-    //     //this.toastr.warning(result);
-    //   }, error => {
-    //     console.log('Si hay error en el post: ', error);
-    //     this.toastr.error('Error', error);
-    //   });
+    this.api.post('cabecera_venta', objCabecera)
+      .subscribe(result => {
+        this.toastr.success('Venta registrada');
+        console.log('Cabecera result post: ', result);
+        //this.toastr.warning(result);
+      }, error => {
+        console.log('Si hay error en el post: ', error);
+        this.toastr.error('Error', error);
+      });
 
 
 
@@ -190,13 +193,13 @@ export class DashboardComponent implements OnInit {
         nro_factura_venta: this.nroComprobante
       }
 
-      // this.api.post('detalle_venta', objDetalle)
-      //   .subscribe(result => {
-      //     //this.toastr.success('Venta registrada');
-      //     console.log('Detalle result post', result);
-      //   }, error => {
-      //     console.log('Si hay error en el post: ', error);
-      //   });
+      this.api.post('detalle_venta', objDetalle)
+        .subscribe(result => {
+          //this.toastr.success('Venta registrada');
+          console.log('Detalle result post', result);
+        }, error => {
+          console.log('Si hay error en el post: ', error);
+        });
 
       // Post
       console.log('Detalle', objDetalle);

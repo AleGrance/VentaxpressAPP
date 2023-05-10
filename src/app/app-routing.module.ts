@@ -22,7 +22,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'articulo', component: ArticuloComponent,
+    path: 'articulo_component', component: ArticuloComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -38,7 +38,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'reporte/:id_contribuyente', component: ReporteComponent,
+    path: 'reporte_component', component: ReporteComponent,
     canActivate: [AuthGuard]
   },
   {
