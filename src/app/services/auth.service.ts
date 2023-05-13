@@ -20,6 +20,7 @@ export class AuthService {
         localStorage.setItem("token", body.token);
         localStorage.setItem("user", body.user_fullname);
         localStorage.setItem("id", body.user_id);
+        localStorage.setItem("role_id", body.role_id);
 
         this.router.navigate(['/dashboard']);
         this.toastr.success('Acceso correcto');

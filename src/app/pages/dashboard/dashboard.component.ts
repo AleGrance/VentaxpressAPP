@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuarioLogueado = localStorage.getItem('id');
-    console.log('user id loqgueado', this.usuarioLogueado);
+    //console.log('user id loqgueado', this.usuarioLogueado);
 
     this.api.get("cliente")
       .pipe(map(data => {

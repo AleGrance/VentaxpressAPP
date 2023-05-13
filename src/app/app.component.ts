@@ -14,13 +14,27 @@ export class AppComponent {
   constructor(public api: ApiService, public authService: AuthService) {
 
   }
-  
+
   usuarioLogeado() {
     return localStorage.getItem('user')
   };
 
   ngOnInit() {
     this.title = this.api.url;
+    this.usuarioLogeadoRole();
+  }
+
+  usuarioLogeadoRole() {
+    let role_id: any = localStorage.getItem('role_id');
+    //console.log('Role ID', role_id);
+
+    if (parseFloat(role_id) === 1) {
+      //console.log('Es administrador');
+      return true;
+    } else {
+      //console.log('No es administrador');
+      return false;
+    }
   }
 
   logout() {

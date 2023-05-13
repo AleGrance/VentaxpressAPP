@@ -105,7 +105,7 @@ img {
     }
 
     body {
-        background-image: url(../../../assets/Arraial.jpg);
+        /*background-image: url(../../../assets/Arraial.jpg);*/
         background-repeat: no-repeat, repeat;
         background-size: cover;
     }
