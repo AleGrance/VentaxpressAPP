@@ -64,7 +64,11 @@ export class DashboardComponent implements OnInit {
 
   // Imagen del comprobante JPEG|PDF
   public image = '';
-  public doc = new jsPDF();
+  public doc = new jsPDF({
+    orientation: "landscape",
+    unit: "in",
+    format: [4, 2]
+  });
 
 
   ngOnInit(): void {
@@ -226,12 +230,23 @@ export class DashboardComponent implements OnInit {
 
   printToPDF() {
     let node = <HTMLInputElement>document.getElementById('comprobante');
+    console.log(node);
 
-    this.doc.html(node, {
-      callback: (doc) => {
-        doc.save('comprobante.pdf');
-      }
+    // this.doc.html(node, {
+    //   callback: (doc) => {
+    //     doc.save('comprobante.pdf');
+    //   }
+    // });
+
+    // Landscape export, 2×4 inches
+    const doc = new jsPDF({
+      orientation: "landscape",
+      unit: "in",
+      format: [4, 2]
     });
+
+    doc.html(node);
+    doc.save("two-by-four.pdf");
   }
 
 

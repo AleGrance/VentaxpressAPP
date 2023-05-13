@@ -11,15 +11,18 @@ export class AuthService {
   constructor(private apiService: ApiService, private router: Router, private toastr: ToastrService) { }
 
   login(user: any) {
-    let token: any;
+    let body: any;
     this.apiService.post('auth', user)
       .subscribe(data => {
-        token = data;
-        localStorage.setItem("token", token.token);
+        body = data;
+        //console.log(body);
+
+        localStorage.setItem("token", body.token);
+        localStorage.setItem("user", body.user_name);
+        localStorage.setItem("id", body.user_id);
+
         this.router.navigate(['/dashboard']);
         this.toastr.success('Acceso correcto');
-        console.log(user);
-        localStorage.setItem("user", user.user_name);
       }, error => {
         console.log(error.error);
         this.toastr.error(error.error.message);
