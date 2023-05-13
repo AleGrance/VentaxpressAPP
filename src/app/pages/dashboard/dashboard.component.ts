@@ -22,6 +22,7 @@ import html2canvas from 'html2canvas';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  usuarioLogueado: any;
   i: number = 0;
 
   constructor(public api: ApiService, private authService: AuthService, private toastr: ToastrService) {
@@ -72,6 +73,9 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.usuarioLogueado = localStorage.getItem('id');
+    console.log('user id loqgueado', this.usuarioLogueado);
+
     this.api.get("cliente")
       .pipe(map(data => {
         this.clientes = data;
@@ -171,7 +175,8 @@ export class DashboardComponent implements OnInit {
       monto_gravado_5: 0,
       iva_5: 0,
       exento: 0,
-      id_cliente: this.clienteSeleccionadoID
+      id_cliente: this.clienteSeleccionadoID,
+      user_id: parseFloat(this.usuarioLogueado)
     }
 
     console.log('Cabecera', objCabecera);
