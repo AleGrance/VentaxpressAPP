@@ -18,7 +18,7 @@ export class AuthService {
         //console.log(body);
 
         localStorage.setItem("token", body.token);
-        localStorage.setItem("user", body.user_name);
+        localStorage.setItem("user", body.user_fullname);
         localStorage.setItem("id", body.user_id);
 
         this.router.navigate(['/dashboard']);
@@ -34,6 +34,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('id');
     this.router.navigate(['/login']);
   }
 
