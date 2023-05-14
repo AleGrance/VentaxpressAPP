@@ -5,6 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 // Format
 import { CurrencyPipe, DatePipe } from '@angular/common'
 
+// Icons
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 // Error handlers
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -19,11 +22,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ConfiguracionComponent implements OnInit {
 
   constructor(public api: ApiService, public toastr: ToastrService) { }
+  // Icons
+  faPlus = faPlus;
+
   error: any;
 
   usuarios: any;
   cajas: any;
   arqueos: any;
+
+  tabSeleccionado: any;
 
   ngOnInit(): void {
     // this.api.get('users')
@@ -73,6 +81,11 @@ export class ConfiguracionComponent implements OnInit {
       })
 
 
+  }
+
+  onSelectTab(e: any) {
+    console.log(e.target.id);
+    this.tabSeleccionado = '';
   }
 
   showEditModal(u: any) {

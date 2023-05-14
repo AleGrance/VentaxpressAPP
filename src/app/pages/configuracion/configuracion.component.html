@@ -1,28 +1,33 @@
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#usuarios" role="tab" aria-controls="home"
-            aria-selected="true">Usuarios</a>
+        <a class="nav-link active" id="usuarios-tab" data-toggle="tab" href="#usuarios" role="tab"
+            aria-controls="usuarios" aria-selected="true" (click)="onSelectTab($event)">Usuarios</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#cajas" role="tab" aria-controls="profile"
-            aria-selected="false">Cajas</a>
+        <a class="nav-link" id="cajas-tab" data-toggle="tab" href="#cajas" role="tab" aria-controls="cajas"
+            aria-selected="false" (click)="onSelectTab($event)">Cajas</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#arqueos" role="tab" aria-controls="contact"
-            aria-selected="false">Arqueos</a>
+        <a class="nav-link" id="arqueos-tab" data-toggle="tab" href="#arqueos" role="tab" aria-controls="arqueos"
+            aria-selected="false" (click)="onSelectTab($event)">Arqueos</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#billetes" role="tab" aria-controls="contact"
-            aria-selected="false">Billetes</a>
+        <a class="nav-link" id="billetes-tab" data-toggle="tab" href="#billetes" role="tab" aria-controls="billetes"
+            aria-selected="false" (click)="onSelectTab($event)">Billetes</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#otros" role="tab" aria-controls="contact"
-            aria-selected="false">Otros</a>
+        <a class="nav-link" id="otros-tab" data-toggle="tab" href="#otros" role="tab" aria-controls="otros"
+            aria-selected="false" (click)="onSelectTab($event)">Otros</a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-    <!-- Table Users -->
+    <!-- Users -->
     <div class="tab-pane fade show active" id="usuarios" role="tabpanel" aria-labelledby="home-tab">
+        <!-- Button trigger modal -->
+        <button type="button" class="float" data-toggle="modal" data-target="#usuariosModal">
+            <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+        <!-- Table -->
         <table class="table table-sm table-hover table-dark">
             <thead>
                 <tr>
@@ -67,8 +72,13 @@
 
         </table>
     </div>
-    <!-- Table Cajas -->
+    <!-- Cajas -->
     <div class="tab-pane fade" id="cajas" role="cajas" aria-labelledby="profile-tab">
+        <!-- Button trigger modal -->
+        <button type="button" class="float" data-toggle="modal" data-target="#cajasModal">
+            <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+        <!-- Table -->
         <table class="table table-sm table-hover table-dark">
             <thead>
                 <tr>
@@ -129,10 +139,422 @@
 
         </table>
     </div>
-    <!-- Table Arqueos -->
-    <div class="tab-pane fade" id="arqueos" role="arqueos" aria-labelledby="contact-tab">Arqueos</div>
-    <!-- Table Billetes -->
-    <div class="tab-pane fade" id="billetes" role="arqueos" aria-labelledby="contact-tab">Billetes</div>
-    <!-- Table Otros -->
+    <!-- Arqueos -->
+    <div class="tab-pane fade" id="arqueos" role="arqueos" aria-labelledby="contact-tab">
+        <!-- Button trigger modal -->
+        <button type="button" class="float" data-toggle="modal" data-target="#arqueosModal">
+            <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+        Arqueos
+    </div>
+    <!-- Billetes -->
+    <div class="tab-pane fade" id="billetes" role="arqueos" aria-labelledby="contact-tab">
+        <!-- Button trigger modal -->
+        <button type="button" class="float" data-toggle="modal" data-target="#billetesModal">
+            <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+        Billetes
+    </div>
+    <!-- Otros -->
     <div class="tab-pane fade" id="otros" role="arqueos" aria-labelledby="contact-tab">Otros</div>
+</div>
+
+<!-- Modal ADD Usuarios -->
+<div class="modal fade" id="usuariosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <form [formGroup]="articuloForm" #formDir="ngForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" formControlName="nombre"
+                        aria-describedby="nombre" placeholder="Ingresar el nombre del articulo" required>
+
+                    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="alert alert-danger">
+                        <div *ngIf="nombre.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="nombre.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1">Descripción</label>
+                    <input type="descri" class="form-control" formControlName="descri" id="descri"
+                        aria-describedby="descri" placeholder="Ingresar descripción">
+
+                    <div *ngIf="descri.invalid && (descri.dirty || descri.touched)" class="alert alert-danger">
+                        <div *ngIf="descri.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="descri.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Costo</label>
+                    <input type="text" class="form-control" formControlName="costo" id="costo"
+                        placeholder="Ingrese el costo" maxlength="8">
+
+                    <div *ngIf="costo.invalid && (costo.dirty || costo.touched)" class="alert alert-danger">
+                        <div *ngIf="costo.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="costo.errors?.minlength">
+                            Debe tener al menos 8 dígitos.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Precio</label>
+                    <input type="text" class="form-control" formControlName="precio" id="precio"
+                        placeholder="Ingrese el precio">
+
+                    <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="alert alert-danger">
+                        <div *ngIf="precio.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="precio.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Cantidad disponible</label>
+                    <input type="text" class="form-control" formControlName="cantidad" id="cantidad"
+                        placeholder="Ingrese la cantidad disponible">
+
+                    <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="cantidad.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="cantidad.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                        <div *ngIf="cantidad.errors?.min">
+                            Debe tener al menos 1 en cantidad.
+                        </div>
+                    </div>
+                </div>
+            
+                <button type="submit" class="btn btn-primary" [disabled]="articuloForm.invalid"
+                    (click)="submit()">Grabar</button>
+
+                <div *ngIf="formDir.submitted">
+                </div>
+            </form> -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal ADD Cajas -->
+<div class="modal fade" id="cajasModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Caja</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <form [formGroup]="articuloForm" #formDir="ngForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" formControlName="nombre"
+                        aria-describedby="nombre" placeholder="Ingresar el nombre del articulo" required>
+
+                    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="alert alert-danger">
+                        <div *ngIf="nombre.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="nombre.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1">Descripción</label>
+                    <input type="descri" class="form-control" formControlName="descri" id="descri"
+                        aria-describedby="descri" placeholder="Ingresar descripción">
+
+                    <div *ngIf="descri.invalid && (descri.dirty || descri.touched)" class="alert alert-danger">
+                        <div *ngIf="descri.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="descri.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Costo</label>
+                    <input type="text" class="form-control" formControlName="costo" id="costo"
+                        placeholder="Ingrese el costo" maxlength="8">
+
+                    <div *ngIf="costo.invalid && (costo.dirty || costo.touched)" class="alert alert-danger">
+                        <div *ngIf="costo.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="costo.errors?.minlength">
+                            Debe tener al menos 8 dígitos.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Precio</label>
+                    <input type="text" class="form-control" formControlName="precio" id="precio"
+                        placeholder="Ingrese el precio">
+
+                    <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="alert alert-danger">
+                        <div *ngIf="precio.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="precio.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Cantidad disponible</label>
+                    <input type="text" class="form-control" formControlName="cantidad" id="cantidad"
+                        placeholder="Ingrese la cantidad disponible">
+
+                    <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="cantidad.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="cantidad.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                        <div *ngIf="cantidad.errors?.min">
+                            Debe tener al menos 1 en cantidad.
+                        </div>
+                    </div>
+                </div>
+            
+                <button type="submit" class="btn btn-primary" [disabled]="articuloForm.invalid"
+                    (click)="submit()">Grabar</button>
+
+                <div *ngIf="formDir.submitted">
+                </div>
+            </form> -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal ADD Arqueos -->
+<div class="modal fade" id="arqueosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Arqueo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <form [formGroup]="articuloForm" #formDir="ngForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" formControlName="nombre"
+                        aria-describedby="nombre" placeholder="Ingresar el nombre del articulo" required>
+
+                    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="alert alert-danger">
+                        <div *ngIf="nombre.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="nombre.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1">Descripción</label>
+                    <input type="descri" class="form-control" formControlName="descri" id="descri"
+                        aria-describedby="descri" placeholder="Ingresar descripción">
+
+                    <div *ngIf="descri.invalid && (descri.dirty || descri.touched)" class="alert alert-danger">
+                        <div *ngIf="descri.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="descri.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Costo</label>
+                    <input type="text" class="form-control" formControlName="costo" id="costo"
+                        placeholder="Ingrese el costo" maxlength="8">
+
+                    <div *ngIf="costo.invalid && (costo.dirty || costo.touched)" class="alert alert-danger">
+                        <div *ngIf="costo.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="costo.errors?.minlength">
+                            Debe tener al menos 8 dígitos.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Precio</label>
+                    <input type="text" class="form-control" formControlName="precio" id="precio"
+                        placeholder="Ingrese el precio">
+
+                    <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="alert alert-danger">
+                        <div *ngIf="precio.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="precio.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Cantidad disponible</label>
+                    <input type="text" class="form-control" formControlName="cantidad" id="cantidad"
+                        placeholder="Ingrese la cantidad disponible">
+
+                    <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="cantidad.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="cantidad.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                        <div *ngIf="cantidad.errors?.min">
+                            Debe tener al menos 1 en cantidad.
+                        </div>
+                    </div>
+                </div>
+            
+                <button type="submit" class="btn btn-primary" [disabled]="articuloForm.invalid"
+                    (click)="submit()">Grabar</button>
+
+                <div *ngIf="formDir.submitted">
+                </div>
+            </form> -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal ADD Billetes -->
+<div class="modal fade" id="billetesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Billete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <form [formGroup]="articuloForm" #formDir="ngForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" formControlName="nombre"
+                        aria-describedby="nombre" placeholder="Ingresar el nombre del articulo" required>
+
+                    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="alert alert-danger">
+                        <div *ngIf="nombre.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="nombre.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1">Descripción</label>
+                    <input type="descri" class="form-control" formControlName="descri" id="descri"
+                        aria-describedby="descri" placeholder="Ingresar descripción">
+
+                    <div *ngIf="descri.invalid && (descri.dirty || descri.touched)" class="alert alert-danger">
+                        <div *ngIf="descri.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="descri.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Costo</label>
+                    <input type="text" class="form-control" formControlName="costo" id="costo"
+                        placeholder="Ingrese el costo" maxlength="8">
+
+                    <div *ngIf="costo.invalid && (costo.dirty || costo.touched)" class="alert alert-danger">
+                        <div *ngIf="costo.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="costo.errors?.minlength">
+                            Debe tener al menos 8 dígitos.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Precio</label>
+                    <input type="text" class="form-control" formControlName="precio" id="precio"
+                        placeholder="Ingrese el precio">
+
+                    <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="alert alert-danger">
+                        <div *ngIf="precio.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="precio.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Cantidad disponible</label>
+                    <input type="text" class="form-control" formControlName="cantidad" id="cantidad"
+                        placeholder="Ingrese la cantidad disponible">
+
+                    <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="cantidad.errors?.required">
+                            Campo requerido.
+                        </div>
+                        <div *ngIf="cantidad.errors?.minlength">
+                            Debe tener al menos 4 caraceres.
+                        </div>
+                        <div *ngIf="cantidad.errors?.min">
+                            Debe tener al menos 1 en cantidad.
+                        </div>
+                    </div>
+                </div>
+            
+                <button type="submit" class="btn btn-primary" [disabled]="articuloForm.invalid"
+                    (click)="submit()">Grabar</button>
+
+                <div *ngIf="formDir.submitted">
+                </div>
+            </form> -->
+            </div>
+
+        </div>
+    </div>
 </div>
