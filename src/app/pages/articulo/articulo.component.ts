@@ -99,13 +99,7 @@ export class ArticuloComponent implements OnInit {
       ])
     });
 
-    // Trae datos del api
-    this.api.get('articulo')
-      .pipe(map(data => {
-        this.articulos = data;
-        console.log(this.articulos);
-      }))
-      .subscribe()
+    this.getArticulos();
   }
 
   // Validaciones para Add
@@ -147,8 +141,8 @@ export class ArticuloComponent implements OnInit {
         // Se actualiza la vista html si el result retorna un objeto, significa que inserto en la bd. De lo contrario muestra el mensaje de error que retorna el server
         if (typeof result === 'object') {
           this.toastr.success('Articulo registrado');
-          // Llama a la funcion onInit que agrega a la lista el cliente registrado
-          this.ngOnInit();
+          // Llama a la funcion para actualizar la lista
+          this.getArticulos();
           // Funcion para resetear el formulario
           this.articuloForm.reset();
         } else {
@@ -252,4 +246,13 @@ export class ArticuloComponent implements OnInit {
 
   }
 
+  getArticulos() {
+    // Trae datos del api
+    this.api.get('articulo')
+      .pipe(map(data => {
+        this.articulos = data;
+        console.log(this.articulos);
+      }))
+      .subscribe()
+  }
 }
