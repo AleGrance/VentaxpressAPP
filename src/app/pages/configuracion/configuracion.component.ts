@@ -2,6 +2,9 @@ import { Component, OnInit, } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 
+// Format
+import { CurrencyPipe, DatePipe } from '@angular/common'
+
 // Error handlers
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -42,18 +45,42 @@ export class ConfiguracionComponent implements OnInit {
     //     //console.log(estedata);
     //   });
 
-    let body: any;
     this.api.get('users')
       .subscribe(data => {
-        body = data;
-        console.log(body);
-        this.toastr.success('Se obtuvieron los datos!');
+        this.usuarios = data;
+        //console.log(this.usuarios);
+      }, error => {
+        console.log(error);
+        this.toastr.error(error.message, `Server ERROR: ${error.status}`);
+      })
+
+    this.api.get('caja')
+      .subscribe(data => {
+        this.cajas = data;
+        //console.log(this.usuarios);
+      }, error => {
+        console.log(error);
+        this.toastr.error(error.message, `Server ERROR: ${error.status}`);
+      })
+
+    this.api.get('arqueo')
+      .subscribe(data => {
+        this.arqueos = data;
+        //console.log(this.usuarios);
       }, error => {
         console.log(error);
         this.toastr.error(error.message, `Server ERROR: ${error.status}`);
       })
 
 
+  }
+
+  showEditModal(u: any) {
+    console.log(u);
+  }
+
+  delete(u: any) {
+    console.log(u);
   }
 
 }

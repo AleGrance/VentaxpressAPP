@@ -1,16 +1,138 @@
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Usuarios</a>
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#usuarios" role="tab" aria-controls="home"
+            aria-selected="true">Usuarios</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Cajas</a>
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#cajas" role="tab" aria-controls="profile"
+            aria-selected="false">Cajas</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Arqueos</a>
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#arqueos" role="tab" aria-controls="contact"
+            aria-selected="false">Arqueos</a>
     </li>
-  </ul>
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
-  </div>
+    <li class="nav-item">
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#billetes" role="tab" aria-controls="contact"
+            aria-selected="false">Billetes</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#otros" role="tab" aria-controls="contact"
+            aria-selected="false">Otros</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <!-- Table Users -->
+    <div class="tab-pane fade show active" id="usuarios" role="tabpanel" aria-labelledby="home-tab">
+        <table class="table table-sm table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col"></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of usuarios">
+                    <th scope="row">{{u.user_id}}</th>
+                    <td>{{u.user_name}}</td>
+                    <td>{{u.user_fullname}}</td>
+                    <td>{{u.user_email}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Opciones
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <!-- <a class="dropdown-item" [routerLink]="['/factura-compra', con.id_articulo]">Cargar Fact
+                                compra</a>
+                            <a class="dropdown-item" [routerLink]="['/factura-venta', con.id_articulo]">Cargar Fact
+                                venta</a>
+                            <a class="dropdown-item" [routerLink]="['/reporte-compra', con.id_articulo]">Reporte de
+                                compras</a>
+                            <a class="dropdown-item" [routerLink]="['/reporte-venta', con.id_articulo]">Reporte de
+                                ventas</a> -->
+                                <a class="dropdown-item" data-toggle="modal" data-target="#editModal"
+                                    (click)="showEditModal(u)">Editar</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" (click)="delete(u)">Eliminar</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <!-- Table Cajas -->
+    <div class="tab-pane fade" id="cajas" role="cajas" aria-labelledby="profile-tab">
+        <table class="table table-sm table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Fecha Apertura</th>
+                    <th scope="col">Fecha Cierre</th>
+                    <th scope="col">Total Venta</th>
+                    <th scope="col">Total Devoluciones</th>
+                    <th scope="col">Total Efectivo</th>
+                    <th scope="col">Total Tarjeta</th>
+                    <th scope="col">Total Cheque</th>
+                    <th scope="col">Total Cupones</th>
+                    <th scope="col">Cambio Inicial</th>
+                    <th scope="col">Cambio Final</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col"></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of cajas">
+                    <th scope="row">{{u.id_caja}}</th>
+                    <td>{{u.fecha_apertura | date:'dd-MM-yyyy HH:mm'}}</td>
+                    <td>{{u.fecha_cierre | date:'dd-MM-yyyy HH:mm'}}</td>
+                    <td>{{u.total_ventas}}</td>
+                    <td>{{u.total_devoluciones}}</td>
+                    <td>{{u.total_efectivo}}</td>
+                    <td>{{u.total_tarjeta}}</td>
+                    <td>{{u.total_cheques}}</td>
+                    <td>{{u.total_cupones}}</td>
+                    <td>{{u.cambio_inicial}}</td>
+                    <td>{{u.cambio_final}}</td>
+                    <td>{{u.Estado.descripcion_estado}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Opciones
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <!-- <a class="dropdown-item" [routerLink]="['/factura-compra', con.id_articulo]">Cargar Fact
+                                compra</a>
+                            <a class="dropdown-item" [routerLink]="['/factura-venta', con.id_articulo]">Cargar Fact
+                                venta</a>
+                            <a class="dropdown-item" [routerLink]="['/reporte-compra', con.id_articulo]">Reporte de
+                                compras</a>
+                            <a class="dropdown-item" [routerLink]="['/reporte-venta', con.id_articulo]">Reporte de
+                                ventas</a> -->
+                                <a class="dropdown-item" data-toggle="modal" data-target="#editModal"
+                                    (click)="showEditModal(u)">Editar</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" (click)="delete(u)">Eliminar</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <!-- Table Arqueos -->
+    <div class="tab-pane fade" id="arqueos" role="arqueos" aria-labelledby="contact-tab">Arqueos</div>
+    <!-- Table Billetes -->
+    <div class="tab-pane fade" id="billetes" role="arqueos" aria-labelledby="contact-tab">Billetes</div>
+    <!-- Table Otros -->
+    <div class="tab-pane fade" id="otros" role="arqueos" aria-labelledby="contact-tab">Otros</div>
+</div>
