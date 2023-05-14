@@ -14,6 +14,7 @@ import { ReporteCompraComponent } from './pages/reporte-compra/reporte-compra.co
 import { ReporteVentaComponent } from './pages/reporte-venta/reporte-venta.component';
 import { ReporteComponent } from './pages/reporte/reporte.component';
 import { ArticuloComponent } from './pages/articulo/articulo.component';
+import { ConfiguracionComponent } from './pages/configuracion/configuracion.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
   },
   {
     path: 'articulo_component', component: ArticuloComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'configuracion_component', component: ConfiguracionComponent,
     canActivate: [AuthGuard]
   },
   {

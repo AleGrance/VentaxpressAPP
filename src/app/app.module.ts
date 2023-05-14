@@ -24,6 +24,7 @@ import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ArticuloComponent } from './pages/articulo/articulo.component';
+import { ConfiguracionComponent } from './pages/configuracion/configuracion.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ArticuloComponent } from './pages/articulo/articulo.component';
     ReporteCompraComponent,
     ReporteVentaComponent,
     DashboardComponent,
-    ArticuloComponent
+    ArticuloComponent,
+    ConfiguracionComponent
   ],
   imports: [
     BrowserModule,
