@@ -27,6 +27,8 @@ export class ConfiguracionComponent implements OnInit {
 
   error: any;
 
+  usuarioLogeadoRole: boolean = false;
+
   usuarios: any;
   cajas: any;
   arqueos: any;
@@ -34,6 +36,7 @@ export class ConfiguracionComponent implements OnInit {
   tabSeleccionado: any;
 
   ngOnInit(): void {
+    this.getUsuarioLogeadoRole();
     // this.api.get('users')
     //   .pipe(
     //     catchError((error: HttpErrorResponse) => {
@@ -81,6 +84,19 @@ export class ConfiguracionComponent implements OnInit {
       })
 
 
+  }
+
+  getUsuarioLogeadoRole() {
+    let role_id: any = localStorage.getItem('role_id');
+    console.log('Role ID', role_id);
+
+    if (parseFloat(role_id) === 1) {
+      //console.log('Es administrador');
+      this.usuarioLogeadoRole = true;
+    } else {
+      //console.log('No es administrador');
+      this.usuarioLogeadoRole = false;
+    }
   }
 
   onSelectTab(e: any) {

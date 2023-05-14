@@ -1,28 +1,28 @@
 <ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" id="usuarios-tab" data-toggle="tab" href="#usuarios" role="tab"
+    <li class="nav-item" *ngIf="usuarioLogeadoRole">
+        <a class="nav-link" [ngClass]="{'active': usuarioLogeadoRole}" id="usuarios-tab" data-toggle="tab" href="#usuarios" role="tab"
             aria-controls="usuarios" aria-selected="true" (click)="onSelectTab($event)">Usuarios</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="usuarioLogeadoRole">
         <a class="nav-link" id="cajas-tab" data-toggle="tab" href="#cajas" role="tab" aria-controls="cajas"
             aria-selected="false" (click)="onSelectTab($event)">Cajas</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="arqueos-tab" data-toggle="tab" href="#arqueos" role="tab" aria-controls="arqueos"
+        <a class="nav-link" [ngClass]="{'active': !usuarioLogeadoRole}" id="arqueos-tab" data-toggle="tab" href="#arqueos" role="tab" aria-controls="arqueos"
             aria-selected="false" (click)="onSelectTab($event)">Arqueos</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" id="billetes-tab" data-toggle="tab" href="#billetes" role="tab" aria-controls="billetes"
             aria-selected="false" (click)="onSelectTab($event)">Billetes</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="usuarioLogeadoRole">
         <a class="nav-link" id="otros-tab" data-toggle="tab" href="#otros" role="tab" aria-controls="otros"
             aria-selected="false" (click)="onSelectTab($event)">Otros</a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
     <!-- Users -->
-    <div class="tab-pane fade show active" id="usuarios" role="tabpanel" aria-labelledby="home-tab">
+    <div class="tab-pane fade" [ngClass]="{'show active': usuarioLogeadoRole}" id="usuarios" role="tabpanel" aria-labelledby="home-tab">
         <!-- Button trigger modal -->
         <button type="button" class="float" data-toggle="modal" data-target="#usuariosModal">
             <fa-icon [icon]="faPlus"></fa-icon>
@@ -140,7 +140,7 @@
         </table>
     </div>
     <!-- Arqueos -->
-    <div class="tab-pane fade" id="arqueos" role="arqueos" aria-labelledby="contact-tab">
+    <div class="tab-pane fade" [ngClass]="{'show active': !usuarioLogeadoRole}" id="arqueos" role="arqueos" aria-labelledby="contact-tab">
         <!-- Button trigger modal -->
         <button type="button" class="float" data-toggle="modal" data-target="#arqueosModal">
             <fa-icon [icon]="faPlus"></fa-icon>
