@@ -2,17 +2,21 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
 import { ToastrService } from 'ngx-toastr';
+// Error handlers
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private apiService: ApiService, private router: Router, private toastr: ToastrService) { }
+  constructor(private api: ApiService, private router: Router, private toastr: ToastrService) { }
 
   login(user: any) {
     let body: any;
-    this.apiService.post('auth', user)
+    this.api.post('auth', user)
       .subscribe(data => {
         body = data;
         //console.log(body);
@@ -25,8 +29,12 @@ export class AuthService {
         this.router.navigate(['/dashboard']);
         this.toastr.success('Acceso correcto');
       }, error => {
-        console.log(error.error);
-        this.toastr.error(error.error.message);
+        if (error.status === 0) {
+          this.toastr.error(error.message, `Server ERROR: ${error.status}`);
+        } else {
+          this.toastr.error(error.error.message, `Server ERROR: ${error.status}`);
+        }
+        console.log(error);
       })
   }
 
