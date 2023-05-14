@@ -149,6 +149,10 @@ export class ConfiguracionComponent implements OnInit {
       cambio_final: new FormControl(0, [
         Validators.required,
         Validators.minLength(1)
+      ]),
+      user_id: new FormControl('Seleccione un usuario', [
+        Validators.required,
+        Validators.minLength(1)
       ])
     });
   }
@@ -165,11 +169,12 @@ export class ConfiguracionComponent implements OnInit {
   get totalVentas() { return this.cajaForm.get('total_ventas'); }
   get totalDevoluciones() { return this.cajaForm.get('total_devoluciones'); }
   get totalEfectivo() { return this.cajaForm.get('total_efectivo'); }
-  get totalTarjetas() { return this.cajaForm.get('total_tarjeta'); }
+  get totalTarjeta() { return this.cajaForm.get('total_tarjeta'); }
   get totalCheques() { return this.cajaForm.get('total_cheques'); }
   get totalCupones() { return this.cajaForm.get('total_cupones'); }
   get cambioInicial() { return this.cajaForm.get('cambio_inicial'); }
-  get CambioFinal() { return this.cajaForm.get('cambio_final'); }
+  get cambioFinal() { return this.cajaForm.get('cambio_final'); }
+  get userId() { return this.cajaForm.get('user_id'); }
 
   submitUsuario() {
     let objUsuario = {
@@ -226,35 +231,39 @@ export class ConfiguracionComponent implements OnInit {
 
     console.log(objCaja);
 
-    this.api.post('caja', objCaja)
-      .subscribe(data => {
-        let result: any = data;
+    // this.api.post('caja', objCaja)
+    //   .subscribe(data => {
+    //     let result: any = data;
 
-        if (result.status === 'success') {
-          this.toastr.success('Caja registrado');
-          //console.log('Success', result);
-          // Llama a la funcion onInit que agrega a la lista el cliente registrado
-          this.getAllData();
-          // Funcion para resetear el formulario
-          this.cajaForm.reset();
-        }
+    //     if (result.status === 'success') {
+    //       this.toastr.success('Caja registrado');
+    //       //console.log('Success', result);
+    //       // Llama a la funcion onInit que agrega a la lista el cliente registrado
+    //       this.getAllData();
+    //       // Funcion para resetear el formulario
+    //       this.cajaForm.reset();
+    //     }
 
-        if (result.status === 'error') {
-          this.toastr.error(result.body[0].message, 'Error');
-          //console.log('Error', result);
-        }
+    //     if (result.status === 'error') {
+    //       this.toastr.error(result.body[0].message, 'Error');
+    //       //console.log('Error', result);
+    //     }
 
-        //this.usuarios = data;
-        console.log(data);
-      }, error => {
-        console.log(error);
-        this.toastr.error(error.message, `Server ERROR: ${error.status}`);
-      })
+    //     //this.usuarios = data;
+    //     console.log(data);
+    //   }, error => {
+    //     console.log(error);
+    //     this.toastr.error(error.message, `Server ERROR: ${error.status}`);
+    //   })
   }
 
   onSelectTab(e: any) {
     console.log(e.target.id);
     this.tabSeleccionado = '';
+  }
+
+  onSelectUsuario(e: any) {
+    console.log(e);
   }
 
   showEditModal(u: any) {

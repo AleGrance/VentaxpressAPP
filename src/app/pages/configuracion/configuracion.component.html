@@ -197,7 +197,8 @@
                         <input type="text" class="form-control" formControlName="user_fullname" id="fullname"
                             aria-describedby="fullname" placeholder="Ingresar nombre completo">
 
-                        <div *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)" class="alert alert-danger">
+                        <div *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)"
+                            class="alert alert-danger">
                             <div *ngIf="fullname.errors?.required">
                                 Campo requerido.
                             </div>
@@ -211,7 +212,8 @@
                         <input type="text" class="form-control" formControlName="user_password" id="password"
                             placeholder="Ingrese la contraseña" maxlength="8">
 
-                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                        <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                            class="alert alert-danger">
                             <div *ngIf="password.errors?.required">
                                 Campo requerido.
                             </div>
@@ -259,88 +261,177 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- <form [formGroup]="articuloForm" #formDir="ngForm">
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" formControlName="nombre"
-                        aria-describedby="nombre" placeholder="Ingresar el nombre del articulo" required>
+                <form [formGroup]="cajaForm" #formDir="ngForm">
+                    <div class="form-group">
+                        <label for="fechaApertura">Fecha Apertura</label>
+                        <input type="date" class="form-control" id="fechaApertura" formControlName="fecha_apertura"
+                            aria-describedby="fechaApertura" required>
 
-                    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="alert alert-danger">
-                        <div *ngIf="nombre.errors?.required">
-                            Campo requerido.
-                        </div>
-                        <div *ngIf="nombre.errors?.minlength">
-                            Debe tener al menos 4 caraceres.
+                        <div *ngIf="fechaApertura.invalid && (fechaApertura.dirty || fechaApertura.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="fechaApertura.errors?.required">
+                                Campo requerido.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInput1">Descripción</label>
-                    <input type="descri" class="form-control" formControlName="descri" id="descri"
-                        aria-describedby="descri" placeholder="Ingresar descripción">
+                    <div class="form-group">
+                        <label for="fechaCierre">Fecha Cierre</label>
+                        <input type="date" class="form-control" id="fechaCierre" formControlName="fecha_cierre"
+                            aria-describedby="fechaCierre">
 
-                    <div *ngIf="descri.invalid && (descri.dirty || descri.touched)" class="alert alert-danger">
-                        <div *ngIf="descri.errors?.required">
-                            Campo requerido.
-                        </div>
-                        <div *ngIf="descri.errors?.minlength">
-                            Debe tener al menos 4 caraceres.
+                        <div *ngIf="fechaCierre.invalid && (fechaCierre.dirty || fechaCierre.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="fechaCierre.errors?.required">
+                                Campo requerido.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Costo</label>
-                    <input type="text" class="form-control" formControlName="costo" id="costo"
-                        placeholder="Ingrese el costo" maxlength="8">
+                    <div class="form-group">
+                        <label for="totalVentas">Total Ventas</label>
+                        <input type="number" class="form-control" id="totalVentas" formControlName="total_ventas"
+                            placeholder="Ingrese el total" maxlength="8">
 
-                    <div *ngIf="costo.invalid && (costo.dirty || costo.touched)" class="alert alert-danger">
-                        <div *ngIf="costo.errors?.required">
-                            Campo requerido.
-                        </div>
-                        <div *ngIf="costo.errors?.minlength">
-                            Debe tener al menos 8 dígitos.
+                        <div *ngIf="totalVentas.invalid && (totalVentas.dirty || totalVentas.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="totalVentas.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="totalVentas.errors?.minlength">
+                                Debe tener al menos 1 dígito.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Precio</label>
-                    <input type="text" class="form-control" formControlName="precio" id="precio"
-                        placeholder="Ingrese el precio">
+                    <div class="form-group">
+                        <label for="totalDevoluciones">Total Devoluciones</label>
+                        <input type="number" class="form-control" id="totalDevoluciones"
+                            formControlName="total_devoluciones" placeholder="Ingrese el total">
 
-                    <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="alert alert-danger">
-                        <div *ngIf="precio.errors?.required">
-                            Campo requerido.
-                        </div>
-                        <div *ngIf="precio.errors?.minlength">
-                            Debe tener al menos 4 caraceres.
+                        <div *ngIf="totalDevoluciones.invalid && (totalDevoluciones.dirty || totalDevoluciones.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="totalDevoluciones.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="totalDevoluciones.errors?.minlength">
+                                Debe tener al menos 1 dígito.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Cantidad disponible</label>
-                    <input type="text" class="form-control" formControlName="cantidad" id="cantidad"
-                        placeholder="Ingrese la cantidad disponible">
+                    <div class="form-group">
+                        <label for="totalEfectivo">Total Efectivo</label>
+                        <input type="number" class="form-control" id="totalEfectivo" formControlName="total_efectivo"
+                            placeholder="Ingrese el total">
 
-                    <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)"
-                        class="alert alert-danger">
-                        <div *ngIf="cantidad.errors?.required">
-                            Campo requerido.
-                        </div>
-                        <div *ngIf="cantidad.errors?.minlength">
-                            Debe tener al menos 4 caraceres.
-                        </div>
-                        <div *ngIf="cantidad.errors?.min">
-                            Debe tener al menos 1 en cantidad.
+                        <div *ngIf="totalEfectivo.invalid && (totalEfectivo.dirty || totalEfectivo.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="totalEfectivo.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="totalEfectivo.errors?.minlength">
+                                Debe tener al menos 1 dígito.
+                            </div>
                         </div>
                     </div>
-                </div>
-            
-                <button type="submit" class="btn btn-primary" [disabled]="articuloForm.invalid"
-                    (click)="submit()">Grabar</button>
 
-                <div *ngIf="formDir.submitted">
-                </div>
-            </form> -->
+                    <div class="form-group">
+                        <label for="totalTarjeta">Total Tarjeta</label>
+                        <input type="number" class="form-control" id="totalTarjeta" formControlName="total_tarjeta"
+                            placeholder="Ingrese el total">
+
+                        <div *ngIf="totalTarjeta.invalid && (totalTarjeta.dirty || totalTarjeta.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="totalTarjeta.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="totalTarjeta.errors?.minlength">
+                                Debe tener al menos 1 dígito.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="totalCheques">Total Cheques</label>
+                        <input type="number" class="form-control" id="totalCheques" formControlName="total_cheques"
+                            placeholder="Ingrese el total">
+
+                        <div *ngIf="totalCheques.invalid && (totalCheques.dirty || totalCheques.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="totalCheques.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="totalCheques.errors?.minlength">
+                                Debe tener al menos 1 dígito.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="totalCupones">Total Cheques</label>
+                        <input type="number" class="form-control" id="totalCupones" formControlName="total_cupones"
+                            placeholder="Ingrese el total">
+
+                        <div *ngIf="totalCupones.invalid && (totalCupones.dirty || totalCupones.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="totalCupones.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="totalCupones.errors?.minlength">
+                                Debe tener al menos 1 dígito.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cambioInicial">Cambio Inicial</label>
+                        <input type="number" class="form-control" id="cambioInicial" formControlName="cambio_inicial"
+                            placeholder="Ingrese el total">
+
+                        <div *ngIf="cambioInicial.invalid && (cambioInicial.dirty || cambioInicial.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="cambioInicial.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="cambioInicial.errors?.minlength">
+                                Debe tener al menos 1 dígito.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cambioFinal">Cambio Final</label>
+                        <input type="number" class="form-control" id="cambioFinal" formControlName="cambio_final"
+                            placeholder="Ingrese el total">
+
+                        <div *ngIf="cambioFinal.invalid && (cambioFinal.dirty || cambioFinal.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="cambioFinal.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="cambioFinal.errors?.minlength">
+                                Debe tener al menos 1 dígito.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userId">Usuario responsable</label>
+                        <ng-select (change)="onSelectUsuario($event)" formControlName="user_id">
+                            <ng-option *ngFor="let obj of usuarios" value="{{obj.user_id}}">
+                                {{obj.user_fullname}}</ng-option>
+                        </ng-select>
+
+                        <div *ngIf="userId.invalid && (userId.dirty || userId.touched)" class="alert alert-danger">
+                            <div *ngIf="userId.errors?.required">
+                                Campo requerido.
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="cajaForm.invalid"
+                        (click)="submitCaja()">Grabar</button>
+
+                    <div *ngIf="formDir.submitted">
+                    </div>
+                </form>
             </div>
 
         </div>
