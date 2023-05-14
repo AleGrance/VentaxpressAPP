@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
-import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
+// Format
+import { CurrencyPipe, registerLocaleData } from '@angular/common';
+import localeEsPy from '@angular/common/locales/es-PY';
+// Icons
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -40,7 +44,9 @@ export class ArticuloComponent implements OnInit {
     id_proveedor: 1,
   }
 
-  constructor(public api: ApiService, private toastr: ToastrService) { }
+  constructor(public api: ApiService, private toastr: ToastrService) {
+    registerLocaleData(localeEsPy);
+  }
 
   ngOnInit(): void {
     // Formulario de Add

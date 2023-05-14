@@ -250,9 +250,9 @@
                 <th scope="col">#</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Descripción</th>
-                <th scope="col">Costo</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Cantidad disponible</th>
+                <th scope="col" class="text-right">Costo</th>
+                <th scope="col" class="text-right">Precio</th>
+                <th scope="col" class="text-center">Cantidad disponible</th>
                 <th scope="col">Proveedor</th>
                 <th></th>
             </tr>
@@ -262,9 +262,9 @@
                 <th scope="row">{{con.id_articulo}}</th>
                 <td>{{con.nombre_articulo}}</td>
                 <td>{{con.descri_articulo}}</td>
-                <td>{{con.costo_articulo}}</td>
-                <td>{{con.precio_articulo}}</td>
-                <td>{{con.cant_disponible_articulo}}</td>
+                <td class="text-right">{{con.costo_articulo | currency:'':'':'1.0-0':'es-PY'}}</td>
+                <td class="text-right">{{con.precio_articulo | currency:'':'':'1.0-0':'es-PY'}}</td>
+                <td class="text-center">{{con.cant_disponible_articulo}}</td>
                 <td>{{con.Proveedor.nom_proveedor}}</td>
                 <td>
                     <div class="btn-group">
