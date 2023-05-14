@@ -75,7 +75,7 @@ export class ConfiguracionComponent implements OnInit {
         Validators.required,
         Validators.minLength(4)
       ]),
-      user_email: new FormControl('user@gmail.com', [
+      user_email: new FormControl('user@ventaxpress.com', [
         Validators.required,
         Validators.minLength(4)
       ])
