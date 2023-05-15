@@ -41,6 +41,7 @@ export class ConfiguracionComponent implements OnInit {
 
   // Forms
   public usuarioForm: any;
+  //public usuarioEditForm: any;
   public usuarioEditForm: any;
 
   public cajaForm: any;
@@ -87,21 +88,20 @@ export class ConfiguracionComponent implements OnInit {
       ])
     });
 
-    // Form EDIT Usuario
     this.usuarioEditForm = new FormGroup({
-      user_name_edit: new FormControl('user', [
+      user_name_edit: new FormControl('', [
         Validators.required,
         Validators.minLength(4)
       ]),
-      user_fullname_edit: new FormControl('Usuario', [
+      user_fullname_edit: new FormControl('', [
         Validators.required,
         Validators.minLength(4)
       ]),
-      user_password_edit: new FormControl('12345', [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      user_email_edit: new FormControl('user@ventaxpress.com', [
+      // user_password_edit: new FormControl(objUsuarioEdit.us, [
+      //   Validators.required,
+      //   Validators.minLength(4)
+      // ]),
+      user_email_edit: new FormControl('', [
         Validators.required,
         Validators.minLength(4)
       ])
@@ -163,6 +163,12 @@ export class ConfiguracionComponent implements OnInit {
   get fullname() { return this.usuarioForm.get('user_fullname'); }
   get password() { return this.usuarioForm.get('user_password'); }
   get email() { return this.usuarioForm.get('user_email'); }
+
+  // Validaciones para EDIT Usuario
+  get nameEdit() { return this.usuarioEditForm.get('user_name_edit'); }
+  get fullnameEdit() { return this.usuarioEditForm.get('user_fullname_edit'); }
+  //get passwordEdit() { return this.usuarioForm.get('user_password'); }
+  get emailEdit() { return this.usuarioEditForm.get('user_email_edit'); }
 
   // Validaciones para ADD Caja
   get fechaApertura() { return this.cajaForm.get('fecha_apertura'); }
@@ -265,7 +271,21 @@ export class ConfiguracionComponent implements OnInit {
     console.log(e);
   }
 
-  showEditModal(u: any) {
+  showEditUserModal(e: any) {
+    let objUsuarioEdit = {
+      user_name: e.user_name,
+      user_fullname: e.user_fullname,
+      user_email: e.user_email,
+    }
+
+    this.usuarioEditForm.get('user_name_edit').setValue(objUsuarioEdit.user_name);
+    this.usuarioEditForm.get('user_fullname_edit').setValue(objUsuarioEdit.user_fullname);
+    this.usuarioEditForm.get('user_email_edit').setValue(objUsuarioEdit.user_email);
+
+    //console.log(this.usuarioEditForm.value);
+  }
+
+  showEditCajaModal(u: any) {
     console.log(u);
   }
 
@@ -311,7 +331,7 @@ export class ConfiguracionComponent implements OnInit {
     this.api.get('caja')
       .subscribe(data => {
         this.cajas = data;
-        console.log(this.cajas);
+        //console.log(this.cajas);
       }, error => {
         console.log(error);
         this.toastr.error(error.message, `Server ERROR: ${error.status}`);
