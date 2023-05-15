@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from './services/auth.service';
 
+import { map } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-root',
@@ -10,6 +13,9 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'client';
+  usuarioLogueado: any;
+  cajaId: any;
+
 
   constructor(public api: ApiService, public authService: AuthService) {
 
@@ -21,7 +27,26 @@ export class AppComponent {
 
   ngOnInit() {
     this.title = this.api.url;
-    //this.usuarioLogeadoRole();
+    // Se obtiene el ID de la caja para poder acceder al nav de Reporte y pasar por routerlink el param para ver lo de esa caja
+    this.usuarioLogueado = localStorage.getItem('id');
+    this.checkCaja();
+  }
+
+  checkCaja() {
+    this.api.get("cajaByUser/" + this.usuarioLogueado)
+      .pipe(map(data => {
+        const result: any = data;
+
+        if (result.status === null) {
+          //this.cajaExist = false;
+        } else {
+          this.cajaId = result.body.id_caja;
+          console.log('Caja Id desde app component', this.cajaId);
+        }
+      }))
+      .subscribe()
+
+
   }
 
   // usuarioLogeadoRole() {

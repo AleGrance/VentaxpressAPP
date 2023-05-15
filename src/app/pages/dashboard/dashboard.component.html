@@ -109,7 +109,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary" [disabled]="!cajaExist" id="btn_guardar" (click)="save()">Guardar</button>
-                    <button type="button" class="btn btn-info" data-toggle="modal"
+                    <button type="button" class="btn btn-info" [disabled]="!cajaExist" data-toggle="modal"
                         data-target="#comprobanteModal">Imprimir
                         Comprobante</button>
                 </div>

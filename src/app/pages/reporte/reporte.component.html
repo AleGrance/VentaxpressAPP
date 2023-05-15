@@ -6,6 +6,7 @@
             <th scope="col">Total</th>
             <th scope="col">Cliente</th>
             <th scope="col">Usuario</th>
+            <th scope="col">Caja</th>
             <th scope="col"></th>
         </tr>
     </thead>
@@ -16,6 +17,7 @@
             <td>{{c.total_venta | currency:'':'':'1.0-0':'es-PY'}}</td>
             <td>{{c.Cliente.razon_social_cliente}}</td>
             <td>{{c.User.user_fullname}}</td>
+            <td>{{c.Caja.id_caja}}</td>
             <!-- <td><button type="button" class="btn btn-primary"><fa-icon [icon]="faEye"></fa-icon></button></td> -->
             <td><button type="button" class="btn btn-primary" (click)="showDetalle(c)" data-toggle="modal"
                 data-target="#detalleModal">Detalle</button></td>

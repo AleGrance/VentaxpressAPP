@@ -196,7 +196,8 @@ export class DashboardComponent implements OnInit {
       iva_5: 0,
       exento: 0,
       id_cliente: this.clienteSeleccionadoID,
-      user_id: parseFloat(this.usuarioLogueado)
+      user_id: parseFloat(this.usuarioLogueado),
+      id_caja: this.cajaId
     }
 
     console.log('Cabecera', objCabecera);
