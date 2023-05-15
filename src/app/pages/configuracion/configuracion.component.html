@@ -419,7 +419,7 @@
                     <div class="form-group">
                         <label for="userId">Usuario responsable</label>
                         <ng-select (change)="onSelectUsuario($event)" formControlName="user_id">
-                            <ng-option *ngFor="let obj of usuarios" value="{{obj.user_id}}">
+                            <ng-option *ngFor="let obj of usuariosCaja" value="{{obj.user_id}}">
                                 {{obj.user_fullname}}</ng-option>
                         </ng-select>
 

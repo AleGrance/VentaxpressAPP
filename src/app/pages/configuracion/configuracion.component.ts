@@ -31,6 +31,7 @@ export class ConfiguracionComponent implements OnInit {
   usuarioLogeadoRole: boolean = false;
 
   usuarios: any;
+  usuariosCaja: any;
   roles: any;
   cajas: any;
   arqueos: any;
@@ -276,11 +277,27 @@ export class ConfiguracionComponent implements OnInit {
     this.api.get('users')
       .subscribe(data => {
         this.usuarios = data;
+        let usuariosCajaArray = []
         //console.log(this.usuarios);
+        for (let u of this.usuarios) {
+          if (u.role_id === 2) {
+            usuariosCajaArray.push(u);
+          }
+        }
+        this.usuariosCaja = usuariosCajaArray;
       }, error => {
         console.log(error);
         this.toastr.error(error.message, `Server ERROR: ${error.status}`);
       })
+
+    // this.api.get('usersCaja')
+    //   .subscribe(data => {
+    //     this.usuariosCaja = data;
+    //     //console.log(this.usuarios);
+    //   }, error => {
+    //     console.log(error);
+    //     this.toastr.error(error.message, `Server ERROR: ${error.status}`);
+    //   })
 
     this.api.get('roles')
       .subscribe(data => {
