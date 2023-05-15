@@ -36,14 +36,14 @@ export class DashboardComponent implements OnInit {
   public hoyFormated = this.pipe.transform(this.hoy, 'dd-MM-yyyy')
   // Icons
   faTrash = faTrash;
-  //public contribuyentes: any;
+
   public clientes: any;
   public clienteSeleccionadoID: any;
   public articulos: any;
   public totalCabeceras: any;
   public nroComprobante: any;
-  //public proveedores: any;
-  //public fullData: number[] = [];
+  public cajaId: any;
+  public cajaExist: boolean = false;
 
   public filasProductos = [
     { articulo: '', precio: 0, cantidad: 0, subtotal: 0 }
@@ -75,6 +75,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.usuarioLogueado = localStorage.getItem('id');
     //console.log('user id loqgueado', this.usuarioLogueado);
+    this.checkCaja();
 
     this.api.get("cliente")
       .pipe(map(data => {
@@ -120,6 +121,24 @@ export class DashboardComponent implements OnInit {
 
       // No se agregan los demas porque funciona solo con los inputs donde se escriben no donde son readonly
     });
+  }
+
+  checkCaja() {
+    this.api.get("cajaByUser/" + 5)
+      .pipe(map(data => {
+        const cajaExist = data;
+
+        if (cajaExist === 0) {
+          this.toastr.warning('Necesita habilitar una caja antes de operar las ventas', 'Atención!');
+          this.cajaExist = false;
+        } else {
+          this.toastr.info('Tiene una caja habilitada, puede operar las ventas', 'Info!');
+          this.cajaExist = true;
+        }
+      }))
+      .subscribe()
+
+
   }
 
   get cliente_getter() { return this.facturaForm.get('cliente'); }
