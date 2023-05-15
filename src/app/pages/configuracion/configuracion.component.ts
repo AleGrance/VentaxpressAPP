@@ -98,10 +98,10 @@ export class ConfiguracionComponent implements OnInit {
         Validators.required,
         Validators.minLength(4)
       ]),
-      // user_password_edit: new FormControl(objUsuarioEdit.us, [
-      //   Validators.required,
-      //   Validators.minLength(4)
-      // ]),
+      user_password_edit: new FormControl('', [
+        //Validators.required,
+        //Validators.minLength(4)
+      ]),
       user_email_edit: new FormControl('', [
         Validators.required,
         Validators.minLength(4)
@@ -168,7 +168,7 @@ export class ConfiguracionComponent implements OnInit {
   // Validaciones para EDIT Usuario
   get nameEdit() { return this.usuarioEditForm.get('user_name_edit'); }
   get fullnameEdit() { return this.usuarioEditForm.get('user_fullname_edit'); }
-  //get passwordEdit() { return this.usuarioForm.get('user_password'); }
+  get passwordEdit() { return this.usuarioForm.get('user_password'); }
   get emailEdit() { return this.usuarioEditForm.get('user_email_edit'); }
 
   // Validaciones para ADD Caja
@@ -224,11 +224,12 @@ export class ConfiguracionComponent implements OnInit {
   submitUsuarioEdit() {
     let objUsuario = {
       user_name: this.usuarioEditForm.get('user_name_edit').value,
+      user_password: this.usuarioEditForm.get('user_password_edit').value,
       user_fullname: this.usuarioEditForm.get('user_fullname_edit').value,
       user_email: this.usuarioEditForm.get('user_email_edit').value,
     }
 
-    console.log(objUsuario);
+    //console.log(objUsuario);
 
     this.api.put('users/' + this.usuarioEditID, objUsuario)
       .subscribe(data => {
@@ -236,6 +237,7 @@ export class ConfiguracionComponent implements OnInit {
 
         if (result.status === 'success') {
           this.toastr.success('Usuario modificado correctamente!', 'Ok');
+          this.getAllData();
         } else {
           this.toastr.error(result, 'Error');
         }
