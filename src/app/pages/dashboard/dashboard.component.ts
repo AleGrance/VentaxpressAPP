@@ -124,16 +124,17 @@ export class DashboardComponent implements OnInit {
   }
 
   checkCaja() {
-    this.api.get("cajaByUser/" + 5)
+    this.api.get("cajaByUser/" + this.usuarioLogueado)
       .pipe(map(data => {
-        const cajaExist = data;
+        const result: any = data;
 
-        if (cajaExist === 0) {
+        if (result.status === null) {
           this.toastr.warning('Necesita habilitar una caja antes de operar las ventas', 'Atención!');
           this.cajaExist = false;
         } else {
           this.toastr.info('Tiene una caja habilitada, puede operar las ventas', 'Info!');
           this.cajaExist = true;
+          this.cajaId = result.body.id_caja;
         }
       }))
       .subscribe()
