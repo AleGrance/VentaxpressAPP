@@ -25,6 +25,8 @@ export class ConfiguracionComponent implements OnInit {
   constructor(public api: ApiService, public toastr: ToastrService) { }
   // Icons
   faPlus = faPlus;
+  // Format
+  pipe = new DatePipe('en-US');
 
   error: any;
 
@@ -184,6 +186,7 @@ export class ConfiguracionComponent implements OnInit {
   get cambioFinal() { return this.cajaForm.get('cambio_final'); }
   get userId() { return this.cajaForm.get('user_id'); }
 
+  // ADD Usuario
   submitUsuario() {
     let objUsuario = {
       user_name: this.usuarioForm.get('user_name').value,
@@ -220,7 +223,7 @@ export class ConfiguracionComponent implements OnInit {
         this.toastr.error(error.message, `Server ERROR: ${error.status}`);
       })
   }
-
+  // EDIT Usuario
   submitUsuarioEdit() {
     let objUsuario = {
       user_name: this.usuarioEditForm.get('user_name_edit').value,
@@ -249,6 +252,24 @@ export class ConfiguracionComponent implements OnInit {
 
   }
 
+  showEditUserModal(e: any) {
+    //console.log(e);
+    this.usuarioEditID = e.user_id;
+
+    let objUsuarioEdit = {
+      user_name: e.user_name,
+      user_fullname: e.user_fullname,
+      user_email: e.user_email,
+    }
+
+    this.usuarioEditForm.get('user_name_edit').setValue(objUsuarioEdit.user_name);
+    this.usuarioEditForm.get('user_fullname_edit').setValue(objUsuarioEdit.user_fullname);
+    this.usuarioEditForm.get('user_email_edit').setValue(objUsuarioEdit.user_email);
+
+    //console.log(this.usuarioEditForm.value);
+  }
+
+  // ADD Caja
   submitCaja() {
     let objCaja = {
       fecha_apertura: this.cajaForm.get('fecha_apertura').value,
@@ -290,6 +311,44 @@ export class ConfiguracionComponent implements OnInit {
         this.toastr.error(error.message, `Server ERROR: ${error.status}`);
       })
   }
+  // UPD Caja - Estado
+  updCaja(e: any, u: any) {
+    let hoy = new Date();
+    let hoyFormated = this.pipe.transform(hoy, 'yyyy-MM-dd HH:mm');
+
+    let objCaja = {
+      id_estado: 1,
+      fecha_cierre: hoyFormated
+    };
+
+    let estado = e.target.id;
+    let cajaId = u.id_caja;
+
+    //console.log(e.target.id);
+    //console.log(u.id_caja);
+
+    if (estado === 'cerrar') {
+      objCaja.id_estado = 2;
+    } else if (estado === 'bloquear') {
+      objCaja.id_estado = 3;
+    }
+
+    this.api.put('caja/' + cajaId, objCaja)
+      .subscribe(data => {
+        let result: any = data;
+
+        if (result.status === 'success') {
+          this.getAllData();
+          this.toastr.success('Estado actualizado correctamente!', 'Ok');
+        }
+        
+      }, error => {
+        console.log(error);
+        this.toastr.error(error.message, `Server ERROR: ${error.status}`);
+      })
+
+    //console.log(objCaja);
+  }
 
   onSelectTab(e: any) {
     console.log(e.target.id);
@@ -298,27 +357,6 @@ export class ConfiguracionComponent implements OnInit {
 
   onSelectUsuario(e: any) {
     console.log(e);
-  }
-
-  showEditUserModal(e: any) {
-    //console.log(e);
-    this.usuarioEditID = e.user_id;
-
-    let objUsuarioEdit = {
-      user_name: e.user_name,
-      user_fullname: e.user_fullname,
-      user_email: e.user_email,
-    }
-
-    this.usuarioEditForm.get('user_name_edit').setValue(objUsuarioEdit.user_name);
-    this.usuarioEditForm.get('user_fullname_edit').setValue(objUsuarioEdit.user_fullname);
-    this.usuarioEditForm.get('user_email_edit').setValue(objUsuarioEdit.user_email);
-
-    //console.log(this.usuarioEditForm.value);
-  }
-
-  showEditCajaModal(u: any) {
-    console.log(u);
   }
 
   delete(u: any) {

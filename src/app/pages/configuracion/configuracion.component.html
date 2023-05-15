@@ -134,11 +134,11 @@
                                 compras</a>
                             <a class="dropdown-item" [routerLink]="['/reporte-venta', con.id_articulo]">Reporte de
                                 ventas</a> -->
-                                <a class="dropdown-item" (click)="delete(u)">Bloquear</a>
-                                <a class="dropdown-item" (click)="delete(u)">Cerrar</a>
+                                <a class="dropdown-item" id="bloquear" (click)="updCaja($event, u)">Bloquear</a>
+                                <a class="dropdown-item" id="cerrar" (click)="updCaja($event, u)">Cerrar</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#editModal"
-                                    (click)="showEditCajaModal(u)">Editar</a>
+                                    (click)="delete(u)">Editar</a>
                                 <a class="dropdown-item" (click)="delete(u)">Eliminar</a>
                             </div>
                         </div>
