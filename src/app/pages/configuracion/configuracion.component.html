@@ -99,6 +99,7 @@
                     <th scope="col">Cambio Inicial</th>
                     <th scope="col">Cambio Final</th>
                     <th scope="col">Estado</th>
+                    <th scope="col">Usuario Asignado</th>
                     <th scope="col"></th>
                     <th></th>
                 </tr>
@@ -117,6 +118,7 @@
                     <td>{{u.cambio_inicial}}</td>
                     <td>{{u.cambio_final}}</td>
                     <td>{{u.Estado.descripcion_estado}}</td>
+                    <td>{{u.User.user_fullname}}</td>
                     <td>
                         <div class="btn-group">
                             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
@@ -132,9 +134,11 @@
                                 compras</a>
                             <a class="dropdown-item" [routerLink]="['/reporte-venta', con.id_articulo]">Reporte de
                                 ventas</a> -->
+                                <a class="dropdown-item" (click)="delete(u)">Bloquear</a>
+                                <a class="dropdown-item" (click)="delete(u)">Cerrar</a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#editModal"
                                     (click)="showEditModal(u)">Editar</a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" (click)="delete(u)">Eliminar</a>
                             </div>
                         </div>
@@ -264,7 +268,7 @@
                 <form [formGroup]="cajaForm" #formDir="ngForm">
                     <div class="form-group">
                         <label for="fechaApertura">Fecha Apertura</label>
-                        <input type="date" class="form-control" id="fechaApertura" formControlName="fecha_apertura"
+                        <input type="datetime-local" class="form-control" id="fechaApertura" formControlName="fecha_apertura"
                             aria-describedby="fechaApertura" required>
 
                         <div *ngIf="fechaApertura.invalid && (fechaApertura.dirty || fechaApertura.touched)"
@@ -276,7 +280,7 @@
                     </div>
                     <div class="form-group">
                         <label for="fechaCierre">Fecha Cierre</label>
-                        <input type="date" class="form-control" id="fechaCierre" formControlName="fecha_cierre"
+                        <input type="datetime-local" class="form-control" id="fechaCierre" formControlName="fecha_cierre"
                             aria-describedby="fechaCierre">
 
                         <div *ngIf="fechaCierre.invalid && (fechaCierre.dirty || fechaCierre.touched)"

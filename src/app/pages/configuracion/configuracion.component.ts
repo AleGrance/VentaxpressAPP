@@ -113,8 +113,8 @@ export class ConfiguracionComponent implements OnInit {
         Validators.minLength(4)
       ]),
       fecha_cierre: new FormControl('', [
-        Validators.required,
-        Validators.minLength(4)
+        // Validators.required,
+        // Validators.minLength(4)
       ]),
       total_ventas: new FormControl(0, [
         Validators.required,
@@ -150,7 +150,7 @@ export class ConfiguracionComponent implements OnInit {
         Validators.required,
         Validators.minLength(1)
       ]),
-      user_id: new FormControl('Seleccione un usuario', [
+      user_id: new FormControl(0, [
         Validators.required,
         Validators.minLength(1)
       ])
@@ -225,36 +225,34 @@ export class ConfiguracionComponent implements OnInit {
       total_cupones: this.cajaForm.get('total_cupones').value,
       cambio_inicial: this.cajaForm.get('cambio_inicial').value,
       cambio_final: this.cajaForm.get('cambio_final').value,
+      user_id: this.cajaForm.get('user_id').value,
 
-      user_id: 1
+      id_estado: 1
     };
 
     console.log(objCaja);
 
-    // this.api.post('caja', objCaja)
-    //   .subscribe(data => {
-    //     let result: any = data;
+    this.api.post('caja', objCaja)
+      .subscribe(data => {
+        let result: any = data;
 
-    //     if (result.status === 'success') {
-    //       this.toastr.success('Caja registrado');
-    //       //console.log('Success', result);
-    //       // Llama a la funcion onInit que agrega a la lista el cliente registrado
-    //       this.getAllData();
-    //       // Funcion para resetear el formulario
-    //       this.cajaForm.reset();
-    //     }
+        if (result.status === 'success') {
+          this.toastr.success('Caja registrado');
+          //console.log('Success', result);
+          // Llama a la funcion onInit que agrega a la lista el cliente registrado
+          this.getAllData();
+          // Funcion para resetear el formulario
+          this.cajaForm.reset();
+        }
 
-    //     if (result.status === 'error') {
-    //       this.toastr.error(result.body[0].message, 'Error');
-    //       //console.log('Error', result);
-    //     }
-
-    //     //this.usuarios = data;
-    //     console.log(data);
-    //   }, error => {
-    //     console.log(error);
-    //     this.toastr.error(error.message, `Server ERROR: ${error.status}`);
-    //   })
+        if (result.status === 'error') {
+          this.toastr.error(result, 'Error');
+          console.log('Error', result);
+        }
+      }, error => {
+        console.log(error);
+        this.toastr.error(error.message, `Server ERROR: ${error.status}`);
+      })
   }
 
   onSelectTab(e: any) {
@@ -296,7 +294,7 @@ export class ConfiguracionComponent implements OnInit {
     this.api.get('caja')
       .subscribe(data => {
         this.cajas = data;
-        //console.log(this.usuarios);
+        console.log(this.cajas);
       }, error => {
         console.log(error);
         this.toastr.error(error.message, `Server ERROR: ${error.status}`);
