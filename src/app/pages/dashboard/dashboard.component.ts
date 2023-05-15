@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.usuarioLogueado = localStorage.getItem('id');
+    this.usuarioLogueado = localStorage.getItem('user_id');
     //console.log('user id loqgueado', this.usuarioLogueado);
     this.checkCaja();
 
@@ -135,6 +135,7 @@ export class DashboardComponent implements OnInit {
           this.toastr.info('Tiene una caja habilitada, puede operar las ventas', 'Info!');
           this.cajaExist = true;
           this.cajaId = result.body.id_caja;
+          localStorage.setItem('id_caja', this.cajaId);
         }
       }))
       .subscribe()

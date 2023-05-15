@@ -17,6 +17,7 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 })
 export class ReporteComponent implements OnInit {
 
+  public cajaId: any;
   public cabeceras: any;
   public detalles: any;
   public nroComprobante: any;
@@ -30,8 +31,9 @@ export class ReporteComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Primero se obtiene el ID de la caja
 
-    this.api.get('cabecera_venta')
+    this.api.get('cabecera_ventaByCaja/' + this.cajaId)
       .pipe(map(data => {
         this.cabeceras = data;
         console.log("Cabeceras: ", this.cabeceras);

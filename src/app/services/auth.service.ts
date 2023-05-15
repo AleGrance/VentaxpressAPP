@@ -23,7 +23,7 @@ export class AuthService {
 
         localStorage.setItem("token", body.token);
         localStorage.setItem("user", body.user_fullname);
-        localStorage.setItem("id", body.user_id);
+        localStorage.setItem("user_id", body.user_id);
         localStorage.setItem("role_id", body.role_id);
 
         this.router.navigate(['/dashboard']);
@@ -43,7 +43,9 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    localStorage.removeItem('id');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('role_id');
+    localStorage.removeItem('id_caja');
     this.router.navigate(['/login']);
   }
 

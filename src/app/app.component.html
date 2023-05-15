@@ -26,7 +26,7 @@
       <li class="nav-item">
         <a class="nav-link nav-toggle" data-toggle="collapse" data-target="#navbarNavDropdown"
           routerLink="/reporte_component">Reporte</a>
-        <a class="nav-link nav-noToggle" [routerLink]="['/reporte_component/', cajaId]">Reporte</a>
+        <a class="nav-link nav-noToggle" routerLink="/reporte_component">Reporte</a>
       </li>
 
     </ul>
@@ -34,7 +34,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
-          Bienvenido {{usuarioLogeado()}}
+          Bienvenido {{usuarioLogueado()}}
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#" routerLink="/configuracion_component">Configuración</a>

@@ -43,7 +43,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'reporte_component/:id_caja', component: ReporteComponent,
+    path: 'reporte_component', component: ReporteComponent,
     canActivate: [AuthGuard]
   },
   {
