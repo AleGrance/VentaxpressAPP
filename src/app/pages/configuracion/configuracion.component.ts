@@ -31,6 +31,7 @@ export class ConfiguracionComponent implements OnInit {
   usuarioLogeadoRole: boolean = false;
 
   usuarios: any;
+  usuarioEditID: any;
   usuariosCaja: any;
   roles: any;
   cajas: any;
@@ -220,6 +221,32 @@ export class ConfiguracionComponent implements OnInit {
       })
   }
 
+  submitUsuarioEdit() {
+    let objUsuario = {
+      user_name: this.usuarioEditForm.get('user_name_edit').value,
+      user_fullname: this.usuarioEditForm.get('user_fullname_edit').value,
+      user_email: this.usuarioEditForm.get('user_email_edit').value,
+    }
+
+    console.log(objUsuario);
+
+    this.api.put('users/' + this.usuarioEditID, objUsuario)
+      .subscribe(data => {
+        let result: any = data;
+
+        if (result.status === 'success') {
+          this.toastr.success('Usuario modificado correctamente!', 'Ok');
+        } else {
+          this.toastr.error(result, 'Error');
+        }
+
+      }, error => {
+        console.log(error);
+        this.toastr.error(error.error, `Server ERROR: ${error.status}`);
+      })
+
+  }
+
   submitCaja() {
     let objCaja = {
       fecha_apertura: this.cajaForm.get('fecha_apertura').value,
@@ -272,6 +299,9 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   showEditUserModal(e: any) {
+    //console.log(e);
+    this.usuarioEditID = e.user_id;
+
     let objUsuarioEdit = {
       user_name: e.user_name,
       user_fullname: e.user_fullname,

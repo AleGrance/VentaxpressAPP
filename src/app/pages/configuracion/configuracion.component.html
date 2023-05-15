@@ -325,7 +325,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary" [disabled]="usuarioEditForm.invalid"
-                        (click)="submitUsuario()">Grabar</button>
+                        (click)="submitUsuarioEdit()">Grabar</button>
 
                     <div *ngIf="formDir.submitted">
                     </div>
@@ -335,6 +335,8 @@
         </div>
     </div>
 </div>
+
+
 
 <!-- Modal ADD Cajas -->
 <div class="modal fade" id="cajasModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
