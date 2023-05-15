@@ -32,6 +32,7 @@ export class ReporteComponent implements OnInit {
 
   ngOnInit(): void {
     // Primero se obtiene el ID de la caja
+    this.cajaId = localStorage.getItem('id_caja');
 
     this.api.get('cabecera_ventaByCaja/' + this.cajaId)
       .pipe(map(data => {

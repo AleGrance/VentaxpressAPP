@@ -131,6 +131,7 @@ export class DashboardComponent implements OnInit {
         if (result.status === null) {
           this.toastr.warning('Necesita habilitar una caja antes de operar las ventas', 'Atención!');
           this.cajaExist = false;
+          localStorage.setItem('id_caja', '0');
         } else {
           this.toastr.info('Tiene una caja habilitada, puede operar las ventas', 'Info!');
           this.cajaExist = true;
