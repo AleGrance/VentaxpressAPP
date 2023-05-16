@@ -88,9 +88,13 @@ export class ConfiguracionComponent implements OnInit {
       user_email: new FormControl('user@ventaxpress.com', [
         Validators.required,
         Validators.minLength(4)
+      ]),
+      role_id: new FormControl('Seleccione un rol', [
+        Validators.required
       ])
     });
 
+    // Form EDIT Usuario
     this.usuarioEditForm = new FormGroup({
       user_name_edit: new FormControl('', [
         Validators.required,
@@ -166,6 +170,7 @@ export class ConfiguracionComponent implements OnInit {
   get fullname() { return this.usuarioForm.get('user_fullname'); }
   get password() { return this.usuarioForm.get('user_password'); }
   get email() { return this.usuarioForm.get('user_email'); }
+  get roleId() { return this.usuarioForm.get('role_id'); }
 
   // Validaciones para EDIT Usuario
   get nameEdit() { return this.usuarioEditForm.get('user_name_edit'); }
@@ -193,10 +198,11 @@ export class ConfiguracionComponent implements OnInit {
       user_fullname: this.usuarioForm.get('user_fullname').value,
       user_password: this.usuarioForm.get('user_password').value,
       user_email: this.usuarioForm.get('user_email').value,
-      role_id: 1
+
+      role_id: parseFloat(this.usuarioForm.get('role_id').value),
     };
 
-    console.log(objUsuario);
+    //console.log(objUsuario);
 
     this.api.post('users', objUsuario)
       .subscribe(data => {
@@ -356,6 +362,10 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   onSelectUsuario(e: any) {
+    console.log(e);
+  }
+
+  onSelectRole(e: any) {
     console.log(e);
   }
 
