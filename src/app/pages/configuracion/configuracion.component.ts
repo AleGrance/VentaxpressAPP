@@ -4,7 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 // Format
-import { CurrencyPipe, DatePipe } from '@angular/common'
+import { CurrencyPipe, DatePipe, registerLocaleData } from '@angular/common'
+import localeEsPy from '@angular/common/locales/es-PY';
 
 // Icons
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -22,7 +23,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ConfiguracionComponent implements OnInit {
 
-  constructor(public api: ApiService, public toastr: ToastrService) { }
+  constructor(public api: ApiService, public toastr: ToastrService) {
+    registerLocaleData(localeEsPy);
+  }
   // Icons
   faPlus = faPlus;
   // Format
@@ -44,11 +47,16 @@ export class ConfiguracionComponent implements OnInit {
 
   // Forms
   public usuarioForm: any;
-  //public usuarioEditForm: any;
   public usuarioEditForm: any;
 
   public cajaForm: any;
   public cajaEditForm: any;
+
+  public billeteForm: any;
+  public billeteEditForm: any;
+
+  public arqueoForm: any;
+  public arqueoEditForm: any;
 
 
   ngOnInit(): void {
@@ -163,6 +171,41 @@ export class ConfiguracionComponent implements OnInit {
         Validators.minLength(1)
       ])
     });
+
+    // Form ADD Arqueo
+    // this.usuarioForm = new FormGroup({
+    //   user_name: new FormControl('user', [
+    //     Validators.required,
+    //     Validators.minLength(4)
+    //   ]),
+    //   user_fullname: new FormControl('Usuario', [
+    //     Validators.required,
+    //     Validators.minLength(4)
+    //   ]),
+    //   user_password: new FormControl('12345', [
+    //     Validators.required,
+    //     Validators.minLength(4)
+    //   ]),
+    //   user_email: new FormControl('user@ventaxpress.com', [
+    //     Validators.required,
+    //     Validators.minLength(4)
+    //   ]),
+    //   role_id: new FormControl('Seleccione un rol', [
+    //     Validators.required
+    //   ])
+    // });
+
+    // Form ADD Billete
+    this.billeteForm = new FormGroup({
+      denominacion: new FormControl('Billete de 10.000', [
+        Validators.required,
+        Validators.minLength(2)
+      ]),
+      valor: new FormControl(10000, [
+        Validators.required,
+        Validators.minLength(2)
+      ])
+    });
   }
 
   // Validaciones para ADD Usuario
@@ -190,6 +233,10 @@ export class ConfiguracionComponent implements OnInit {
   get cambioInicial() { return this.cajaForm.get('cambio_inicial'); }
   get cambioFinal() { return this.cajaForm.get('cambio_final'); }
   get userId() { return this.cajaForm.get('user_id'); }
+
+  // Validaciones para ADD Billete
+  get denominacion() { return this.billeteForm.get('denominacion'); }
+  get valor() { return this.billeteForm.get('valor'); }
 
   // ADD Usuario
   submitUsuario() {
@@ -347,13 +394,50 @@ export class ConfiguracionComponent implements OnInit {
           this.getAllData();
           this.toastr.success('Estado actualizado correctamente!', 'Ok');
         }
-        
+
       }, error => {
         console.log(error);
         this.toastr.error(error.message, `Server ERROR: ${error.status}`);
       })
 
     //console.log(objCaja);
+  }
+
+  // ADD Billete
+  submitBillete() {
+    let objBillete = {
+      denominacion: this.billeteForm.get('denominacion').value,
+      valor: this.billeteForm.get('valor').value
+    };
+
+    //console.log(objBillete);
+
+    this.api.post('billete', objBillete)
+      .subscribe(data => {
+        let result: any = data;
+
+        if (result.status === 'success') {
+          this.toastr.success('Billete registrado');
+          //console.log('Success', result);
+          // Llama a la funcion onInit que agrega a la lista el cliente registrado
+          this.getAllData();
+          // Funcion para resetear el formulario
+          this.billeteForm.reset();
+        }
+
+        if (result.status === 'error') {
+          this.toastr.error(result, 'Error');
+          console.log('Error', result);
+        }
+        //console.log(data);
+      }, error => {
+        console.log(error);
+        this.toastr.error(error.message, `Server ERROR: ${error.status}`);
+      })
+  }
+
+  showEditBilleteModal(e: any) {
+    console.log(e);
   }
 
   onSelectTab(e: any) {
