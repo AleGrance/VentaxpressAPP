@@ -34,6 +34,8 @@ export class ConfiguracionComponent implements OnInit {
   error: any;
 
   usuarioLogeadoRole: boolean = false;
+  usuarioLogeadoId: any;
+  cajaLogeadoId: any;
 
   usuarios: any;
   usuarioEditID: any;
@@ -60,6 +62,9 @@ export class ConfiguracionComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.usuarioLogeadoId = localStorage.getItem('user_id');
+    this.cajaLogeadoId = localStorage.getItem('id_caja');
+
     this.getUsuarioLogeadoRole();
     this.getAllData();
     this.createForms();
@@ -173,27 +178,23 @@ export class ConfiguracionComponent implements OnInit {
     });
 
     // Form ADD Arqueo
-    // this.usuarioForm = new FormGroup({
-    //   user_name: new FormControl('user', [
-    //     Validators.required,
-    //     Validators.minLength(4)
-    //   ]),
-    //   user_fullname: new FormControl('Usuario', [
-    //     Validators.required,
-    //     Validators.minLength(4)
-    //   ]),
-    //   user_password: new FormControl('12345', [
-    //     Validators.required,
-    //     Validators.minLength(4)
-    //   ]),
-    //   user_email: new FormControl('user@ventaxpress.com', [
-    //     Validators.required,
-    //     Validators.minLength(4)
-    //   ]),
-    //   role_id: new FormControl('Seleccione un rol', [
-    //     Validators.required
-    //   ])
-    // });
+    this.arqueoForm = new FormGroup({
+      cantidad: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4)
+      ]),
+      total: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4)
+      ]),
+      fecha: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4)
+      ]),
+      id_billete: new FormControl('Seleccione un billete', [
+        Validators.required
+      ])
+    });
 
     // Form ADD Billete
     this.billeteForm = new FormGroup({
@@ -233,6 +234,12 @@ export class ConfiguracionComponent implements OnInit {
   get cambioInicial() { return this.cajaForm.get('cambio_inicial'); }
   get cambioFinal() { return this.cajaForm.get('cambio_final'); }
   get userId() { return this.cajaForm.get('user_id'); }
+
+  // Validaciones para ADD Arqueo
+  get cantidad() { return this.arqueoForm.get('cantidad'); }
+  get total() { return this.arqueoForm.get('total'); }
+  get fecha() { return this.arqueoForm.get('fecha'); }
+  get id_billete() { return this.arqueoForm.get('id_billete'); }
 
   // Validaciones para ADD Billete
   get denominacion() { return this.billeteForm.get('denominacion'); }
@@ -436,7 +443,49 @@ export class ConfiguracionComponent implements OnInit {
       })
   }
 
+  // ADD Billete
+  submitArqueo() {
+    let objArqueo = {
+      cantidad: this.arqueoForm.get('cantidad').value,
+      total: this.arqueoForm.get('total').value,
+      fecha: this.arqueoForm.get('fecha').value,
+      id_billete: this.arqueoForm.get('id_billete').value,
+
+      id_caja: this.cajaLogeadoId,
+      user_id: this.usuarioLogeadoId
+    };
+
+    console.log(objArqueo);
+
+    this.api.post('arqueo', objArqueo)
+      .subscribe(data => {
+        let result: any = data;
+
+        if (result.status === 'success') {
+          this.toastr.success('Arqueo registrado');
+          //console.log('Success', result);
+          // Llama a la funcion onInit que agrega a la lista el cliente registrado
+          this.getAllData();
+          // Funcion para resetear el formulario
+          this.arqueoForm.reset();
+        }
+
+        if (result.status === 'error') {
+          this.toastr.error(result, 'Error');
+          console.log('Error', result);
+        }
+        //console.log(data);
+      }, error => {
+        console.log(error);
+        this.toastr.error(error.message, `Server ERROR: ${error.status}`);
+      })
+  }
+
   showEditBilleteModal(e: any) {
+    console.log(e);
+  }
+
+  showEditArqueoModal(e: any) {
     console.log(e);
   }
 
@@ -504,7 +553,7 @@ export class ConfiguracionComponent implements OnInit {
     this.api.get('arqueo')
       .subscribe(data => {
         this.arqueos = data;
-        //console.log(this.usuarios);
+        console.log(this.arqueos);
       }, error => {
         console.log(error);
         this.toastr.error(error.message, `Server ERROR: ${error.status}`);
