@@ -1,0 +1,195 @@
+<div class="content">
+
+
+    <!-- Button trigger modal -->
+    <button type="button" class="float" data-toggle="modal" data-target="#exampleModal">
+        <fa-icon [icon]="faPlus"></fa-icon>
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registrar Proveedor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="proveedorForm" #formDir="ngForm">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" formControlName="nombre"
+                                aria-describedby="nombre" placeholder="Ingresar nombre" required>
+
+                            <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="alert alert-danger">
+                                <div *ngIf="nombre.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="nombre.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">RUC</label>
+                            <input type="ruc" class="form-control" formControlName="ruc" id="ruc"
+                                aria-describedby="ruc" placeholder="Ingresar ruc">
+
+                            <div *ngIf="ruc.invalid && (ruc.dirty || ruc.touched)" class="alert alert-danger">
+                                <div *ngIf="ruc.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="ruc.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Timbrado</label>
+                            <input type="text" class="form-control" formControlName="timbrado" id="timbrado"
+                                placeholder="Ingrese timbrado" maxlength="8">
+
+                            <div *ngIf="timbrado.invalid && (timbrado.dirty || timbrado.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="timbrado.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="timbrado.errors?.minlength">
+                                    Debe tener al menos 8 dígitos.
+                                </div>
+                            </div>
+                        </div>
+                        <!--    <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        </div>-->
+                        <button type="submit" class="btn btn-primary" [disabled]="proveedorForm.invalid"
+                            (click)="submit()">Grabar</button>
+
+                        <div *ngIf="formDir.submitted">
+                            <!-- <p>Esta submitted</p> -->
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal EDIT-->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Proveedor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="proveedorEditarForm" #formDir="ngForm">
+                        <div class="form-group">
+                            <label for="razon">Nombre</label>
+                            <input type="text" class="form-control" id="nombreId" formControlName="nombre_form"
+                                aria-describedby="nombre" placeholder="Ingresar razon social" required>
+
+                            <div *ngIf="nombre_getter.invalid && (nombre_getter.dirty || nombre_getter.touched)" class="alert alert-danger">
+                                <div *ngIf="nombre_getter.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="nombre_getter.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">RUC</label>
+                            <input type="ruc" class="form-control" id="rucId" formControlName="ruc_form" aria-describedby="ruc"
+                                placeholder="Ingresar ruc">
+
+                            <div *ngIf="ruc_getter.invalid && (ruc_getter.dirty || ruc_getter.touched)" class="alert alert-danger">
+                                <div *ngIf="ruc_getter.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="ruc_getter.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Timbrado</label>
+                            <input type="ruc" class="form-control" id="timbradoId" formControlName="timbrado_form" aria-describedby="timbrado"
+                                placeholder="Ingresar ruc">
+
+                            <div *ngIf="timbrado_getter.invalid && (timbrado_getter.dirty || timbrado_getter.touched)" class="alert alert-danger">
+                                <div *ngIf="timbrado_getter.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="timbrado_getter.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <button type="submit" class="btn btn-primary" [disabled]="proveedorEditarForm.invalid"
+                            (click)="submitEdit()">Grabar</button>
+
+                        <div *ngIf="formDir.submitted">
+                            <!-- <p>Esta submitted</p> -->
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <table class="table table-sm table-hover table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Ruc</th>
+                <th scope="col">Timbrado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let u of proveedores">
+                <th scope="row">{{u.id_proveedor}}</th>
+                <td>{{u.nom_proveedor}}</td>
+                <td>{{u.ruc_proveedor}}</td>
+                <td>{{u.timbrado_proveedor}}</td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Opciones
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" data-toggle="modal" data-target="#editModal"
+                                (click)="showEditModal(u)">Editar</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="delete(u)">Eliminar</a>
+                        </div>
+                    </div>
+                </td>
+                <!--    <td><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"
+                            (click)="delete(u)"></i></button></td>-->
+
+
+            </tr>
+        </tbody>
+
+    </table>
+
+
+
+
+
+</div>

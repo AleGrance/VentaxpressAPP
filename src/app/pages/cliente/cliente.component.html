@@ -1,0 +1,151 @@
+<div class="content">
+
+    <!-- Button Add + trigger modal -->
+    <button type="button" class="float" data-toggle="modal" data-target="#exampleModal">
+        <fa-icon [icon]="faPlus"></fa-icon>
+    </button>
+
+    <!-- Modal ADD -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registrar Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="clienteForm" #formDir="ngForm">
+                        <div class="form-group">
+                            <label for="razon">Razon social</label>
+                            <input type="text" class="form-control" id="razon" formControlName="razon"
+                                aria-describedby="razon" placeholder="Ingresar razon social" required>
+
+                            <div *ngIf="razon.invalid && (razon.dirty || razon.touched)" class="alert alert-danger">
+                                <div *ngIf="razon.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="razon.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">RUC</label>
+                            <input type="ruc" class="form-control" formControlName="ruc" id="ruc" aria-describedby="ruc"
+                                placeholder="Ingresar ruc">
+
+                            <div *ngIf="ruc.invalid && (ruc.dirty || ruc.touched)" class="alert alert-danger">
+                                <div *ngIf="ruc.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="ruc.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" [disabled]="clienteForm.invalid"
+                            (click)="submit()">Grabar</button>
+                        <div *ngIf="formDir.submitted">
+                            <!-- <p>Esta submitted</p> -->
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal EDIT-->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="clienteEditarForm" #formDir="ngForm">
+                        <div class="form-group">
+                            <label for="razon">Razon social</label>
+                            <input type="text" class="form-control" id="razonId" formControlName="razon_form"
+                                aria-describedby="razon" placeholder="Ingresar razon social" required>
+
+                            <div *ngIf="razon_getter.invalid && (razon_getter.dirty || razon_getter.touched)" class="alert alert-danger">
+                                <div *ngIf="razon_getter.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="razon_getter.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">RUC</label>
+                            <input type="ruc" class="form-control" id="rucId" formControlName="ruc_form" aria-describedby="ruc"
+                                placeholder="Ingresar ruc">
+
+                            <div *ngIf="ruc_getter.invalid && (ruc_getter.dirty || ruc_getter.touched)" class="alert alert-danger">
+                                <div *ngIf="ruc_getter.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="ruc_getter.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <button type="submit" class="btn btn-primary" [disabled]="clienteEditarForm.invalid"
+                            (click)="submitEdit()">Grabar</button>
+
+                        <div *ngIf="formDir.submitted">
+                            <!-- <p>Esta submitted</p> -->
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Table CLIENTE LIST-->
+    <table class="table table-sm table-hover table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Razon social</th>
+                <th scope="col">Ruc</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cli of clientes">
+                <th scope="row">{{cli.id_cliente}}</th>
+                <td>{{cli.razon_social_cliente}}</td>
+                <td>{{cli.ruc_cliente}}</td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Opciones
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" data-toggle="modal" data-target="#editModal"
+                                (click)="showEditModal(cli)">Editar</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="delete(cli)">Eliminar</a>
+                        </div>
+                    </div>
+                </td>
+
+
+            </tr>
+        </tbody>
+
+    </table>
+</div>

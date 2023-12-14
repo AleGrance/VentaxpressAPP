@@ -1,0 +1,761 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" *ngIf="usuarioLogeadoRole">
+        <a class="nav-link" [ngClass]="{'active': usuarioLogeadoRole}" id="usuarios-tab" data-toggle="tab"
+            href="#usuarios" role="tab" aria-controls="usuarios" aria-selected="true"
+            (click)="onSelectTab($event)">Usuarios</a>
+    </li>
+    <li class="nav-item" *ngIf="usuarioLogeadoRole">
+        <a class="nav-link" id="cajas-tab" data-toggle="tab" href="#cajas" role="tab" aria-controls="cajas"
+            aria-selected="false" (click)="onSelectTab($event)">Cajas</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'active': !usuarioLogeadoRole}" id="arqueos-tab" data-toggle="tab"
+            href="#arqueos" role="tab" aria-controls="arqueos" aria-selected="false"
+            (click)="onSelectTab($event)">Arqueos</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="billetes-tab" data-toggle="tab" href="#billetes" role="tab" aria-controls="billetes"
+            aria-selected="false" (click)="onSelectTab($event)">Billetes</a>
+    </li>
+    <li class="nav-item" *ngIf="usuarioLogeadoRole">
+        <a class="nav-link" id="otros-tab" data-toggle="tab" href="#otros" role="tab" aria-controls="otros"
+            aria-selected="false" (click)="onSelectTab($event)">Otros</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <!-- Users -->
+    <div class="tab-pane fade" [ngClass]="{'show active': usuarioLogeadoRole}" id="usuarios" role="tabpanel"
+        aria-labelledby="home-tab">
+        <!-- Button trigger modal -->
+        <button type="button" class="float" data-toggle="modal" data-target="#usuarioModal">
+            <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+        <!-- Table -->
+        <table class="table table-sm table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col"></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of usuarios">
+                    <th scope="row">{{u.user_id}}</th>
+                    <td>{{u.user_name}}</td>
+                    <td>{{u.user_fullname}}</td>
+                    <td>{{u.user_email}}</td>
+                    <td>{{u.Role.role_name}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Opciones
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" data-toggle="modal" data-target="#usuarioEditModal"
+                                    (click)="showEditUserModal(u)">Editar</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" (click)="delete(u)">Eliminar</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <!-- Cajas -->
+    <div class="tab-pane fade" id="cajas" role="cajas" aria-labelledby="profile-tab">
+        <!-- Button trigger modal -->
+        <button type="button" class="float" data-toggle="modal" data-target="#cajasModal">
+            <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+        <!-- Table -->
+        <table class="table table-sm table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Fecha Apertura</th>
+                    <th scope="col">Fecha Cierre</th>
+                    <th scope="col">Total Venta</th>
+                    <th scope="col">Total Devoluciones</th>
+                    <th scope="col">Total Efectivo</th>
+                    <th scope="col">Total Tarjeta</th>
+                    <th scope="col">Total Cheque</th>
+                    <th scope="col">Total Cupones</th>
+                    <th scope="col">Cambio Inicial</th>
+                    <th scope="col">Cambio Final</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Usuario Asignado</th>
+                    <th scope="col"></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of cajas">
+                    <th scope="row">{{u.id_caja}}</th>
+                    <td>{{u.fecha_apertura | date:'dd-MM-yyyy HH:mm'}}</td>
+                    <td>{{u.fecha_cierre | date:'dd-MM-yyyy HH:mm'}}</td>
+                    <td>{{u.total_ventas}}</td>
+                    <td>{{u.total_devoluciones}}</td>
+                    <td>{{u.total_efectivo}}</td>
+                    <td>{{u.total_tarjeta}}</td>
+                    <td>{{u.total_cheques}}</td>
+                    <td>{{u.total_cupones}}</td>
+                    <td>{{u.cambio_inicial}}</td>
+                    <td>{{u.cambio_final}}</td>
+                    <td>{{u.Estado.descripcion_estado}}</td>
+                    <td>{{u.User.user_fullname}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Opciones
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <!-- <a class="dropdown-item" [routerLink]="['/factura-compra', con.id_articulo]">Cargar Fact
+                                compra</a>
+                            <a class="dropdown-item" [routerLink]="['/factura-venta', con.id_articulo]">Cargar Fact
+                                venta</a>
+                            <a class="dropdown-item" [routerLink]="['/reporte-compra', con.id_articulo]">Reporte de
+                                compras</a>
+                            <a class="dropdown-item" [routerLink]="['/reporte-venta', con.id_articulo]">Reporte de
+                                ventas</a> -->
+                                <a class="dropdown-item" id="bloquear" (click)="updCaja($event, u)">Bloquear</a>
+                                <a class="dropdown-item" id="cerrar" (click)="updCaja($event, u)">Cerrar</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#editModal"
+                                    (click)="delete(u)">Editar</a>
+                                <a class="dropdown-item" (click)="delete(u)">Eliminar</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <!-- Arqueos -->
+    <div class="tab-pane fade" [ngClass]="{'show active': !usuarioLogeadoRole}" id="arqueos" role="arqueos"
+        aria-labelledby="contact-tab">
+        <!-- Button trigger modal -->
+        <button type="button" class="float" data-toggle="modal" data-target="#arqueosModal">
+            <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+        <!-- Table -->
+        <table class="table table-sm table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Billete</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col"></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of arqueos">
+                    <th scope="row">{{u.id_arqueo}}</th>
+                    <td>{{u.cantidad}}</td>
+                    <td>{{u.Billete.denominacion}}</td>
+                    <td>{{u.total | currency:'':'':'1.0-0':'es-PY'}}</td>
+                    <td>{{u.fecha | date:'dd-MM-yyyy HH:mm'}}</td>
+                    <td>{{u.User.user_fullname}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Opciones
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" data-toggle="modal" data-target="#arqueoEditModal"
+                                    (click)="showEditArqueoModal(u)">Editar</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" (click)="delete(u)">Eliminar</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Billetes -->
+    <div class="tab-pane fade" id="billetes" role="arqueos" aria-labelledby="contact-tab">
+        <!-- Button trigger modal -->
+        <button type="button" class="float" data-toggle="modal" data-target="#billetesModal">
+            <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+        <!-- Table -->
+        <table class="table table-sm table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Denominacion</th>
+                    <th scope="col">Valor</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of billetes">
+                    <th scope="row">{{u.id_billete}}</th>
+                    <td>{{u.denominacion}}</td>
+                    <td>{{u.valor | currency:'':'':'1.0-0':'es-PY'}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Opciones
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" data-toggle="modal" data-target="#billeteEditModal"
+                                    (click)="showEditBilleteModal(u)">Editar</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" (click)="delete(u)">Eliminar</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <!-- Otros -->
+    <div class="tab-pane fade" id="otros" role="arqueos" aria-labelledby="contact-tab">Otros</div>
+</div>
+
+<!-- Modal ADD Usuarios -->
+<div class="modal fade" id="usuarioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="usuarioForm" #formDir="ngForm">
+                    <div class="form-group">
+                        <label for="name">User</label>
+                        <input type="text" class="form-control" id="name" formControlName="user_name"
+                            aria-describedby="name" placeholder="Ingresar el nombre del usuario" required>
+
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                            <div *ngIf="name.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="name.errors?.minlength">
+                                Debe tener al menos 4 caraceres.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInput1">Nombre</label>
+                        <input type="text" class="form-control" formControlName="user_fullname" id="fullname"
+                            aria-describedby="fullname" placeholder="Ingresar nombre completo">
+
+                        <div *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="fullname.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="fullname.errors?.minlength">
+                                Debe tener al menos 4 caraceres.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Contraseña</label>
+                        <input type="text" class="form-control" formControlName="user_password" id="password"
+                            placeholder="Ingrese la contraseña" maxlength="8">
+
+                        <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="password.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="password.errors?.minlength">
+                                Debe tener al menos 4 dígitos.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="roleId">Rol</label>
+                        <ng-select (change)="onSelectRole($event)" formControlName="role_id">
+                            <ng-option *ngFor="let obj of roles" value="{{obj.role_id}}">
+                                {{obj.role_name}}</ng-option>
+                        </ng-select>
+
+                        <div *ngIf="roleId.invalid && (roleId.dirty || roleId.touched)" class="alert alert-danger">
+                            <div *ngIf="roleId.errors?.required">
+                                Campo requerido.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Email</label>
+                        <input type="text" class="form-control" formControlName="user_email" id="email"
+                            placeholder="Ingrese el email">
+
+                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                            <div *ngIf="email.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="email.errors?.minlength">
+                                Debe tener al menos 4 caraceres.
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="usuarioForm.invalid"
+                        (click)="submitUsuario()">Grabar</button>
+
+                    <div *ngIf="formDir.submitted">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Modal EDIT Usuarios -->
+<div class="modal fade" id="usuarioEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="usuarioEditForm" #formDir="ngForm">
+                    <div class="form-group">
+                        <label for="nameEdit">User</label>
+                        <input type="text" class="form-control" id="nameEdit" formControlName="user_name_edit"
+                            aria-describedby="nameEdit" placeholder="Ingresar el nombre del usuario" required>
+
+                        <div *ngIf="nameEdit.invalid && (nameEdit.dirty || nameEdit.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="nameEdit.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="nameEdit.errors?.minlength">
+                                Debe tener al menos 4 caraceres.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fullnameEdit">Nombre</label>
+                        <input type="text" class="form-control" formControlName="user_fullname_edit" id="fullnameEdit"
+                            aria-describedby="fullnameEdit" placeholder="Ingresar nombre completo">
+
+                        <div *ngIf="fullnameEdit.invalid && (fullnameEdit.dirty || fullnameEdit.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="fullnameEdit.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="fullnameEdit.errors?.minlength">
+                                Debe tener al menos 4 caraceres.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordEdit">Contraseña</label>
+                        <input type="text" class="form-control" formControlName="user_password_edit" id="passwordEdit"
+                            placeholder="Ingrese la contraseña">
+
+                        <div *ngIf="passwordEdit.invalid && (passwordEdit.dirty || passwordEdit.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="passwordEdit.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="passwordEdit.errors?.minlength">
+                                Debe tener al menos 4 dígitos.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailEdit">Email</label>
+                        <input type="text" class="form-control" formControlName="user_email_edit" id="emailEdit"
+                            placeholder="Ingrese el email">
+
+                        <div *ngIf="emailEdit.invalid && (emailEdit.dirty || emailEdit.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="emailEdit.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="emailEdit.errors?.minlength">
+                                Debe tener al menos 4 caraceres.
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="usuarioEditForm.invalid"
+                        (click)="submitUsuarioEdit()">Grabar</button>
+
+                    <div *ngIf="formDir.submitted">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal ADD Cajas -->
+<div class="modal fade bd-example-modal-xl" id="cajasModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Caja</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="cajaForm" #formDir="ngForm">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="fechaApertura">Fecha Apertura</label>
+                                <input type="datetime-local" class="form-control" id="fechaApertura"
+                                    formControlName="fecha_apertura" aria-describedby="fechaApertura" required>
+
+                                <div *ngIf="fechaApertura.invalid && (fechaApertura.dirty || fechaApertura.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="fechaApertura.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="fechaCierre">Fecha Cierre</label>
+                                <input type="datetime-local" class="form-control" id="fechaCierre"
+                                    formControlName="fecha_cierre" aria-describedby="fechaCierre">
+
+                                <div *ngIf="fechaCierre.invalid && (fechaCierre.dirty || fechaCierre.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="fechaCierre.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="userId">Usuario responsable</label>
+                                <ng-select (change)="onSelectUsuario($event)" formControlName="user_id">
+                                    <ng-option *ngFor="let obj of usuariosCaja" value="{{obj.user_id}}">
+                                        {{obj.user_fullname}}</ng-option>
+                                </ng-select>
+
+                                <div *ngIf="userId.invalid && (userId.dirty || userId.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="userId.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="totalVentas">Total Ventas</label>
+                                <input type="number" class="form-control" id="totalVentas"
+                                    formControlName="total_ventas" placeholder="Ingrese el total" maxlength="8">
+
+                                <div *ngIf="totalVentas.invalid && (totalVentas.dirty || totalVentas.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="totalVentas.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                    <div *ngIf="totalVentas.errors?.minlength">
+                                        Debe tener al menos 1 dígito.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="totalDevoluciones">Total Devoluciones</label>
+                                <input type="number" class="form-control" id="totalDevoluciones"
+                                    formControlName="total_devoluciones" placeholder="Ingrese el total">
+
+                                <div *ngIf="totalDevoluciones.invalid && (totalDevoluciones.dirty || totalDevoluciones.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="totalDevoluciones.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                    <div *ngIf="totalDevoluciones.errors?.minlength">
+                                        Debe tener al menos 1 dígito.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="totalEfectivo">Total Efectivo</label>
+                                <input type="number" class="form-control" id="totalEfectivo"
+                                    formControlName="total_efectivo" placeholder="Ingrese el total">
+
+                                <div *ngIf="totalEfectivo.invalid && (totalEfectivo.dirty || totalEfectivo.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="totalEfectivo.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                    <div *ngIf="totalEfectivo.errors?.minlength">
+                                        Debe tener al menos 1 dígito.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="totalTarjeta">Total Tarjeta</label>
+                                <input type="number" class="form-control" id="totalTarjeta"
+                                    formControlName="total_tarjeta" placeholder="Ingrese el total">
+
+                                <div *ngIf="totalTarjeta.invalid && (totalTarjeta.dirty || totalTarjeta.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="totalTarjeta.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                    <div *ngIf="totalTarjeta.errors?.minlength">
+                                        Debe tener al menos 1 dígito.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="totalCheques">Total Cheques</label>
+                                <input type="number" class="form-control" id="totalCheques"
+                                    formControlName="total_cheques" placeholder="Ingrese el total">
+
+                                <div *ngIf="totalCheques.invalid && (totalCheques.dirty || totalCheques.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="totalCheques.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                    <div *ngIf="totalCheques.errors?.minlength">
+                                        Debe tener al menos 1 dígito.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="totalCupones">Total Cheques</label>
+                                <input type="number" class="form-control" id="totalCupones"
+                                    formControlName="total_cupones" placeholder="Ingrese el total">
+
+                                <div *ngIf="totalCupones.invalid && (totalCupones.dirty || totalCupones.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="totalCupones.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                    <div *ngIf="totalCupones.errors?.minlength">
+                                        Debe tener al menos 1 dígito.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="cambioInicial">Cambio Inicial</label>
+                                <input type="number" class="form-control" id="cambioInicial"
+                                    formControlName="cambio_inicial" placeholder="Ingrese el total">
+
+                                <div *ngIf="cambioInicial.invalid && (cambioInicial.dirty || cambioInicial.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="cambioInicial.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                    <div *ngIf="cambioInicial.errors?.minlength">
+                                        Debe tener al menos 1 dígito.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="cambioFinal">Cambio Final</label>
+                                <input type="number" class="form-control" id="cambioFinal"
+                                    formControlName="cambio_final" placeholder="Ingrese el total">
+
+                                <div *ngIf="cambioFinal.invalid && (cambioFinal.dirty || cambioFinal.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="cambioFinal.errors?.required">
+                                        Campo requerido.
+                                    </div>
+                                    <div *ngIf="cambioFinal.errors?.minlength">
+                                        Debe tener al menos 1 dígito.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" [disabled]="cajaForm.invalid"
+                        (click)="submitCaja()">Grabar</button>
+
+                    <div *ngIf="formDir.submitted">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal ADD Arqueos -->
+<div class="modal fade" id="arqueosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Arqueo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="arqueoForm" #formDir="ngForm">
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" class="form-control" id="cantidad" formControlName="cantidad"
+                            aria-describedby="cantidad" placeholder="Ingresar la cantidad" required>
+
+                        <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)" class="alert alert-danger">
+                            <div *ngIf="cantidad.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="cantidad.errors?.minlength">
+                                Debe tener al menos 4 caraceres.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_billete">Billete</label>
+                        <ng-select formControlName="id_billete">
+                            <ng-option *ngFor="let obj of billetes" value="{{obj.id_billete}}">
+                                {{obj.denominacion}}</ng-option>
+                        </ng-select>
+
+                        <div *ngIf="id_billete.invalid && (id_billete.dirty || id_billete.touched)" class="alert alert-danger">
+                            <div *ngIf="id_billete.errors?.required">
+                                Campo requerido.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="total">Total</label>
+                        <input type="number" class="form-control" formControlName="total" id="total"
+                            placeholder="Ingrese el total" maxlength="8">
+
+                        <div *ngIf="total.invalid && (total.dirty || total.touched)" class="alert alert-danger">
+                            <div *ngIf="total.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="total.errors?.minlength">
+                                Debe tener al menos 2 dígitos.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input type="datetime-local" class="form-control" formControlName="fecha" id="fecha">
+
+                        <div *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)" class="alert alert-danger">
+                            <div *ngIf="fecha.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="fecha.errors?.minlength">
+                                Debe tener al menos 4 caraceres.
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="arqueoForm.invalid"
+                        (click)="submitArqueo()">Grabar</button>
+
+                    <div *ngIf="formDir.submitted">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal ADD Billetes -->
+<div class="modal fade" id="billetesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Billete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="billeteForm" #formDir="ngForm">
+                    <div class="form-group">
+                        <label for="denominacion">Denominación</label>
+                        <input type="text" class="form-control" id="denominacion" formControlName="denominacion"
+                            aria-describedby="denominacion" placeholder="Ingresar la denominacion" required>
+
+                        <div *ngIf="denominacion.invalid && (denominacion.dirty || denominacion.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="denominacion.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="denominacion.errors?.minlength">
+                                Debe tener al menos 4 caraceres.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="valor">Valor</label>
+                        <input type="number" class="form-control" formControlName="valor" id="valor"
+                            aria-describedby="valor" placeholder="Ingresar el valor">
+
+                        <div *ngIf="valor.invalid && (valor.dirty || valor.touched)" class="alert alert-danger">
+                            <div *ngIf="valor.errors?.required">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="valor.errors?.minlength">
+                                Debe tener al menos 4 caraceres.
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="billeteForm.invalid"
+                        (click)="submitBillete()">Grabar</button>
+
+                    <div *ngIf="formDir.submitted">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

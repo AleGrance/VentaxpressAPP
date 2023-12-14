@@ -1,0 +1,54 @@
+<!-- <div class="container">
+    <div class="col-md-6 mx-auto">
+        <h5 class="text-center">Acceso a Contable-AG</h5>
+        <form (submit)="login()">
+            <div class="form-group">
+                <label>Usuario</label>
+                <input type="text" name="user_name" class="form-control" [(ngModel)]="user.user_name"
+                    placeholder="Ingresar usuario">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="user_password" id="password" class="form-control" [(ngModel)]="user.user_password"
+                    placeholder="Password">
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" (click)="showPassword()">
+                <label class="form-check-label">{{mostrarOcultarText}}</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Acceder</button>
+        </form>
+    </div>
+</div> -->
+
+<body>
+    <div class="contenedor">
+        <!--Logo-->
+        <div class="logo text-center">
+            <img src="../../../assets/ventaslogo.png" alt="logo">
+        </div>
+        <!--Formulario cliente-->
+        <div class="formulario">
+            <form (submit)="login()">
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" name="user_name" class="form-control" [(ngModel)]="user.user_name"
+                        placeholder="Ingresar usuario">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="user_password" id="password" class="form-control"
+                        [(ngModel)]="user.user_password" placeholder="Password">
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" (click)="showPassword()">
+                    <label class="form-check-label">{{mostrarOcultarText}}</label>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Acceder</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>

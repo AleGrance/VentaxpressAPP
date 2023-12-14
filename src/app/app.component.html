@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="authService.isLoggedIn()">
+  <a class="navbar-brand" routerLink="/dashboard">
+    VentaXpress
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link nav-toggle" data-toggle="collapse" data-target="#navbarNavDropdown"
+          routerLink="/articulo_component">Articulos</a>
+        <a class="nav-link nav-noToggle" routerLink="/articulo_component">Articulos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-toggle" data-toggle="collapse" data-target="#navbarNavDropdown"
+          routerLink="/cliente_component">Clientes</a>
+        <a class="nav-link nav-noToggle" routerLink="/cliente_component">Clientes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-toggle" data-toggle="collapse" data-target="#navbarNavDropdown"
+          routerLink="/proveedor_component">Proveedores</a>
+        <a class="nav-link nav-noToggle" routerLink="/proveedor_component">Proveedores</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-toggle" data-toggle="collapse" data-target="#navbarNavDropdown"
+          routerLink="/reporte_component">Reporte</a>
+        <a class="nav-link nav-noToggle" routerLink="/reporte_component">Reporte</a>
+      </li>
+
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Bienvenido {{usuarioLogueado()}}
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#" routerLink="/configuracion_component">Configuración</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Salir</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="content fixed-bottom">
+  <!-- <span>{{title}}</span> -->
+</div>
+
+<router-outlet></router-outlet>

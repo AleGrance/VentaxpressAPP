@@ -1,0 +1,286 @@
+<div class="content">
+    <!-- Button trigger modal -->
+    <button type="button" class="float" data-toggle="modal" data-target="#exampleModal">
+        <fa-icon [icon]="faPlus"></fa-icon>
+    </button>
+
+    <!-- Modal ADD-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registrar Contribuyente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="contribuyenteForm" #formDir="ngForm">
+                        <div class="form-group">
+                            <label for="razon">Razon social</label>
+                            <input type="text" class="form-control" id="razon" formControlName="razon"
+                                aria-describedby="razon" placeholder="Ingresar razon social" required>
+
+                            <div *ngIf="razon.invalid && (razon.dirty || razon.touched)" class="alert alert-danger">
+                                <div *ngIf="razon.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="razon.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">RUC</label>
+                            <input type="ruc" class="form-control" formControlName="ruc" id="ruc" aria-describedby="ruc"
+                                placeholder="Ingresar ruc">
+
+                            <div *ngIf="ruc.invalid && (ruc.dirty || ruc.touched)" class="alert alert-danger">
+                                <div *ngIf="ruc.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="ruc.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Timbrado</label>
+                            <input type="text" class="form-control" formControlName="timbrado" id="timbrado"
+                                placeholder="Ingrese timbrado" maxlength="8">
+
+                            <div *ngIf="timbrado.invalid && (timbrado.dirty || timbrado.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="timbrado.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="timbrado.errors?.minlength">
+                                    Debe tener al menos 8 dígitos.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Dirección</label>
+                            <input type="text" class="form-control" formControlName="direccion" id="direccion"
+                                placeholder="Ingrese la dirección">
+
+                            <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="direccion.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="direccion.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Teléfono</label>
+                            <input type="text" class="form-control" formControlName="tel" id="tel"
+                                placeholder="Ingrese nro del teléfono">
+
+                            <div *ngIf="tel.invalid && (tel.dirty || tel.touched)" class="alert alert-danger">
+                                <div *ngIf="tel.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="tel.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Email</label>
+                            <input type="text" class="form-control" formControlName="email" id="email"
+                                placeholder="Ingrese el email">
+
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                                <div *ngIf="email.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="email.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                                <div *ngIf="email.errors?.email">
+                                    Debe ser una dirección válida.
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" [disabled]="contribuyenteForm.invalid"
+                            (click)="submit()">Grabar</button>
+
+                        <div *ngIf="formDir.submitted">
+                            <p>Esta submitted</p>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal EDIT-->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Contribuyente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="contribuyenteEditarForm" #formDir="ngForm">
+                        <div class="form-group">
+                            <label for="razon">Razon social</label>
+                            <input type="text" class="form-control" id="razon_edit" formControlName="razon_edit"
+                                aria-describedby="razon" placeholder="Ingresar razon social" required>
+
+                            <div *ngIf="razon_edit.invalid && (razon_edit.dirty || razon.touched)" class="alert alert-danger">
+                                <div *ngIf="razon_edit.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="razon_edit.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">RUC</label>
+                            <input type="ruc" class="form-control" id="ruc_edit" formControlName="ruc_edit" aria-describedby="ruc"
+                                placeholder="Ingresar ruc">
+
+                            <div *ngIf="ruc.invalid && (ruc.dirty || ruc.touched)" class="alert alert-danger">
+                                <div *ngIf="ruc.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="ruc.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Timbrado</label>
+                            <input type="text" class="form-control" id="timbrado_edit" formControlName="timbrado_edit"
+                                placeholder="Ingrese timbrado">
+
+                            <div *ngIf="timbrado.invalid && (timbrado.dirty || timbrado.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="timbrado.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="timbrado.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Dirección</label>
+                            <input type="text" class="form-control" id="direccion_edit" formControlName="direccion_edit"
+                                placeholder="Ingrese la dirección">
+
+                            <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="direccion.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="direccion.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Teléfono</label>
+                            <input type="text" class="form-control" id="tel_edit" formControlName="tel_edit"
+                                placeholder="Ingrese nro del teléfono">
+
+                            <div *ngIf="tel.invalid && (tel.dirty || tel.touched)" class="alert alert-danger">
+                                <div *ngIf="tel.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="tel.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Email</label>
+                            <input type="text" class="form-control" id="email_edit" formControlName="email_edit"
+                                placeholder="Ingrese el email">
+
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                                <div *ngIf="email.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="email.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                                <div *ngIf="email.errors?.email">
+                                    Debe ser una dirección válida.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" [disabled]="contribuyenteEditarForm.invalid"
+                            (click)="submitEdit()">Grabar</button>
+
+                        <div *ngIf="formDir.submitted">
+                            <p>Esta submitted</p>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <table class="table table-sm table-hover table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Razon social</th>
+                <th scope="col">Ruc</th>
+                <th scope="col">Timbrado</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Tel</th>
+                <th scope="col">Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let con of contribuyentes">
+                <th scope="row">{{con.id_contribuyente}}</th>
+                <td>{{con.razon_social_contribuyente}}</td>
+                <td>{{con.ruc_contribuyente}}</td>
+                <td>{{con.timbrado}}</td>
+                <td>{{con.dir_contribuyente}}</td>
+                <td>{{con.tel_contribuyente}}</td>
+                <td>{{con.email_contribuyente}}</td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Opciones
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" [routerLink]="['/factura-compra', con.id_contribuyente]">Cargar Fact compra</a>
+                            <a class="dropdown-item" [routerLink]="['/factura-venta', con.id_contribuyente]">Cargar Fact venta</a>
+                            <a class="dropdown-item" [routerLink]="['/reporte-compra', con.id_contribuyente]">Reporte de compras</a>
+                            <a class="dropdown-item" [routerLink]="['/reporte-venta', con.id_contribuyente]">Reporte de ventas</a>
+                            <a class="dropdown-item" data-toggle="modal" data-target="#editModal" (click)="showEditModal(con)">Editar</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="delete(con)">Eliminar</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    
+</div>

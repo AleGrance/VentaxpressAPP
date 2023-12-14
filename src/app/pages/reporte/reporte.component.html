@@ -1,0 +1,78 @@
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Comprobanete nro</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Total</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Caja</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let c of cabeceras">
+            <th scope="row">{{c.nro_factura_venta}}</th>
+            <td>{{c.fecha_factura_venta | date:'dd-MM-yyyy'}}</td>
+            <td>{{c.total_venta | currency:'':'':'1.0-0':'es-PY'}}</td>
+            <td>{{c.Cliente.razon_social_cliente}}</td>
+            <td>{{c.User.user_fullname}}</td>
+            <td>{{c.Caja.id_caja}}</td>
+            <!-- <td><button type="button" class="btn btn-primary"><fa-icon [icon]="faEye"></fa-icon></button></td> -->
+            <td><button type="button" class="btn btn-primary" (click)="showDetalle(c)" data-toggle="modal"
+                data-target="#detalleModal">Detalle</button></td>
+
+        </tr>
+    </tbody>
+</table>
+
+<!--Modal Detalle-->
+<div class="modal fade" id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="recibo" id="comprobante" style="background-color: white;">
+                    <strong>
+                        <h2>Comprobante nro: <span>{{nroComprobante}}</span></h2>
+                    </strong>
+                    <p>Fecha: <span>{{fecha}}</span></p>
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Item</th>
+                            <th>Precio</th>
+                            <th>Cant</th>
+                            <th>SubTotal</th>
+                        </tr>
+                        <tr *ngFor="let d of detalles">
+                            <td>{{d.descripcion_detalle_venta}}</td>
+                            <td style="margin-left: 10px;"><span id="precio1">{{d.precio_detalle_venta |
+                                    currency:'':'':'1.0-0':'es-PY'}}</span></td>
+                            <td><span id="cantidad1">{{d.cant_item_detalle_venta}}</span></td>
+                            <td><span id="subtotal1">{{d.subtotal_detalle_venta |
+                                    currency:'':'':'1.0-0':'es-PY'}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="total">Total:</td>
+                            <td><span id="total">{{total | currency:'':'':'1.0-0':'es-PY'}}</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">PDF</button>
+                <button type="button" class="btn btn-primary">Imagen</button>
+            </div>
+
+        </div>
+    </div>
+</div>

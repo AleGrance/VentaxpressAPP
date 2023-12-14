@@ -1,0 +1,69 @@
+<!--Filtros de la busqueda-->
+<div class="row" style="margin: 8px">
+    <div class="col-md-5">
+        <label class="col-form-label-sm">Proveedor</label>
+        <ng-select [multiple]="true" (add)="addItem($event)" (remove)="deleteItem($event)">
+            <ng-option *ngFor="let p of proveedores" [value]="p.id_proveedor">{{p.nom_proveedor}}</ng-option>
+        </ng-select>
+    </div>
+    <div class="col-md-2">
+        <label class="col-form-label-sm">Fecha desde</label>
+        <input id="fecha_inicio" type="date" class="form-control">
+    </div>
+    <div class="col-md-2">
+        <label class="col-form-label-sm">Fecha hasta</label>
+        <input id="fecha_fin" type="date" class="form-control">
+    </div>
+    <div class="col-md-2">
+        <label class="col-form-label-sm">Condición</label>
+        <ng-select (change)="onChangeCondicion($event)">
+            <ng-option value="Contado">Contado</ng-option>
+            <ng-option value="Crédito">Crédito</ng-option>
+        </ng-select>
+    </div>
+    <div style="padding-top: 37px;">
+        <button type="button" class="btn btn-outline-success" (click)="buscar()">Buscar</button>
+    </div>
+</div>
+
+<!--Resultado de la busqueda-->
+<div class="table-responsive-xl">
+    <table id="excel-table" class="table table-sm table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">RUC del Informante</th>
+                <th scope="col">Nombre o Razón Social del Informante</th>
+                <th scope="col">RUC / N° de Identificación del Informado</th>
+                <th scope="col">Nombre del proveedor</th>
+                <th scope="col">Fecha de Emisión</th>
+                <th scope="col">Condición de la Operación</th>
+                <th scope="col">Número de comprobante</th>
+                <th scope="col">Gavado 10%</th>
+                <th scope="col">IVA 10%</th>
+                <th scope="col">Gravado 5%</th>
+                <th scope="col">IVA 5%</th>
+                <th scope="col">Exento</th>
+                <th scope="col">Total Comprobante</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of cabecerasCompra">
+                <th scope="row">{{item.Contribuyente.ruc_contribuyente}}</th>
+                <td>{{item.Contribuyente.razon_social_contribuyente}}</td>
+                <td>{{item.Proveedor.ruc_proveedor}}</td>
+                <td>{{item.Proveedor.nom_proveedor}}</td>
+                <td>{{item.fecha_factura_compra | date: 'dd-MM-YYYY'}}</td>
+                <td>{{item.condicion_venta_compra}}</td>
+                <td>{{item.nro_factura_compra}}</td>
+                <td>{{item.monto_gravado_10 | currency:'':'':'1.0-0'}}</td>
+                <td>{{item.iva_10 | currency:'':'':'1.0-0'}}</td>
+                <td>{{item.monto_gravado_5 | currency:'':'':'1.0-0'}}</td>
+                <td>{{item.iva_5 | currency:'':'':'1.0-0'}}</td>
+                <td>{{item.exento | currency:'':'':'1.0-0'}}</td>
+                <td class="text-right">{{item.total_compra | currency:'':'':'1.0-0'}}</td>
+            </tr>
+            <button class="float" (click)="exportAsXLSX()"><img class="excel-icon" src="../../../assets/excel.ico"
+                    alt="icon"></button>
+        </tbody>
+    </table>
+</div>

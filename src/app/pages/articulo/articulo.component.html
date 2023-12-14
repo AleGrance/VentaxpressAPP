@@ -1,0 +1,341 @@
+<div class="content">
+    <!-- Button trigger modal -->
+    <button type="button" class="float" data-toggle="modal" data-target="#exampleModal">
+        <fa-icon [icon]="faPlus"></fa-icon>
+    </button>
+
+    <!-- Modal ADD-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registrar Articulo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="articuloForm" #formDir="ngForm">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" formControlName="nombre"
+                                aria-describedby="nombre" placeholder="Ingresar el nombre del articulo" required>
+
+                            <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="alert alert-danger">
+                                <div *ngIf="nombre.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="nombre.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInput1">Descripción</label>
+                            <input type="descri" class="form-control" formControlName="descri" id="descri"
+                                aria-describedby="descri" placeholder="Ingresar descripción">
+
+                            <div *ngIf="descri.invalid && (descri.dirty || descri.touched)" class="alert alert-danger">
+                                <div *ngIf="descri.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="descri.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Costo</label>
+                            <input type="text" class="form-control" formControlName="costo" id="costo"
+                                placeholder="Ingrese el costo" maxlength="8">
+
+                            <div *ngIf="costo.invalid && (costo.dirty || costo.touched)" class="alert alert-danger">
+                                <div *ngIf="costo.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="costo.errors?.minlength">
+                                    Debe tener al menos 8 dígitos.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Precio</label>
+                            <input type="text" class="form-control" formControlName="precio" id="precio"
+                                placeholder="Ingrese el precio">
+
+                            <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="alert alert-danger">
+                                <div *ngIf="precio.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="precio.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Cantidad disponible</label>
+                            <input type="text" class="form-control" formControlName="cantidad" id="cantidad"
+                                placeholder="Ingrese la cantidad disponible">
+
+                            <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="cantidad.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="cantidad.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                                <div *ngIf="cantidad.errors?.min">
+                                    Debe tener al menos 1 en cantidad.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label for="exampleInputPassword1">Email</label>
+                            <input type="text" class="form-control" formControlName="email" id="email"
+                                placeholder="Ingrese el email">
+
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                                <div *ngIf="email.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="email.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                                <div *ngIf="email.errors?.email">
+                                    Debe ser una dirección válida.
+                                </div>
+                            </div>
+                        </div> -->
+                        <button type="submit" class="btn btn-primary" [disabled]="articuloForm.invalid"
+                            (click)="submit()">Grabar</button>
+
+                        <div *ngIf="formDir.submitted">
+                            <!-- <p>Esta submitted</p> -->
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal EDIT-->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Articulo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="articuloEditarForm" #formDir="ngForm">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre_edit" formControlName="nombre_form"
+                                aria-describedby="nombre" placeholder="Ingresar nombre del articulo" required>
+
+                            <div *ngIf="nombre_getter.invalid && (nombre_getter.dirty || nombre_getter.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="nombre_getter.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="nombre_getter.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInput1">Descripción</label>
+                            <input type="descri" class="form-control" id="descri_edit" formControlName="descri_form"
+                                aria-describedby="descri" placeholder="Ingresar descripción">
+
+                            <div *ngIf="descri.invalid && (descri.dirty || descri.touched)" class="alert alert-danger">
+                                <div *ngIf="descri.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="descri.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Costo</label>
+                            <input type="text" class="form-control" id="costo_edit" formControlName="costo_form"
+                                placeholder="Ingrese el costo">
+
+                            <div *ngIf="costo.invalid && (costo.dirty || costo.touched)" class="alert alert-danger">
+                                <div *ngIf="costo.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="costo.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Precio</label>
+                            <input type="text" class="form-control" id="precio_edit" formControlName="precio_form"
+                                placeholder="Ingrese el precio">
+
+                            <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="alert alert-danger">
+                                <div *ngIf="precio.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="precio.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Cantidad disponible</label>
+                            <input type="text" class="form-control" id="cantidad_edit" formControlName="cantidad_form"
+                                placeholder="Ingrese la cantidad disponible">
+
+                            <div *ngIf="cantidad.invalid && (cantidad_getter.dirty || cantidad_getter.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="cantidad.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="cantidad.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                                <div *ngIf="cantidad.errors?.min">
+                                    Debe tener al menos 1 en cantidad.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label for="exampleInputPassword1">Email</label>
+                            <input type="text" class="form-control" id="email_edit" formControlName="email_edit"
+                                placeholder="Ingrese el email">
+
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                                <div *ngIf="email.errors?.required">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="email.errors?.minlength">
+                                    Debe tener al menos 4 caraceres.
+                                </div>
+                                <div *ngIf="email.errors?.email">
+                                    Debe ser una dirección válida.
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" [disabled]="articuloEditarForm.invalid"
+                            (click)="submitEdit()">Grabar</button>
+
+                        <div *ngIf="formDir.submitted">
+                            <!-- <p>Esta submitted</p> -->
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <!-- <table class="table table-sm table-hover table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col" class="text-right">Costo</th>
+                <th scope="col" class="text-right">Precio</th>
+                <th scope="col" class="text-center">Cantidad disponible</th>
+                <th scope="col">Proveedor</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let con of articulos">
+                <th scope="row">{{con.id_articulo}}</th>
+                <td>{{con.nombre_articulo}}</td>
+                <td>{{con.descri_articulo}}</td>
+                <td class="text-right">{{con.costo_articulo | currency:'':'':'1.0-0':'es-PY'}}</td>
+                <td class="text-right">{{con.precio_articulo | currency:'':'':'1.0-0':'es-PY'}}</td>
+                <td class="text-center">{{con.cant_disponible_articulo}}</td>
+                <td>{{con.Proveedor.nom_proveedor}}</td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Opciones
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" data-toggle="modal" data-target="#editModal"
+                                (click)="showEditModal(con)">Editar</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="delete(con)">Eliminar</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+
+    </table> -->
+
+    <table id="tabla" datatable [dtOptions]="dtOptions" class="row-border hover stripe compact"></table>
+
+    <!-- Modal Eliminar -->
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEliminar">
+        Launch demo modal
+    </button> -->
+
+    <!-- Modal Elminar -->
+    <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar artículo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Desea eliminar el articulo:
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" (click)="eliminarArticulo()">Si</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Elminar -->
+    <div class="modal fade" id="modalModificar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modificar artículo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Desea modificar el articulo:
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" (click)="modificarArticulo()">Si</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

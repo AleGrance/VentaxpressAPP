@@ -1,0 +1,42 @@
+.float {
+	position: fixed;
+	width: 60px;
+	height: 60px;
+	bottom: 40px;
+	right: 40px;
+	background-color: #2ECC71;
+	border: 2px solid #2ECC71;
+	border-radius: 50px;
+	text-align: center;
+	box-shadow: 2px 2px 3px #999;
+	transition-duration: 0.4s;
+	opacity: 1;
+	color: white;
+}
+
+.float:hover {
+	background-color: #2ECC71;
+	border: 2px solid #2ECC71;
+	opacity: 0.5;
+}
+
+.float:focus {
+	outline: 0;
+}
+
+.excel-icon {
+	width: 30px;
+	height: 30px;
+	bottom: 40px;
+	right: 40px;
+}
+
+/* Estilos personalizados para hacer la tabla más compacta */
+table th,
+table td {
+	padding: 0.3rem;
+	/* Ajusta el espacio entre celdas */
+	font-size: 8px;
+	/* Reduce el tamaño de la fuente */
+	/* Otros estilos personalizados según tus necesidades */
+}
