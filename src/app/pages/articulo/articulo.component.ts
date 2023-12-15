@@ -62,6 +62,7 @@ export class ArticuloComponent implements OnInit {
     precio_articulo: 0,
     cant_disponible_articulo: 0,
     id_proveedor: 1,
+    id_estado: 1,
   }
 
   constructor(public api: ApiService, private toastr: ToastrService, private http: HttpClient) {
@@ -123,6 +124,7 @@ export class ArticuloComponent implements OnInit {
     this.cargarTabla();
   }
 
+  // Carga la tabla al iniciar la app
   cargarTabla() {
     console.log('Se cargar la tabla');
     this.dtOptions = {
@@ -198,6 +200,7 @@ export class ArticuloComponent implements OnInit {
 
   }
 
+  // Recarga la tabla al realizar algun cambio de insersion o modificacion
   reloadTabla() {
     if (this.datatableElement) {
       this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -262,19 +265,14 @@ export class ArticuloComponent implements OnInit {
 
   // Submit para Edit
   submitEdit() {
-    const nombre = ((<HTMLInputElement>document.getElementById("nombre_edit")).value);
-    const descri = ((<HTMLInputElement>document.getElementById("descri_edit")).value);
-    const costo = ((<HTMLInputElement>document.getElementById("costo_edit")).value);
-    const precio = ((<HTMLInputElement>document.getElementById("precio_edit")).value);
-    const cantidad = ((<HTMLInputElement>document.getElementById("cantidad_edit")).value);
     let estadoArticulo = ((<HTMLInputElement>document.getElementById("estado_articulo")));
 
     let editArticulo = {
-      nombre_articulo: nombre,
-      descri_articulo: descri,
-      costo_articulo: costo,
-      precio_articulo: precio,
-      cant_disponible_articulo: cantidad,
+      nombre_articulo: this.articuloEditarForm.get('nombre_form').value,
+      descri_articulo: this.articuloEditarForm.get('descri_form').value,
+      costo_articulo: this.articuloEditarForm.get('costo_form').value,
+      precio_articulo: this.articuloEditarForm.get('precio_form').value,
+      cant_disponible_articulo: this.articuloEditarForm.get('cantidad_form').value,
       id_proveedor: 1,
       id_estado: !estadoArticulo.checked ? 1 : 2
     }
@@ -288,6 +286,7 @@ export class ArticuloComponent implements OnInit {
           this.toastr.success('Articulo modificado');
           // Llama a la funcion onInit que resetea el formulario
           this.reloadTabla();
+          this.articuloEditarForm.reset();
         } else {
           console.log('result post: ', result);
           this.toastr.warning(result);
@@ -321,35 +320,17 @@ export class ArticuloComponent implements OnInit {
       costo_articulo: value.costo_articulo,
       precio_articulo: value.precio_articulo,
       cant_disponible_articulo: value.cant_disponible_articulo,
-      id_proveedor: 1
+      id_proveedor: 1,
+      id_estado: value.Estado.descripcion_estado == 'Activo' ? 1 : 2
     }
 
     console.log("El elemento a editar en objeto", this.articuloEditar, "Tiene ID: ", this.articuloEditarID);
 
-    // Se crea el objeto formgroup con los datos del elemento seleccionado
-    this.articuloEditarForm = new FormGroup({
-      nombre_form: new FormControl(this.articuloEditar.nombre_articulo, [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      descri_form: new FormControl(this.articuloEditar.descri_articulo, [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      costo_form: new FormControl(this.articuloEditar.costo_articulo, [
-        Validators.required,
-        Validators.minLength(2)
-      ]),
-      precio_form: new FormControl(this.articuloEditar.precio_articulo, [
-        Validators.required,
-        Validators.minLength(2)
-      ]),
-      cantidad_form: new FormControl(this.articuloEditar.cant_disponible_articulo, [
-        Validators.required,
-        Validators.minLength(1)
-      ])
-    });
-
+    this.articuloEditarForm.get('nombre_form').setValue(value.nombre_articulo);
+    this.articuloEditarForm.get('descri_form').setValue(value.descri_articulo);
+    this.articuloEditarForm.get('costo_form').setValue(value.costo_articulo);
+    this.articuloEditarForm.get('precio_form').setValue(value.precio_articulo);
+    this.articuloEditarForm.get('cantidad_form').setValue(value.cant_disponible_articulo);
   }
 
   getArticulos() {
