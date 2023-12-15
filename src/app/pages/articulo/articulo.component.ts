@@ -39,9 +39,6 @@ export class ArticuloComponent implements OnInit {
   public articulos: any;
   public articuloForm: any;
 
-  public articuloAEliminar: any;
-  public articuloAModificar: any;
-
   // Para el formulario de crear nuevo
   public articuloNuevo = {
     nombre_articulo: 'Cheetos',
@@ -121,11 +118,13 @@ export class ArticuloComponent implements OnInit {
         Validators.min(1)
       ])
     });
+
+    // Llenar el datatable de datos
     this.cargarTabla();
   }
 
   cargarTabla() {
-    console.log('Se actualiza la tabla');
+    console.log('Se cargar la tabla');
     this.dtOptions = {
       language: {
         url: "../../assets/i18/Spanish.json"
@@ -168,12 +167,15 @@ export class ArticuloComponent implements OnInit {
         data: 'Proveedor.nom_proveedor'
       },
       {
+        title: 'Estado',
+        data: 'Estado.descripcion_estado'
+      },
+      {
         title: 'Acciones',
         data: null,
         defaultContent: `
         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-          <button id="btn_eliminar" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalEliminar">Eliminar</button>
-          <button id="btn_modificar" type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalModificar">Modificar</button>
+          <button id="btn_modificar" type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal">Modificar</button>
         </div>
         `,
       }
@@ -185,14 +187,9 @@ export class ArticuloComponent implements OnInit {
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const self = this;
 
-        $('#btn_eliminar', row).off('click');
-        $('#btn_eliminar', row).on('click', () => {
-          self.articuloEliminar(data);
-        });
-
         $('#btn_modificar', row).off('click');
         $('#btn_modificar', row).on('click', () => {
-          self.articuloModificar(data);
+          self.showEditModal(data);
         });
 
         return row;
@@ -201,24 +198,12 @@ export class ArticuloComponent implements OnInit {
 
   }
 
-  // Al seleccionar el articulo
-  articuloEliminar(fila: any) {
-    this.articuloAEliminar = fila;
-    console.log('ARTICULO A ELIMINAR', this.articuloAEliminar);
-  }
-
-  articuloModificar(fila: any) {
-    this.articuloAModificar = fila;
-    console.log('ARTICULO A MODIFICAR', this.articuloAModificar);
-  }
-
-  // Al hacer clic en Si de los modales
-  eliminarArticulo() {
-    console.log('ELIMINAR DATOS', this.articuloAEliminar);
-  }
-
-  modificarArticulo() {
-    console.log('MODIFIAR DATOS', this.articuloAModificar);
+  reloadTabla() {
+    if (this.datatableElement) {
+      this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.ajax.reload();
+      });
+    }
   }
 
   // Validaciones para Add
@@ -262,14 +247,7 @@ export class ArticuloComponent implements OnInit {
         if (typeof result === 'object') {
           this.toastr.success('Articulo registrado');
           // Llama a la funcion para actualizar la lista
-          // this.getArticulos();
-          this.cargarTabla();
-
-          if (this.datatableElement) {
-            this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-              dtInstance.ajax.reload();
-            });
-          }
+          this.reloadTabla();
 
           // Funcion para resetear el formulario
           this.articuloForm.reset();
@@ -284,12 +262,12 @@ export class ArticuloComponent implements OnInit {
 
   // Submit para Edit
   submitEdit() {
-
     const nombre = ((<HTMLInputElement>document.getElementById("nombre_edit")).value);
     const descri = ((<HTMLInputElement>document.getElementById("descri_edit")).value);
     const costo = ((<HTMLInputElement>document.getElementById("costo_edit")).value);
     const precio = ((<HTMLInputElement>document.getElementById("precio_edit")).value);
     const cantidad = ((<HTMLInputElement>document.getElementById("cantidad_edit")).value);
+    let estadoArticulo = ((<HTMLInputElement>document.getElementById("estado_articulo")));
 
     let editArticulo = {
       nombre_articulo: nombre,
@@ -297,8 +275,11 @@ export class ArticuloComponent implements OnInit {
       costo_articulo: costo,
       precio_articulo: precio,
       cant_disponible_articulo: cantidad,
-      proveedor_edit: 1,
+      id_proveedor: 1,
+      id_estado: !estadoArticulo.checked ? 1 : 2
     }
+
+    //console.log(editArticulo);
 
     this.api.put('articulo/' + this.articuloEditarID, editArticulo)
       .subscribe(result => {
@@ -306,15 +287,12 @@ export class ArticuloComponent implements OnInit {
         if (typeof result === 'object') {
           this.toastr.success('Articulo modificado');
           // Llama a la funcion onInit que resetea el formulario
-          this.ngOnInit();
+          this.reloadTabla();
         } else {
           console.log('result post: ', result);
           this.toastr.warning(result);
         }
       });
-
-    //console.log(razon, ruc, timbrado);
-
   }
 
   // Submit para Delete

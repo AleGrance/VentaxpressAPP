@@ -227,8 +227,8 @@
                             </div>
                         </div> -->
                         <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            <input type="checkbox" class="form-check-input" id="estado_articulo">
+                            <label class="form-check-label" for="exampleCheck1">Marcar como Inactivo</label>
                         </div>
                         <button type="submit" class="btn btn-primary" [disabled]="articuloEditarForm.invalid"
                             (click)="submitEdit()">Grabar</button>
@@ -286,56 +286,5 @@
     </table> -->
 
     <table id="tabla" datatable [dtOptions]="dtOptions" class="row-border hover stripe compact"></table>
-
-    <!-- Modal Eliminar -->
-    <!-- Button trigger modal -->
-    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEliminar">
-        Launch demo modal
-    </button> -->
-
-    <!-- Modal Elminar -->
-    <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Eliminar artículo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Desea eliminar el articulo:
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" (click)="eliminarArticulo()">Si</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Modificar -->
-    <div class="modal fade" id="modalModificar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modificar artículo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Desea modificar el articulo:
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" (click)="modificarArticulo()">Guardar cambios</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 </div>
