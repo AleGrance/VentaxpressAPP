@@ -117,7 +117,8 @@ export class ArticuloComponent implements OnInit {
         Validators.required,
         Validators.minLength(1),
         Validators.min(1)
-      ])
+      ]),
+      id_estado_form: new FormControl(this.articuloEditar.id_estado, [])
     });
 
     // Llenar el datatable de datos
@@ -263,10 +264,13 @@ export class ArticuloComponent implements OnInit {
       });
   }
 
+  marcarCheck() {
+    let estadoArticulo = ((<HTMLInputElement>document.getElementById('estado_articulo')));
+    this.articuloEditarForm.get('id_estado_form').setValue(!estadoArticulo.checked ? 1 : 2);
+  }
+
   // Submit para Edit
   submitEdit() {
-    let estadoArticulo = ((<HTMLInputElement>document.getElementById("estado_articulo")));
-
     let editArticulo = {
       nombre_articulo: this.articuloEditarForm.get('nombre_form').value,
       descri_articulo: this.articuloEditarForm.get('descri_form').value,
@@ -274,7 +278,7 @@ export class ArticuloComponent implements OnInit {
       precio_articulo: this.articuloEditarForm.get('precio_form').value,
       cant_disponible_articulo: this.articuloEditarForm.get('cantidad_form').value,
       id_proveedor: 1,
-      id_estado: !estadoArticulo.checked ? 1 : 2
+      id_estado: this.articuloEditarForm.get('id_estado_form').value
     }
 
     //console.log(editArticulo);
@@ -331,6 +335,7 @@ export class ArticuloComponent implements OnInit {
     this.articuloEditarForm.get('costo_form').setValue(value.costo_articulo);
     this.articuloEditarForm.get('precio_form').setValue(value.precio_articulo);
     this.articuloEditarForm.get('cantidad_form').setValue(value.cant_disponible_articulo);
+    this.articuloEditarForm.get('id_estado_form').setValue(this.articuloEditar.id_estado);
   }
 
   getArticulos() {
