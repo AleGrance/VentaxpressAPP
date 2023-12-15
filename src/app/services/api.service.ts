@@ -8,7 +8,6 @@ export class ApiService {
   // Local
   url: string = 'http://localhost:3000';
   // AWS server
-  //url: string = 'https://contableag.site';
   //url: string = 'https://enviapywwa.online';
 
   constructor(public http: HttpClient) { }

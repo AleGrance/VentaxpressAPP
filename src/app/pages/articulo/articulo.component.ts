@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
@@ -10,6 +10,8 @@ import { CurrencyPipe, registerLocaleData } from '@angular/common';
 import localeEsPy from '@angular/common/locales/es-PY';
 // Icons
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+// Datatables directive
+import { DataTableDirective } from 'angular-datatables';
 
 
 interface ServerResponse {
@@ -24,6 +26,9 @@ interface ServerResponse {
   styleUrls: ['./articulo.component.css']
 })
 export class ArticuloComponent implements OnInit {
+  @ViewChild(DataTableDirective, { static: false })
+  datatableElement!: DataTableDirective;
+
   dtOptions: any = {};
 
   // Icons
@@ -67,6 +72,60 @@ export class ArticuloComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Formulario de Add
+    this.articuloForm = new FormGroup({
+      nombre: new FormControl(this.articuloNuevo.nombre_articulo, [
+        Validators.required,
+        Validators.minLength(4)
+      ]),
+      descri: new FormControl(this.articuloNuevo.descri_artiulo, [
+        Validators.required,
+        Validators.minLength(4)
+      ]),
+      costo: new FormControl(this.articuloNuevo.costo_artiulo, [
+        Validators.required,
+        Validators.minLength(2)
+      ]),
+      precio: new FormControl(this.articuloNuevo.precio_artiulo, [
+        Validators.required,
+        Validators.minLength(2)
+      ]),
+      cantidad: new FormControl(this.articuloNuevo.cant_disponible_articulo, [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.min(1)
+      ])
+    });
+
+    // Formulario para Editar / Se carga el objeto vacio primero porque da error si no encuentra el formgroup creado
+    this.articuloEditarForm = new FormGroup({
+      nombre_form: new FormControl(this.articuloEditar.nombre_articulo, [
+        Validators.required,
+        Validators.minLength(4)
+      ]),
+      descri_form: new FormControl(this.articuloEditar.descri_articulo, [
+        Validators.required,
+        Validators.minLength(4)
+      ]),
+      costo_form: new FormControl(this.articuloEditar.costo_articulo, [
+        Validators.required,
+        Validators.minLength(2)
+      ]),
+      precio_form: new FormControl(this.articuloEditar.precio_articulo, [
+        Validators.required,
+        Validators.minLength(2)
+      ]),
+      cantidad_form: new FormControl(this.articuloEditar.cant_disponible_articulo, [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.min(1)
+      ])
+    });
+    this.cargarTabla();
+  }
+
+  cargarTabla() {
+    console.log('Se actualiza la tabla');
     this.dtOptions = {
       language: {
         url: "../../assets/i18/Spanish.json"
@@ -140,75 +199,6 @@ export class ArticuloComponent implements OnInit {
       }
     };
 
-    // Formulario de Add
-    this.articuloForm = new FormGroup({
-      nombre: new FormControl(this.articuloNuevo.nombre_articulo, [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      descri: new FormControl(this.articuloNuevo.descri_artiulo, [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      costo: new FormControl(this.articuloNuevo.costo_artiulo, [
-        Validators.required,
-        Validators.minLength(2)
-      ]),
-      precio: new FormControl(this.articuloNuevo.precio_artiulo, [
-        Validators.required,
-        Validators.minLength(2)
-      ]),
-      cantidad: new FormControl(this.articuloNuevo.cant_disponible_articulo, [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.min(1)
-      ])
-    });
-
-    // Formulario para Editar / Se carga el objeto vacio primero porque da error si no encuentra el formgroup creado
-    this.articuloEditarForm = new FormGroup({
-      nombre_form: new FormControl(this.articuloEditar.nombre_articulo, [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      descri_form: new FormControl(this.articuloEditar.descri_articulo, [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      costo_form: new FormControl(this.articuloEditar.costo_articulo, [
-        Validators.required,
-        Validators.minLength(2)
-      ]),
-      precio_form: new FormControl(this.articuloEditar.precio_articulo, [
-        Validators.required,
-        Validators.minLength(2)
-      ]),
-      cantidad_form: new FormControl(this.articuloEditar.cant_disponible_articulo, [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.min(1)
-      ])
-    });
-
-    this.getArticulos();
-
-    // this.tablaDibujada = ((<HTMLInputElement>document.getElementById("tabla")));
-
-    // this.tablaDibujada.addEventListener('click', (e: any) => {
-    //   let classList = e.target.classList;
-
-    //   console.log(e);
-    //   console.log(classList);
-
-    //   // if (classList.contains('selected')) {
-    //   //   classList.remove('selected');
-    //   // }
-    //   // else {
-    //   //   this.tablaDibujada.rows('.selected').nodes().each((row: any) => row.classList.remove('selected'));
-    //      classList.add('selected');
-    //   // }
-    // });
-
   }
 
   // Al seleccionar el articulo
@@ -261,6 +251,7 @@ export class ArticuloComponent implements OnInit {
       precio_articulo: precio,
       cant_disponible_articulo: cantidad,
       id_proveedor: 1,
+      id_estado: 1,
     }
 
     console.log(newArticulo);
@@ -271,7 +262,15 @@ export class ArticuloComponent implements OnInit {
         if (typeof result === 'object') {
           this.toastr.success('Articulo registrado');
           // Llama a la funcion para actualizar la lista
-          this.getArticulos();
+          // this.getArticulos();
+          this.cargarTabla();
+
+          if (this.datatableElement) {
+            this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+              dtInstance.ajax.reload();
+            });
+          }
+
           // Funcion para resetear el formulario
           this.articuloForm.reset();
         } else {
